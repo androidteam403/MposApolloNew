@@ -1207,7 +1207,16 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("isBackPressed", true);
+        intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+        intent.putExtra("salesLine", (Serializable) salesLine);
+        intent.putExtra("orderAdapterPos", orderAdapterPos);
+        intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+        intent.putExtra("noBatchDetails", noBatchDetails);
+        setResult(RESULT_OK, intent);
+        finish();
+//        super.onBackPressed();
     }
 
 
