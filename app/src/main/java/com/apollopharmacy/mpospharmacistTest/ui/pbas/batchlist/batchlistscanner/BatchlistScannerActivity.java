@@ -976,7 +976,13 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     public void dialogShow(String scannedQty) {
         activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
         selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQty.substring(0, scannedQty.indexOf(".")));
-        dialog = new Dialog(this);
+        Toast.makeText(this, "Requested Qty - " + salesLine.getQty() + "\n" + "Scanned Qty - " + scannedQty.substring(0, scannedQty.indexOf(".")), Toast.LENGTH_SHORT).show();
+        if (Double.parseDouble(scannedQty) == salesLine.getQty()) {
+            showCompleteDialog();
+        } else {
+            initiateScanner();
+        }
+        /*dialog = new Dialog(this);
         DialogScanBinding dialogScanBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(this),
                 R.layout.dialog_scan,
@@ -997,7 +1003,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
                 }
             }
         }, 2000);
-        dialog.show();
+        dialog.show();*/
     }
 
     @SuppressLint("SetTextI18n")
@@ -1011,7 +1017,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         new Handler().postDelayed(() -> {
             dialog.dismiss();
             initiateScanner();
-        }, 1000);
+        }, 2000);
         dialog.show();
         /*Dialog dialog = new Dialog(BatchlistScannerActivity.this);
         DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);

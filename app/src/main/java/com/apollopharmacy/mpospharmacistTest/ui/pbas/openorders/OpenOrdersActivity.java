@@ -2586,6 +2586,12 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     }
                 }
             }
+        } else if (requestType == 2) {
+            if (omsHeaderList != null && omsHeaderList.size() != 0) {
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    omsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
         }
     }
 
@@ -3191,11 +3197,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     public void onPause() {
         super.onPause();
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).isPickupReserved()) {
-                    omsHeaderList.get(i).setPickupReserved(false);
-                }
-            }
+            mPresenter.mposPickPackOrderReservationApiCall(2, omsHeaderList);
         }
     }
 }

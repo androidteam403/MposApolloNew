@@ -61,6 +61,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
     String statusBatchlist;
     boolean isReferToAdmin;
     boolean isBatchHold;
+    boolean isBackPressed;
 
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
@@ -277,18 +278,32 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
             }
         } else if (requestCode == BATCH_LIST_ACTIVITY && resultCode == RESULT_OK) {
 //            shelfIdScannerBinding.completeBox.setVisibility(View.VISIBLE);
-            shelfIdScannerBinding.message.setText("Scan the Box ID");
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             statusBatchlist = data.getStringExtra("finalStatus");
-            shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() != 0) {
+                if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty() != null) {
+                    if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty().isEmpty()) {
+                        shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+                    } else {
+                        shelfIdScannerBinding.pickedQty.setText("0");
+                    }
+                } else {
+                    shelfIdScannerBinding.pickedQty.setText("0");
+                }
+            }
             isReferToAdmin = data.getBooleanExtra("isReferToAdmin", false);
             boolean isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
+            isBackPressed = data.getBooleanExtra("isBackPressed", false);
             if (isReferToAdmin) {
                 Intent i = new Intent();
                 i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                 i.putExtra("IS_BATCH_HOLD", isBatchHold);
                 setResult(RESULT_OK, i);
                 finish();
+            } else if (isBackPressed) {
+                isRackIdScanned = false;
+            } else {
+                shelfIdScannerBinding.message.setText("Scan the Box ID");
             }
         }
     }

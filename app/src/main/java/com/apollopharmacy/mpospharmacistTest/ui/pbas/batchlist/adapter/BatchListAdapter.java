@@ -366,7 +366,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             @Override
             public void onClick(View v) {
                 batchListModel.setSelected(false);
-                batchListModel.setREQQTY(0);
+//                batchListModel.setREQQTY(0);
                 if (batchListMvpView != null) {
                     batchListMvpView.onClickSelectedBatch(batchListModel, false);
                 }
