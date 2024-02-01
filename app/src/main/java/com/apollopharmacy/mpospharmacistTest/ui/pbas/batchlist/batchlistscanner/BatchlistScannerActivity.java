@@ -50,6 +50,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
@@ -1057,15 +1058,27 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     public void onCompleteScan(String tryId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
         BatchlistScannerActivity.isBarCodeProblem = false;
         if (tryId.equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
-            GetBatchInfoRes o = new GetBatchInfoRes();
-            o.setBatchList(salesLineBatchList);
-            selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
-            Intent intent = new Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-            intent.putExtra("finalStatus", "FULL");
-            setResult(Activity.RESULT_OK, intent);
-            finish();
+            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this),R.layout.dialog_shelf_scan_success, null, false);
+            dialog.setContentView(shelfScanSuccessBinding.getRoot());
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+            new Handler().postDelayed(() -> {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    GetBatchInfoRes o = new GetBatchInfoRes();
+                    o.setBatchList(salesLineBatchList);
+                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setGetBatchInfoRes(o);
+                    Intent intent = new Intent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                    intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                    intent.putExtra("finalStatus", "FULL");
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+            }, 1000);
+            dialog.show();
         } else {
             Dialog dialog = new Dialog(BatchlistScannerActivity.this);
             DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);

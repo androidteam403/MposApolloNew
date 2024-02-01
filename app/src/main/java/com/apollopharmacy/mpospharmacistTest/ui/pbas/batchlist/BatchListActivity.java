@@ -129,7 +129,6 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
 //            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
             batchlistBinding.scanBatchId.setBackgroundColor(Color.parseColor("#bbbbbb"));
-            batchlistBinding.scanBatchId.setClickable(false);
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
         } else {
@@ -1036,6 +1035,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             dialog.dismiss();
             Intent i = new Intent();
             i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("finalStatus", "NOT AVAILABLE");
             i.putExtra("IS_BATCH_HOLD", true);
             i.putExtra("isReferToAdmin", true);
             setResult(RESULT_OK, i);

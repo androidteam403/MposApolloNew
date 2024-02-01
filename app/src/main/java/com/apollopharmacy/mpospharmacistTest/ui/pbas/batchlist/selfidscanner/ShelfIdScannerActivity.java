@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
 import com.google.zxing.ResultPoint;
+import com.google.zxing.client.android.BeepManager;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -141,6 +142,8 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
+                BeepManager beepManager = new BeepManager(ShelfIdScannerActivity.this);
+                beepManager.playBeepSoundAndVibrate();
                 if (!isRackIdScanned) {
                     isRackIdScanned = true;
                     if (result.getText().equalsIgnoreCase(salesLine.getRackId())) {
@@ -191,11 +194,24 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                     }
                 } else {
                     if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
-                        Intent i = new Intent();
-                        i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                        i.putExtra("finalStatus", (String) statusBatchlist);
-                        setResult(RESULT_OK, i);
-                        finish();
+                        barcodeScannerView.pause();
+                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                        DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this),R.layout.dialog_shelf_scan_success, null, false);
+                        dialog.setContentView(shelfScanSuccessBinding.getRoot());
+                        dialog.setCancelable(false);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+                        new Handler().postDelayed(() -> {
+                            if (dialog != null && dialog.isShowing()) {
+                                dialog.dismiss();
+                                Intent i = new Intent();
+                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                i.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, i);
+                                finish();
+                            }
+                        }, 1000);
+                        dialog.show();
                     } else {
                         barcodeScannerView.pause();
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
@@ -305,6 +321,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                 Intent i = new Intent();
                 i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
                 i.putExtra("IS_BATCH_HOLD", isBatchHold);
+                i.putExtra("finalStatus", statusBatchlist);
                 setResult(RESULT_OK, i);
                 finish();
             } else if (isBackPressed) {

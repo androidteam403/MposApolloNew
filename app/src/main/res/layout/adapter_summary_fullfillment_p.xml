@@ -430,7 +430,28 @@
                             android:layout_marginEnd="@dimen/dimen10dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_artboard_36" />
-                        <ImageView
+
+                        <RelativeLayout
+                            android:id="@+id/scannedTick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen10dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/ic_artboard_36" />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:contentDescription="@string/app_name"
+                                android:padding="3dp"
+                                android:src="@drawable/action_accept" />
+                        </RelativeLayout>
+                        <!--<ImageView
                             android:id="@+id/scannedTick"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
@@ -438,7 +459,7 @@
                             android:padding="3dp"
                             android:visibility="gone"
                             android:src="@drawable/action_accept"
-                            />
+                            />-->
                     </RelativeLayout>
 
 

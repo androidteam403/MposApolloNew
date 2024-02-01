@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -355,6 +356,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void ondeleteItem(int pos, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
 

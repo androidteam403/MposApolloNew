@@ -14,6 +14,7 @@
 
     <color name="black_effective">#2a2a2a</color>
     <color name="red">#FF0000</color>
+    <color name="light_red">#FA7979</color>
     <color name="grey">#BBBBBB</color>
     <color name="bluetooth_header_bg">#666666</color>
     <color name="shadow_dark_gray_color">#60000000</color>

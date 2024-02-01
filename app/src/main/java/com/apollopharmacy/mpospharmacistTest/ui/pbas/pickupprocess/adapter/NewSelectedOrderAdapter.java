@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -99,6 +100,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 //            holder.pickupSummaryDetailsProductsBinding.skip.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
 //            holder.pickupSummaryDetailsProductsBinding.skip.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusLayout.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
         } else {
             holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
             holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);

@@ -88,7 +88,9 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
         switchFlashlightButton.setVisibility(View.GONE);
 
         if (!BillerOrdersActivity.isBillerActivity) {
-            pos = PickUpSummmaryActivityNew.position;
+            if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 1) {
+                pos = PickUpSummmaryActivityNew.position;
+            }
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 0) {
                 fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getRefno());
             }
@@ -188,7 +190,8 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
         dialog.setContentView(dialogDroppingBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDroppingBinding.message.setText("You are Scanning the Incorrect Box ID \nKindly Check");
+        dialogDroppingBinding.message.setText("You are Scanning the Incorrect \nBox ID Kindly Check");
+        dialogDroppingBinding.message1.setVisibility(View.GONE);
         dialogDroppingBinding.ok.setOnClickListener(view -> {
             dialog.dismiss();
             initiateScanner();
