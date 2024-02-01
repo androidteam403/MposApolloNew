@@ -268,6 +268,13 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
             statusBatchlist = data.getStringExtra("finalStatus");
             isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
             boolean isBarCodeProblem = data.getBooleanExtra("isBarCodeProblem", false);
+            if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty() != null) {
+                if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty().isEmpty()) {
+                    shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+                }
+            } else {
+                shelfIdScannerBinding.pickedQty.setText("0");
+            }
             if (!isBarCodeProblem) {
                 Intent i = new Intent();
                 i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);

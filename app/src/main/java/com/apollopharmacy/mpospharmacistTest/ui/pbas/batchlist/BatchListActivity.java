@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -1252,13 +1253,20 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 //        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (data != null) {
             String result = data.getStringExtra("result");
-            if (result == null) {
+            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+            String finalStatus = data.getStringExtra("finalStatus");
+            Intent intent = new Intent();
+            intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            intent.putExtra("finalStatus", finalStatus);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+            /*if (result == null) {
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 batchlistBinding.searchbybatchId.setText(result);
                 mPresenter.getBatchDetailsByBarCode(batchlistBinding.searchbybatchId.getText().toString(), salesLine.getItemId());
                 Toast.makeText(this, "Scanned -> " + result, Toast.LENGTH_SHORT).show();
-            }
+            }*/
         } else {
             if (requestCode == BATCHLIST_SCANNER_ACTIVITY) {
                 if (data != null) {

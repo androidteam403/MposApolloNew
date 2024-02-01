@@ -73,6 +73,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     private ActivityBatchlistScannerBinding activityBatchlistScannerBinding;
     private ScannedBatchListAdapter scannedBatchListAdapter;
     private List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
+    private List<GetBatchInfoRes.BatchListObj> scannedBatchList = new ArrayList<>();
     DialogSkipOrderBinding dialogSkipOrderBinding;
     String status;
     private List<GetBatchInfoRes.BatchListObj> body;
@@ -97,6 +98,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     BatchlistScannerMvpPresenter<BatchlistScannerMvpView> mPresenter;
     public static boolean isBarCodeProblem;
     private String scannedQty;
+    public static boolean isBoxIdScan;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, BatchlistScannerActivity.class);
@@ -133,7 +135,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             allowMultiBatch = getIntent().getBooleanExtra("ALLOW_MULTI_BATCH", false);
             isBatchListScanner = getIntent().getBooleanExtra("isBatchListScanner", false);
             scannedQty = getIntent().getStringExtra("scannedQty");
-            batchList = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("scannedBatchList");
+            scannedBatchList = (List<GetBatchInfoRes.BatchListObj>) getIntent().getSerializableExtra("scannedBatchList");
         }
         userName = mPresenter.userName();
         storeId = mPresenter.storeId();
@@ -192,6 +194,11 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         capture.setCaptureManagerCallback(this);
         capture.setSalesLine(salesLine);
         capture.setSelectedOmsHeaderList(selectedOmsHeaderList);
+        if (isBatchListScanner) {
+            if (scannedBatchList != null && scannedBatchList.size() != 0) {
+                capture.setScannedBatchList(scannedBatchList);
+            }
+        }
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
 
@@ -1020,6 +1027,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
     @SuppressLint("SetTextI18n")
     private void showCompleteDialog() {
+        isBoxIdScan = true;
         Dialog dialog = new Dialog(BatchlistScannerActivity.this);
         DialogShelfScanSuccessBinding dialogShelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
         dialog.setContentView(dialogShelfScanSuccessBinding.getRoot());
@@ -1047,6 +1055,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @SuppressLint("SetTextI18n")
     @Override
     public void onCompleteScan(String tryId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
+        BatchlistScannerActivity.isBarCodeProblem = false;
         if (tryId.equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
             GetBatchInfoRes o = new GetBatchInfoRes();
             o.setBatchList(salesLineBatchList);

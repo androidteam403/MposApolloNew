@@ -47,6 +47,7 @@ public class CaptureManager implements CallbackCaptureManager {
     GetOMSTransactionResponse.SalesLine salesLine;
     List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
     List<GetBatchInfoRes.BatchListObj> batchList;
+    List<GetBatchInfoRes.BatchListObj> scannedBatchList;
     GetBatchInfoRes.BatchListObj batchListObj;
     List<GetBatchInfoRes.BatchListObj> salesLineBatchList = new ArrayList<>();
     Context applicationContext;
@@ -201,7 +202,12 @@ public class CaptureManager implements CallbackCaptureManager {
 
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
-        batchList = getBatchDetailsByBarcodeResponse.getBatchList();
+        if (BatchlistScannerActivity.isBatchListScanner) {
+            batchList = scannedBatchList;
+            BatchlistScannerActivity.isBatchListScanner = false;
+        } else {
+            batchList = getBatchDetailsByBarcodeResponse.getBatchList();
+        }
         boolean isMatched = false;
         if (batchList != null && batchList.size() > 0) {
             for (int i = 0; i < batchList.size(); i++) {
@@ -306,5 +312,9 @@ public class CaptureManager implements CallbackCaptureManager {
 
     public void setSelectedOmsHeaderList(List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         this.selectedOmsHeaderList = selectedOmsHeaderList;
+    }
+
+    public void setScannedBatchList(List<GetBatchInfoRes.BatchListObj> scannedBatchList) {
+        this.scannedBatchList = scannedBatchList;
     }
 }
