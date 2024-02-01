@@ -1468,8 +1468,6 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             });
             // If the order contains User ID but it is not matched with the login user then don't show the order.
             omsHeaderList.removeIf(omsHeader1 ->  omsHeader1.getPickPackUser() != null && !omsHeader1.getPickPackUser().isEmpty() && !omsHeader1.getPickPackUser().equalsIgnoreCase(mPresenter.getUserId()));
-//            omsHeaderList.removeIf(item -> item.getPickPackUser().equalsIgnoreCase("") ||
-//                    !item.getPickPackUser().equalsIgnoreCase("091"));
 
             if (isShiipimentDateFiltered) {
 

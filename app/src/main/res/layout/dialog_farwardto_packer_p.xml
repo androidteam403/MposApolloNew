@@ -33,7 +33,7 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:text="Forwarded to Packer"
+                android:text="Forwarded to Checker"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dimen16sp" />
 

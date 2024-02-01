@@ -23,6 +23,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.PickUpSummary
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -68,16 +69,22 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
             groupByItemStatus.forEach((k, v) -> {
                 if (omsHeader.getItemStatus().equalsIgnoreCase(k)) {
                     holder.orderBinding.itemCount.setText("(" + v + ")");
-                    boolean isAllEnabled = selectedOmsHeaderList.stream().filter(omsHeader1 -> omsHeader.getItemStatus().equalsIgnoreCase(k)).allMatch(omsHeader1 -> omsHeader1.isEnabled());
-                    if (isAllEnabled) {
-                        holder.orderBinding.headerScanner.setVisibility(View.GONE);
-                        holder.orderBinding.headerScannerComplete.setVisibility(View.VISIBLE);
-                    } else {
-                        holder.orderBinding.headerScanner.setVisibility(View.VISIBLE);
-                        holder.orderBinding.headerScannerComplete.setVisibility(View.GONE);
-                    }
                 }
             });
+            if (selectedOmsHeaderList.get(position).isEnabled()) {
+                holder.orderBinding.headerScanner.setVisibility(View.GONE);
+                holder.orderBinding.headerScannerComplete.setVisibility(View.VISIBLE);
+            } else {
+                holder.orderBinding.headerScanner.setVisibility(View.VISIBLE);
+                holder.orderBinding.headerScannerComplete.setVisibility(View.GONE);
+            }
+            /*if (isAllEnabled.get()) {
+                holder.orderBinding.headerScanner.setVisibility(View.GONE);
+                holder.orderBinding.headerScannerComplete.setVisibility(View.VISIBLE);
+            } else {
+                holder.orderBinding.headerScanner.setVisibility(View.VISIBLE);
+                holder.orderBinding.headerScannerComplete.setVisibility(View.GONE);
+            }*/
             holder.orderBinding.headerScanner.setOnClickListener(view -> {
                 for (Map.Entry<String, Long> entry : groupByItemStatus.entrySet()) {
                     if (omsHeader.getItemStatus().equalsIgnoreCase(entry.getKey())) {
@@ -178,11 +185,13 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         if (omsHeader.isScanned()){
             holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);
             holder.orderBinding.scannedTick.setVisibility(View.VISIBLE);
+            holder.orderBinding.scanIcon.setVisibility(View.GONE);
 //            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         else {
             holder.orderBinding.deleteIcon.setVisibility(View.GONE);
             holder.orderBinding.scannedTick.setVisibility(View.GONE);
+            holder.orderBinding.scanIcon.setVisibility(View.VISIBLE);
 //            holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.grey));
         }
 

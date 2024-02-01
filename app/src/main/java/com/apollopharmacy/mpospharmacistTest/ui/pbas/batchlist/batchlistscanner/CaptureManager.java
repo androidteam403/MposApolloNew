@@ -74,6 +74,7 @@ public class CaptureManager implements CallbackCaptureManager {
     private BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
+            beepManager.playBeepSoundAndVibrate();
             if (BatchlistScannerActivity.isBatchListScanner && !BatchlistScannerActivity.isBarCodeProblem) {
                 mCallback.onBarcodeScan(result.getText());
             } else if (scannedQuantity == salesLine.getQty()) {

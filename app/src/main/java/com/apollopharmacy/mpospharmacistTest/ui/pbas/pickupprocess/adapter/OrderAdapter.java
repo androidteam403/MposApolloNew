@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,6 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -90,6 +93,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.boxId.setText("-");
         }
         if (omsHeader.isOnHold()) {
+            holder.orderBinding.orderChildLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_red));
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
         } else {
@@ -156,11 +160,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.statusandicon.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
         }
-        boolean isAllOnHold =
-                omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(GetOMSTransactionResponse.SalesLine::isOnHold);
-        if (isAllOnHold) {
-            holder.orderBinding.notAvailable.setVisibility(View.VISIBLE);
-        }
         boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null);
         boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null);
         boolean isAnyOnHold = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.isOnHold());
@@ -174,12 +173,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.GONE);
         }
-        if (isAllCompleted) {
+        if (isAllCompleted && !isAnyOnHold) {
             holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.VISIBLE);
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
+        }
+        if (isAllCompleted && isAnyOnHold) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
+        }
+        boolean isAllOnHold =
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(GetOMSTransactionResponse.SalesLine::isOnHold);
+        if (isAllOnHold) {
+            holder.orderBinding.notAvailable.setVisibility(View.VISIBLE);
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
         }
 
         NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
