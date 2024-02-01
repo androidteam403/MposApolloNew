@@ -290,12 +290,14 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         }
 
         this.body = bodys;
-        for (int i = 0; i < scannedBatchList.size(); i++) {
-            String batchNo = scannedBatchList.get(i).getBatchNo();
-            GetBatchInfoRes.BatchListObj batchListObj = scannedBatchList.get(i);
-            for (int j = 0; j < body.size(); j++) {
-                if (!body.get(j).getBatchNo().equalsIgnoreCase(batchNo)) {
-                    this.body.add(batchListObj);
+        if (scannedBatchList != null && scannedBatchList.size() != 0) {
+            for (int i = 0; i < scannedBatchList.size(); i++) {
+                String batchNo = scannedBatchList.get(i).getBatchNo();
+                GetBatchInfoRes.BatchListObj batchListObj = scannedBatchList.get(i);
+                for (int j = 0; j < body.size(); j++) {
+                    if (!body.get(j).getBatchNo().equalsIgnoreCase(batchNo)) {
+                        this.body.add(batchListObj);
+                    }
                 }
             }
         }
