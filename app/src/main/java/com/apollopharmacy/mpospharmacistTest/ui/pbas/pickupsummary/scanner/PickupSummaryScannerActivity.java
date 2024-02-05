@@ -190,7 +190,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
         dialog.setContentView(dialogDroppingBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogDroppingBinding.message.setText("You are Scanning the Incorrect \nBox ID Kindly Check");
+        dialogDroppingBinding.message.setText("You are Scanning the Incorrect \nBox ID Kindly Check again.");
         dialogDroppingBinding.message1.setVisibility(View.GONE);
         dialogDroppingBinding.ok.setOnClickListener(view -> {
             dialog.dismiss();

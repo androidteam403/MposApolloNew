@@ -1,6 +1,7 @@
 package com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -28,7 +29,8 @@ public class GetStoresDialog extends BaseDialog implements GetStoresDialogMvpVie
     private DialogStoreListBinding storeListBinding;
     private ArrayList<StoreListResponseModel.StoreListObj> storesArrList = new ArrayList<>();
     private StoreSetupMvpView storeSetupMvpView;
-
+    private String searchText = "";
+    GetStoresListAdapter storesListAdapter;
     @Inject
     GetStoresDialogMvpPresenter<GetStoresDialogMvpView> mPresenter;
 
@@ -65,7 +67,7 @@ public class GetStoresDialog extends BaseDialog implements GetStoresDialogMvpVie
     @Override
     protected void setUp(View view) {
         storeListBinding.setCallback(mPresenter);
-        GetStoresListAdapter storesListAdapter = new GetStoresListAdapter(getActivity(), storesArrList);
+        storesListAdapter = new GetStoresListAdapter(getActivity(), storesArrList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         storeListBinding.storesRecyclerView.setLayoutManager(mLayoutManager);
         storesListAdapter.onClickListener(this);
@@ -83,10 +85,21 @@ public class GetStoresDialog extends BaseDialog implements GetStoresDialogMvpVie
 
             @Override
             public void afterTextChanged(Editable s) {
-                storesListAdapter.getFilter().filter(s);
+                searchText = s.toString();
+                handler.removeCallbacks(runnable);
+                handler.postDelayed(runnable, 200);
             }
         });
     }
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            storesListAdapter.getFilter().filter(searchText);
+            handler.removeCallbacks(runnable);
+        }
+    };
 
     @Override
     public void openLoginActivity() {

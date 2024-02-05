@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.storesetup.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class GetStoresListAdapter extends RecyclerView.Adapter<GetStoresListAdap
                 return filterResults;
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 storeFilteredArrayList = (ArrayList<StoreListResponseModel.StoreListObj>) filterResults.values;
