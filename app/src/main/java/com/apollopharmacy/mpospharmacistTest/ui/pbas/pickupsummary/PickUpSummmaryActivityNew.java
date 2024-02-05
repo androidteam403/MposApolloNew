@@ -721,19 +721,19 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         dialog.setContentView(updateStatusBinding.getRoot());
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
-//            mPresenter.setFullfillmentData(racksDataResponse);
-//            mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
-//            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.putExtra("FRAGMENT_NAME", "PICKER");
-//            intent.putExtra("EXIT", true);
-//            startActivity(intent);
-//            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
-//            dialog.dismiss();
-//        });
+        updateStatusBinding.gotoOpenOrders.setOnClickListener(v -> {
+            mPresenter.setFullfillmentData(racksDataResponse);
+            mPresenter.setListOfListFullfillmentData(rackListOfListFiltered);
+            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickerNavigationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("FRAGMENT_NAME", "PICKER");
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
+            dialog.dismiss();
+        });
         dialog.show();
-        new CountDownTimer(5000, 1000) {
+        /*new CountDownTimer(5000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -752,7 +752,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
                 dialog.dismiss();
             }
-        }.start();
+        }.start();*/
     }
 
 

@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_order_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_selected_pickup_process_products_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_farwardto_packer_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/banners_rounded_corners.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/bg_onhold_disable_btn.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/bg_onhold_enable_btn.xml" value="0.2555" />
