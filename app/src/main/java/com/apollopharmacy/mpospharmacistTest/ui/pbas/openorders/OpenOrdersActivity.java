@@ -2598,35 +2598,37 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickSelectAll() {
-        OpenOrdersPresenter.isFirstTime = true;
-        isSelectAllIconChecked = !isSelectAllIconChecked;
-        if (isSelectAllIconChecked) {
-            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
-        } else {
-            openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
-        }
-        if (availableOmsHeaderList != null && availableOmsHeaderList.size() > 0) {
-            availableOmsHeaderList = omsHeaderList.stream()
-                    .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE") && !e.isSelected())
-                    .collect(Collectors.toList());
-        } else {
-            availableOmsHeaderList = omsHeaderList.stream()
-                    .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE"))
-                    .collect(Collectors.toList());
-        }
-        if (isSelectAllIconChecked) {
-            callGetOmsTransactionApi(availableOmsHeaderList, 0);
-        } else {
-            availableOmsHeaderList.clear();
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                omsHeaderList.get(i).setSelected(false);
-                omsHeaderList.get(i).setShipmentTatSelected(false);
+        if (omsHeaderList != null && omsHeaderList.size() != 0) {
+            OpenOrdersPresenter.isFirstTime = true;
+            isSelectAllIconChecked = !isSelectAllIconChecked;
+            if (isSelectAllIconChecked) {
+                openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+            } else {
+                openOrdersBinding.selectAllIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
             }
-            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                selectedOmsHeaderList.clear();
+            if (availableOmsHeaderList != null && availableOmsHeaderList.size() > 0) {
+                availableOmsHeaderList = omsHeaderList.stream()
+                        .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE") && !e.isSelected())
+                        .collect(Collectors.toList());
+            } else {
+                availableOmsHeaderList = omsHeaderList.stream()
+                        .filter(e -> !e.getStockStatus().equalsIgnoreCase("NOT AVAILABLE"))
+                        .collect(Collectors.toList());
             }
-            fullfilmentAdapter.notifyDataSetChanged();
-            onContinueBtnEnable();
+            if (isSelectAllIconChecked) {
+                callGetOmsTransactionApi(availableOmsHeaderList, 0);
+            } else {
+                availableOmsHeaderList.clear();
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    omsHeaderList.get(i).setSelected(false);
+                    omsHeaderList.get(i).setShipmentTatSelected(false);
+                }
+                if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                    selectedOmsHeaderList.clear();
+                }
+                fullfilmentAdapter.notifyDataSetChanged();
+                onContinueBtnEnable();
+            }
         }
     }
 

@@ -1080,7 +1080,11 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             }, 1000);
             dialog.show();
         } else {
-            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+            Toast.makeText(this, "Tray ID does not match so Kindly Scan the Correct Tray ID", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(() -> {
+                initiateScanner();
+            }, 1000);
+            /*Dialog dialog = new Dialog(BatchlistScannerActivity.this);
             DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
             dialog.setContentView(dialogRackAlertBinding.getRoot());
             dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
@@ -1090,7 +1094,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
                 dialog.dismiss();
                 initiateScanner();
-            });
+            });*/
         }
     }
 

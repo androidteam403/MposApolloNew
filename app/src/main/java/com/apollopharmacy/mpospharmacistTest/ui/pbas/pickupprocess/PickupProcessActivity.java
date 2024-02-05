@@ -965,6 +965,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     dialog.dismiss();
                     salesLine.setReason(reasonListResponse.getData().get(selectedReasonPos).getReasonCode());
                     salesLine.setOnHold(true);
+                    salesLine.setStatus("NOT AVAILABLE");
+                    enableContinueButton();
                     orderAdapter.notifyDataSetChanged();
                 } else if (isSKipItem) {
                     dialog.dismiss();
