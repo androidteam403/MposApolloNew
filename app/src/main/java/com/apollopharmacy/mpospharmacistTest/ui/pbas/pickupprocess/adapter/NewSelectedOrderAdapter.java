@@ -136,7 +136,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.GONE);
-            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.VISIBLE);
+//            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.VISIBLE);
         }
 
 

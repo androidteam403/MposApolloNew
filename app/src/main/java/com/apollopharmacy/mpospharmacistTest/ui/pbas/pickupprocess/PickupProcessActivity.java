@@ -550,9 +550,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                             for (int j = 0; j < mposPickPackOrderReservationResponse.getOrderList().size(); j++) {
                                 if (selectedOmsHeaderList.get(i).getRefno().equals(mposPickPackOrderReservationResponse.getOrderList().get(j).getTransactionID())) {
-                                    selectedOmsHeaderList.get(i).setOnHold(true);
-                                    selectedOmsHeaderList.get(i).setExpanded(false);
-                                    selectedOmsHeaderList.get(i).setExpandStatus(0);
+//                                    selectedOmsHeaderList.get(i).setOnHold(true);
+//                                    selectedOmsHeaderList.get(i).setExpanded(false);
+//                                    selectedOmsHeaderList.get(i).setExpandStatus(0);
                                 }
                             }
 
@@ -965,6 +965,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+        isAllOnHold = false;
         salesLine.setReason("");
         salesLine.setOnHold(false);
         salesLine.setStatus("");
@@ -990,6 +991,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     salesLine.setOnHold(true);
                     salesLine.setStatus("NOT AVAILABLE");
                     enableContinueButton();
+                    isAllOnHold = false;
                     orderAdapter.notifyDataSetChanged();
                 } else if (isSKipItem) {
                     dialog.dismiss();
@@ -1667,7 +1669,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @Override
     public void onClickContinue() {
         List<TransactionHeaderResponse.OMSHeader> onHoldOmsHeaderList = selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList());
-        mPresenter.mposPickPackOrderReservationApiCall(11, onHoldOmsHeaderList, "", null);
+        if (onHoldOmsHeaderList != null && selectedOmsHeaderList.size() != 0) {
+            mPresenter.mposPickPackOrderReservationApiCall(11, onHoldOmsHeaderList, "", null);
+        }
         if (isAllOnHold) {
             Intent intent = PickerNavigationActivity.getStartIntent(this, "PICKER");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

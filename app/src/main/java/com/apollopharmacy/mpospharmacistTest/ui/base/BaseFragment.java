@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.base;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -57,8 +58,12 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     @Override
     public void hideLoading() {
+        if (getContext() instanceof Activity) {
+            if (!((Activity) getContext()).isFinishing()) {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
+                    mProgressDialog.cancel();
+                }
+            }
         }
     }
 

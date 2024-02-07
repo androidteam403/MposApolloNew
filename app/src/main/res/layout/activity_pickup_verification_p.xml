@@ -289,7 +289,6 @@ Do you want to proceed with Packing?"
                         android:layout_height="@dimen/eighteen_dp"
                         android:layout_marginTop="@dimen/dimen8dp"
                         android:contentDescription="@string/app_name"
-                        android:rotation="90"
                         android:src="@drawable/ic_circular_partial" />
 
                     <LinearLayout

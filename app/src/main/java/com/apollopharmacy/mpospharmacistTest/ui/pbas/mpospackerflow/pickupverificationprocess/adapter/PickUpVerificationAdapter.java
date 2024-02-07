@@ -87,7 +87,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
             holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
             holder.adapterPickupVerificationBinding.productDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_completed));
             holder.adapterPickupVerificationBinding.batchDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_top_completed));
-            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_shape));
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_shape));
         } else if (salesLine.getPackerStatus() != null && salesLine.getPackerStatus().equals("PARTIAL")) {
             holder.adapterPickupVerificationBinding.packerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
@@ -95,7 +95,7 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
             holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
             holder.adapterPickupVerificationBinding.productDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
             holder.adapterPickupVerificationBinding.batchDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_top));
-            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_partial));
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_partial));
         } else if (salesLine.getPackerStatus() != null && salesLine.getPackerStatus().equals("NOT AVAILABLE")) {
             holder.adapterPickupVerificationBinding.packerStatusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
             holder.adapterPickupVerificationBinding.update.setVisibility(View.GONE);
@@ -103,9 +103,24 @@ public class PickUpVerificationAdapter extends RecyclerView.Adapter<PickUpVerifi
             holder.adapterPickupVerificationBinding.packerStatusIcon.setVisibility(View.VISIBLE);
             holder.adapterPickupVerificationBinding.productDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
             holder.adapterPickupVerificationBinding.batchDetailsLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_top));
-            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+//            holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
         } else {
 
+        }
+
+        for (int i = 0; i < getOMSTransactionResponse.getSalesLine().size(); i++) {
+            int pickedQty = 0, qty = 0;
+            if (getOMSTransactionResponse.getSalesLine().get(i).getPickedQty() != null && !getOMSTransactionResponse.getSalesLine().get(i).getPickedQty().isEmpty()) {
+                if (Integer.parseInt(getOMSTransactionResponse.getSalesLine().get(i).getPickedQty()) >= getOMSTransactionResponse.getSalesLine().get(i).getQty()) {
+                    holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_shape));
+                } else if (Integer.parseInt(getOMSTransactionResponse.getSalesLine().get(i).getPickedQty()) == 0) {
+                    holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+                } else if (Integer.parseInt(getOMSTransactionResponse.getSalesLine().get(i).getPickedQty()) < getOMSTransactionResponse.getSalesLine().get(i).getQty()) {
+                    holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circular_partial));
+                }
+            } else {
+                holder.adapterPickupVerificationBinding.statusIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+            }
         }
 
         holder.adapterPickupVerificationBinding.packerStatusIcon.setOnClickListener(view -> {

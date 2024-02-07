@@ -131,6 +131,17 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
 
             if (omsHeader != null) {
+                if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                    status = omsHeader.getOverallOrderStatus().substring(0, 1);
+                    if (status.equalsIgnoreCase("1")) {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_circle_tick));
+                    } else if (status.equalsIgnoreCase("2")) {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_partial));
+                        activityPickupVerificationBinding.statusIcon.setRotation(-90);
+                    } else {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_not_available));
+                    }
+                }
                 activityPickupVerificationBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
                 if (omsHeader.getPickPackUser() != null && !omsHeader.getPickPackUser().isEmpty()) {
 //                    activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());

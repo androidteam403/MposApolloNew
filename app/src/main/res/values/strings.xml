@@ -566,8 +566,8 @@
     <string name="proceed_action">Proceed Action</string>
     <string name="label_biller">Biller</string>
     <string name="label_continue_billing">continue billing</string>
-    <string name="label_fully_packed">Fully Packed</string>
-    <string name="label_partially_packed">Partially Packed</string>
+    <string name="label_fully_packed">Fully Picked</string>
+    <string name="label_partially_packed">Partially Picked</string>
     <string name="label_do_you_want_to_connect_the_printer">Do you want to Connect the Printer</string>
     <string name="label_scanned">Scanned</string>
     <string name="label_sfulfilment_id">Fulfilment ID : </string>
