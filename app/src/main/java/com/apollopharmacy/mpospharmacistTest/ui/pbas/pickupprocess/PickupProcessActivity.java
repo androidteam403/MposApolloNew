@@ -550,9 +550,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
                             for (int j = 0; j < mposPickPackOrderReservationResponse.getOrderList().size(); j++) {
                                 if (selectedOmsHeaderList.get(i).getRefno().equals(mposPickPackOrderReservationResponse.getOrderList().get(j).getTransactionID())) {
-                                    selectedOmsHeaderList.get(i).setOnHold(true);
-                                    selectedOmsHeaderList.get(i).setExpanded(false);
-                                    selectedOmsHeaderList.get(i).setExpandStatus(0);
+//                                    selectedOmsHeaderList.get(i).setOnHold(true);
+//                                    selectedOmsHeaderList.get(i).setExpanded(false);
+//                                    selectedOmsHeaderList.get(i).setExpandStatus(0);
                                 }
                             }
 
@@ -615,6 +615,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             pickupProcessBinding.continueOrder.setVisibility(View.GONE);
             pickupProcessBinding.continueOrders.setVisibility(View.VISIBLE);
             pickupProcessBinding.selectedItemCount.setText(selected + "/" + selectedOmsHeaderList.size());
+        } else {
+            pickupProcessBinding.continueOrder.setVisibility(View.VISIBLE);
+            pickupProcessBinding.continueOrders.setVisibility(View.GONE);
         }
 
         boolean isAllRackStatusUpdated = true;
@@ -948,6 +951,27 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         mPresenter.getReasonList(false, false);
     }
 
+    @Override
+    public void onClickRevertBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position) {
+        omsHeader.setOnHold(false);
+        omsHeader.setExpanded(true);
+        omsHeader.setExpandStatus(0);
+        if (orderAdapter != null) {
+            orderAdapter.notifyDataSetChanged();
+        }
+        rackDataSet();
+        enableContinueButton();
+    }
+
+    @Override
+    public void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+        isAllOnHold = false;
+        salesLine.setReason("");
+        salesLine.setOnHold(false);
+        salesLine.setStatus("");
+        enableContinueButton();
+        orderAdapter.notifyDataSetChanged();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -967,6 +991,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     salesLine.setOnHold(true);
                     salesLine.setStatus("NOT AVAILABLE");
                     enableContinueButton();
+                    isAllOnHold = false;
                     orderAdapter.notifyDataSetChanged();
                 } else if (isSKipItem) {
                     dialog.dismiss();
@@ -974,9 +999,35 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     salesLine.setSkip(true);
                     orderAdapter.notifyDataSetChanged();
                 } else {
-                    List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
-                    omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
-                    mPresenter.mposPickPackOrderReservationApiCall(11, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
+                    selectedOmsHeaderList.get(orderAdapterPos).setOnHold(true);
+                    selectedOmsHeaderList.get(orderAdapterPos).setExpanded(false);
+                    selectedOmsHeaderList.get(orderAdapterPos).setExpandStatus(0);
+                    selectedOmsHeaderList.get(orderAdapterPos).setOrderReason(reasonListResponse.getData().get(selectedReasonPos).getReasonCode());
+                    if (orderAdapter != null) {
+                        orderAdapter.notifyDataSetChanged();
+                    }
+                    rackDataSet();
+                    enableContinueButton();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+                    }
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                    Dialog dialog1 = new Dialog(this);
+                    DialogOnHoldBinding dialogOnHoldBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_on_hold, null, false);
+                    dialog1.setContentView(dialogOnHoldBinding.getRoot());
+                    dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialogOnHoldBinding.message.setText("Order is On-Hold");
+                    dialogOnHoldBinding.close.setOnClickListener(view -> dialog.dismiss());
+                    dialogOnHoldBinding.saveButton.setOnClickListener(view -> {
+                        dialog1.dismiss();
+                    });
+                    dialog1.setCancelable(false);
+                    dialog1.show();
+//                    List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
+//                    omsHeaderList.add(selectedOmsHeaderList.get(orderAdapterPos));
+//                    mPresenter.mposPickPackOrderReservationApiCall(11, omsHeaderList, reasonListResponse.getData().get(selectedReasonPos).getReasonCode(), dialog);
                 }
             });
             selectedReasonPos = 0;
@@ -1004,7 +1055,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
-        if (dialog1 != null && dialog1.isShowing()) {
+        /*if (dialog1 != null && dialog1.isShowing()) {
             dialog1.dismiss();
         }
         selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(orderAdapterPos).setOnHold(true);
@@ -1015,12 +1066,12 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         dialogOnHoldBinding.message.setText("Order is On-Hold");
         dialogOnHoldBinding.close.setOnClickListener(v -> dialog.dismiss());
         dialogOnHoldBinding.saveButton.setOnClickListener(v -> {
-            dialog.dismiss();
+            dialog.dismiss();*/
             onSuccessMposPickPackOrderReservationApiCall(requestType, mposPickPackOrderReservationResponse);
 //            onClickItemStatusUpdate(orderAdapterPos, position, statusBatchlist, false, false, true);
-        });
-        dialog.setCancelable(false);
-        dialog.show();
+//        });
+//        dialog.setCancelable(false);
+//        dialog.show();
     }
 
     @Override
@@ -1614,9 +1665,13 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickContinue() {
-
+        List<TransactionHeaderResponse.OMSHeader> onHoldOmsHeaderList = selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList());
+        if (onHoldOmsHeaderList != null && selectedOmsHeaderList.size() != 0) {
+            mPresenter.mposPickPackOrderReservationApiCall(11, onHoldOmsHeaderList, "", null);
+        }
         if (isAllOnHold) {
             Intent intent = PickerNavigationActivity.getStartIntent(this, "PICKER");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

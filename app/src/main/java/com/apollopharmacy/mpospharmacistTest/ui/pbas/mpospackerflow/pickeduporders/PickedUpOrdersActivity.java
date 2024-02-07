@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -1815,28 +1816,36 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 
     @Override
     public void onClickSearchBtn() {
-        String matchedBoxId = "";
-        TransactionHeaderResponse.OMSHeader omsHeader = new TransactionHeaderResponse.OMSHeader();
+        hideKeyboard();
+        TransactionHeaderResponse.OMSHeader omsHeader = null;
+        String status = "";
         String searchText = activityPickedUpOrdersBinding.searchText.getText().toString();
         for (int i = 0; i < omsHeaderList.size(); i++) {
             String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
             if (boxId.equalsIgnoreCase(searchText)) {
-                matchedBoxId = boxId;
                 omsHeader = omsHeaderList.get(i);
             }
         }
-        if (!matchedBoxId.isEmpty()) {
-            startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
-            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        if (omsHeader != null) {
+            if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                status = omsHeader.getOverallOrderStatus().substring(0, 1);
+            }
+            if (status.equalsIgnoreCase("1")) {
+                startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+                getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            } else {
+                Toast.makeText(getContext(), "Searched Tray ID is partially picked! Kindly Pick “Fully Picked” Status Tray", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Dialog dialog = new Dialog(getContext());
+            Toast.makeText(getContext(), "Kindly search the “Fully Picked” Tray Id", Toast.LENGTH_SHORT).show();
+            /*Dialog dialog = new Dialog(getContext());
             DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
             dialog.setContentView(dialogRackAlertBinding.getRoot());
             dialogRackAlertBinding.message.setText("The Box ID is Not Available \nKindly Check Again");
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());*/
         }
     }
 
@@ -1854,33 +1863,41 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //    }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        String matchedBoxId = "";
-        TransactionHeaderResponse.OMSHeader omsHeader = new TransactionHeaderResponse.OMSHeader();
+        TransactionHeaderResponse.OMSHeader omsHeader = null;
         if (requestCode == 444 && resultCode == getActivity().RESULT_OK) {
             if (data != null) {
                 String result = data.getStringExtra("result");
-                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < omsHeaderList.size(); i++) {
                     String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
                     if (boxId.equalsIgnoreCase(result)) {
-                        matchedBoxId = boxId;
                         omsHeader = omsHeaderList.get(i);
                     }
                 }
-                if (!matchedBoxId.isEmpty()) {
-                    startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
-                    getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                if (omsHeader != null) {
+                    String status = "";
+                    if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                        status = omsHeader.getOverallOrderStatus().substring(0, 1);
+                    }
+                    if (status.equalsIgnoreCase("1")) {
+                        startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+                        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                    } else {
+                        Toast.makeText(getContext(), "Scanned Tray ID is partially picked! Kindly Pick “Fully Picked” Status Tray", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Dialog dialog = new Dialog(getContext());
+                    Toast.makeText(getContext(), "Kindly scan the “Fully Picked” Tray Id", Toast.LENGTH_SHORT).show();
+                    /*Dialog dialog = new Dialog(getContext());
                     DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
                     dialog.setContentView(dialogRackAlertBinding.getRoot());
                     dialogRackAlertBinding.message.setText("Please scan valid Box Id");
                     dialog.setCancelable(false);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
-                    dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());
+                    dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());*/
                 }
             } else {
                 Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();

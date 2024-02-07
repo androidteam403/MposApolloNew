@@ -84,6 +84,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.onHold.setOnClickListener(v -> {
             pickupProcessMvpView.onClickOnHoldBtn(omsHeader, position);
         });
+        holder.orderBinding.revert.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickRevertBtn(omsHeader, position);
+        });
         if (omsHeader.getScannedBarcode() != null) {
             /*if (omsHeader.getScannedBarcode().length() > 5)
                 holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
@@ -93,11 +96,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.boxId.setText("-");
         }
         if (omsHeader.isOnHold()) {
-            holder.orderBinding.orderChildLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_red));
+            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_red));
+            holder.orderBinding.onHold.setVisibility(View.GONE);
+            holder.orderBinding.revert.setVisibility(View.VISIBLE);
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
         } else {
+            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            holder.orderBinding.onHold.setVisibility(View.VISIBLE);
+            holder.orderBinding.revert.setVisibility(View.GONE);
             holder.orderBinding.onHold.setEnabled(true);
         }
 //        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
@@ -160,8 +168,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.statusandicon.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
         }
-        boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null);
-        boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null);
+        boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
+        boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
         boolean isAnyOnHold = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.isOnHold());
         if (isAnyOnHold) {
             holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);

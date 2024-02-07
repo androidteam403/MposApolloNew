@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="#e8e8e8">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +18,7 @@
                 android:id="@+id/layout_header"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/actionbar_color"
+                android:background="@color/black"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/dimen10dp"
                 android:paddingEnd="@dimen/dimen10dp">
@@ -42,17 +43,45 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Fulfilment ID"
+                        android:text="Checker Status"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen20dp"
+                            android:layout_height="@dimen/dimen20dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/cart" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen7dp"
+                            android:text="Box ID: "
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/dimen12sp" />
+
+                        <TextView
+                            android:id="@+id/box_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="001"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen12sp" />
+                    </LinearLayout>
+                    <!--<TextView
                         android:id="@+id/fullfilment_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/dimen12sp" />
+                        android:textSize="@dimen/dimen12sp" />-->
                 </LinearLayout>
 
                 <RelativeLayout
@@ -250,12 +279,56 @@ Do you want to proceed with Packing?"
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/ten_dp"
-                    android:background="@drawable/ic_rect_stroke_bisc_color"
-                    android:orientation="vertical"
+                    android:background="#fef7ea"
+                    android:orientation="horizontal"
                     android:padding="@dimen/ten_dp">
 
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="@dimen/eighteen_dp"
+                        android:layout_height="@dimen/eighteen_dp"
+                        android:layout_marginTop="@dimen/dimen8dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_circular_partial" />
+
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/fullfilment_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="FL2023011782516271"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen12sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Total Items: "
+                                android:textSize="@dimen/dimen12sp" />
+
+                            <TextView
+                                android:id="@+id/total_items"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="2"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -305,9 +378,9 @@ Do you want to proceed with Packing?"
                         </RelativeLayout>
 
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -328,9 +401,9 @@ Do you want to proceed with Packing?"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -351,9 +424,9 @@ Do you want to proceed with Packing?"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -374,16 +447,17 @@ Do you want to proceed with Packing?"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen12sp" />
 
-                    </LinearLayout>
-
-
+                    </LinearLayout>-->
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#e8e8e8"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/ten_dp"
+                    android:paddingTop="@dimen/dimen4dp"
                     android:paddingEnd="@dimen/ten_dp"
                     android:weightSum="1">
 
@@ -404,11 +478,12 @@ Do you want to proceed with Packing?"
                         android:layout_weight="0.2"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center_horizontal"
-                        android:text="Qty"
+                        android:paddingStart="@dimen/eighteen_dp"
+                        android:text="Qty."
                         android:textColor="@color/jumbo"
                         android:textSize="@dimen/dimen12sp" />
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.15"
@@ -416,15 +491,16 @@ Do you want to proceed with Packing?"
                         android:gravity="center_horizontal"
                         android:text="Picker Status"
                         android:textColor="@color/jumbo"
-                        android:textSize="@dimen/dimen12sp" />
+                        android:textSize="@dimen/dimen12sp" />-->
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.15"
+                        android:layout_weight="0.3"
                         android:fontFamily="@font/roboto_regular"
-                        android:gravity="center_horizontal"
-                        android:text="Packer Status"
+                        android:gravity="end"
+                        android:paddingEnd="@dimen/eighteen_dp"
+                        android:text="Status"
                         android:textColor="@color/jumbo"
                         android:textSize="@dimen/dimen12sp" />
                 </LinearLayout>
@@ -433,12 +509,15 @@ Do you want to proceed with Packing?"
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/five_dp" />
+                    android:layout_marginTop="@dimen/five_dp"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/adapter_pickup_verification_p" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen1dp"
-                    android:background="@color/dark_bisccolor" />
+                    android:background="@color/dark_bisccolor"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -450,9 +529,6 @@ Do you want to proceed with Packing?"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/five_dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -493,6 +569,134 @@ Do you want to proceed with Packing?"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
+                <RelativeLayout
+                    android:id="@+id/continue_billing_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey"
+                    android:padding="@dimen/dimen8dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/checking_completed_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/continue_billing_check_box"
+                            android:layout_width="@dimen/eighteen_dp"
+                            android:layout_height="@dimen/eighteen_dp"
+                            android:layout_marginEnd="@dimen/dimen3dp"
+                            android:src="@drawable/ic_artboard_39" />
+
+                        <TextView
+                            android:id="@+id/continue_billing_checking_completed_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Checking Completed"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/dimen_9_sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:onClick="@{()->callback.onClickPackerStatusUpdate()}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/continue_billing_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/dark_grey"
+                            android:text="Continue Billing"
+                            android:textSize="@dimen/dimen16sp" />
+
+                        <ImageView
+                            android:id="@+id/continue_billing_right_arrow"
+                            android:layout_width="@dimen/sixteen_dp"
+                            android:layout_height="@dimen/sixteen_dp"
+                            android:layout_marginStart="@dimen/dimen5dp"
+                            android:src="@drawable/right_arrow"
+                            android:tint="@color/dark_grey"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/recheck_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dimen8dp"
+                    android:background="@color/grey"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/recheck_checking_completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/recheck_check_box"
+                            android:layout_width="@dimen/eighteen_dp"
+                            android:layout_marginEnd="@dimen/dimen3dp"
+                            android:layout_height="@dimen/eighteen_dp"
+                            android:src="@drawable/ic_artboard_39" />
+
+                        <TextView
+                            android:id="@+id/recheck_checking_completed_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen1dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Checking Completed"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/dimen_9_sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:onClick="@{()->callback.onClickPackerStatusUpdate()}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/recheck_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Forward to Re-Check"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/dimen16sp" />
+
+                        <ImageView
+                            android:id="@+id/recheck_right_arrow"
+                            android:layout_width="@dimen/sixteen_dp"
+                            android:layout_height="@dimen/sixteen_dp"
+                            android:layout_marginStart="@dimen/dimen5dp"
+                            android:src="@drawable/right_arrow"
+                            android:tint="@color/dark_grey"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </RelativeLayout>
+
                 <Button
                     android:id="@+id/packer_status_update"
                     android:layout_width="match_parent"
@@ -504,6 +708,7 @@ Do you want to proceed with Packing?"
                     android:text="@string/label_checker_status_update"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_14"
+                    android:visibility="gone"
                     tools:ignore="ButtonStyle" />
 
                 <Button

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -102,6 +103,8 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
     private List<OMSTransactionHeaderResModel.OMSHeaderObj> omsHeaderList = new ArrayList<>();
 
     private int isPackingVerified = 0;
+    boolean isRecheckCheckBoxChecked = false;
+    boolean isContinueBillingCheckBoxChecked = false;
 
     public static Intent getStartActivity(Context context, TransactionHeaderResponse.OMSHeader omsHeader) {
         Intent intent = new Intent(context, PickUpVerificationActivity.class);
@@ -128,10 +131,22 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             omsHeader = (TransactionHeaderResponse.OMSHeader) getIntent().getSerializableExtra("OMS_HEADER");
 
             if (omsHeader != null) {
+                if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                    status = omsHeader.getOverallOrderStatus().substring(0, 1);
+                    if (status.equalsIgnoreCase("1")) {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_circle_tick));
+                    } else if (status.equalsIgnoreCase("2")) {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_partial));
+                        activityPickupVerificationBinding.statusIcon.setRotation(-90);
+                    } else {
+                        activityPickupVerificationBinding.statusIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_not_available));
+                    }
+                }
+                activityPickupVerificationBinding.totalItems.setText(String.valueOf(omsHeader.getNumberofItemLines()));
                 if (omsHeader.getPickPackUser() != null && !omsHeader.getPickPackUser().isEmpty()) {
-                    activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
+//                    activityPickupVerificationBinding.pickPackUser.setText(omsHeader.getPickPackUser());
                 } else {
-                    activityPickupVerificationBinding.pickPackUser.setText("-");
+//                    activityPickupVerificationBinding.pickPackUser.setText("-");
                 }
                 if (omsHeader.getOverallOrderStatus() != null && omsHeader.getOverallOrderStatus().length() > 2) {
                     this.boxId = omsHeader.getOverallOrderStatus().substring(2);
@@ -139,20 +154,21 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 //                    activityPickupVerificationBinding.boxId.setText(boxId.substring(boxId.length() - 5));
                 } else {
                     this.boxId = "-";
+                    activityPickupVerificationBinding.boxId.setText("---");
                 }
                 assert omsHeader.getOverallOrderStatus() != null;
                 if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("1")) {
-                    activityPickupVerificationBinding.statusText.setText("FULL");
-                    activityPickupVerificationBinding.fullStatusColor.setRotation(0);
-                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_tick));
+//                    activityPickupVerificationBinding.statusText.setText("FULL");
+//                    activityPickupVerificationBinding.fullStatusColor.setRotation(0);
+//                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_tick));
                 } else if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("2")) {
-                    activityPickupVerificationBinding.statusText.setText("PARTIAL");
-                    activityPickupVerificationBinding.fullStatusColor.setRotation(90);
-                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//                    activityPickupVerificationBinding.statusText.setText("PARTIAL");
+//                    activityPickupVerificationBinding.fullStatusColor.setRotation(90);
+//                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.partialcirculargreeenorange));
                 } else if (omsHeader.getOverallOrderStatus().substring(0, 1).equalsIgnoreCase("3")) {
-                    activityPickupVerificationBinding.statusText.setText("NOT AVAILABLE");
-                    activityPickupVerificationBinding.fullStatusColor.setRotation(0);
-                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.ic_not_available));
+//                    activityPickupVerificationBinding.statusText.setText("NOT AVAILABLE");
+//                    activityPickupVerificationBinding.fullStatusColor.setRotation(0);
+//                    activityPickupVerificationBinding.fullStatusColor.setImageDrawable(getResources().getDrawable(R.drawable.ic_not_available));
                 }
                 mpresenter.mposPickPackOrderReservationApiCall(3, omsHeader);
 //                mpresenter.fetchOMSCustomerInfo(omsHeader.getRefno());
@@ -182,6 +198,40 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        activityPickupVerificationBinding.continueBillingCheckBox.setOnClickListener(view -> {
+            isContinueBillingCheckBoxChecked = !isContinueBillingCheckBoxChecked;
+            if (isContinueBillingCheckBoxChecked) {
+                activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+                activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(Color.parseColor("#0172bb"));
+            } else {
+                activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+                activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
+            }
+        });
+
+        activityPickupVerificationBinding.recheckCheckBox.setOnClickListener(view -> {
+            isRecheckCheckBoxChecked = !isRecheckCheckBoxChecked;
+            if (isRecheckCheckBoxChecked) {
+                activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+                activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
+                activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.red));
+            } else {
+                activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+                activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+                activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
             }
         });
 
@@ -735,8 +785,8 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 
 fId=getOMSTransactionResponses.get(0).getRefno();
                 activityPickupVerificationBinding.fullfilmentId.setText(getOMSTransactionResponses.get(0).getRefno());
-                activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
-                activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
+//                activityPickupVerificationBinding.orderId.setText(getOMSTransactionResponses.get(0).getReciptId());
+//                activityPickupVerificationBinding.date.setText(getOMSTransactionResponses.get(0).getDeliveryDate());
                 if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
                     for (int i = 0; i < omsHeader.getGetOMSTransactionResponse().getSalesLine().size(); i++) {
                         GetGlobalConfingRes getGlobalConfingRes = mpresenter.getGlobalConfigRes();
@@ -966,7 +1016,7 @@ fId=getOMSTransactionResponses.get(0).getRefno();
 
     @Override
     public void onClickItemUpdate(GetOMSTransactionResponse.SalesLine salesLine, int pos) {
-        Dialog updateStatusdialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        Dialog updateStatusdialog = new Dialog(this);
         DialogUpdateStatusPBinding dialogUpdateStatusPBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update_status_p, null, false);
         dialogUpdateStatusPBinding.fullPickedRadio.setText(R.string.label_fully_packed);
         dialogUpdateStatusPBinding.partiallyPickedRadio.setText(R.string.label_partially_packed);
@@ -994,16 +1044,33 @@ fId=getOMSTransactionResponses.get(0).getRefno();
             dialogUpdateStatusPBinding.fullPickedRadio.setChecked(true);
             dialogUpdateStatusPBinding.partiallyPickedRadio.setChecked(false);
             dialogUpdateStatusPBinding.notAvailableRadio.setChecked(false);
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.GONE);
         });
         dialogUpdateStatusPBinding.partiallyPickedRadioTwo.setOnClickListener(view -> {
             dialogUpdateStatusPBinding.fullPickedRadio.setChecked(false);
             dialogUpdateStatusPBinding.partiallyPickedRadio.setChecked(true);
             dialogUpdateStatusPBinding.notAvailableRadio.setChecked(false);
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.VISIBLE);
         });
         dialogUpdateStatusPBinding.notAvailableRadioThree.setOnClickListener(view -> {
             dialogUpdateStatusPBinding.fullPickedRadio.setChecked(false);
             dialogUpdateStatusPBinding.partiallyPickedRadio.setChecked(false);
             dialogUpdateStatusPBinding.notAvailableRadio.setChecked(true);
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.GONE);
+        });
+        dialogUpdateStatusPBinding.minusIcon.setOnClickListener(view -> {
+            int qty = Integer.parseInt(dialogUpdateStatusPBinding.quantity.getText().toString());
+            if ((qty - 1) >= 0) {
+                dialogUpdateStatusPBinding.quantity.setText(String.valueOf(qty - 1));
+            }
+
+        });
+        dialogUpdateStatusPBinding.plusIcon.setOnClickListener(view -> {
+            int qty = Integer.parseInt(dialogUpdateStatusPBinding.quantity.getText().toString());
+            int reqQty = omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getQty();
+            if ((qty + 1) <= reqQty) {
+                dialogUpdateStatusPBinding.quantity.setText(String.valueOf(qty + 1));
+            }
         });
         dialogUpdateStatusPBinding.update.setOnClickListener(view -> {
             if (dialogUpdateStatusPBinding.fullPickedRadio.isChecked()) {
@@ -1126,6 +1193,7 @@ fId=getOMSTransactionResponses.get(0).getRefno();
     @Override
     public void onClickPackerStatusUpdate() {
         if (isPackingVerified == 1) {
+            if (isContinueBillingCheckBoxChecked) {
 //            VerificationStatusDialog verificationStatusDialog = new VerificationStatusDialog(PickUpVerificationActivity.this, false, omsHeader.getRefno());
 //            verificationStatusDialog.setPositiveListener(v -> {
 //                verificationStatusDialog.dismiss();
@@ -1133,7 +1201,7 @@ fId=getOMSTransactionResponses.get(0).getRefno();
 //            });
 //            verificationStatusDialog.setNegativeListener(v -> verificationStatusDialog.dismiss());
 //            verificationStatusDialog.show();
-            mposOrderUpdate("3");
+                mposOrderUpdate("3");
 
 //            Intent i = new Intent(getContext(), OrderDetailsScreenActivity.class);
 //            i.putExtra("fullfillmentDetails", omsHeader);
@@ -1148,25 +1216,27 @@ fId=getOMSTransactionResponses.get(0).getRefno();
 //
 //
 //            }, 3000);
+            }
 
         } else if (isPackingVerified == 2) {
+            if (isRecheckCheckBoxChecked) {
+                Dialog dialog = new Dialog(this);
+                DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
+                dialogVerificationStatusBillerBinding.title.setText("Push to Re-verification");
+                dialogVerificationStatusBillerBinding.dialogMessage.setText("Packer not verified for\n Fulfilment ID :" + omsHeader.getRefno() + "\n Push to Picker");
+                dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
+                dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
+                dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
+                dialog.setCancelable(false);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
+                dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    mposOrderUpdate("2");
 
-            Dialog dialog = new Dialog(this);
-            DialogVerificationStatusBillerBinding dialogVerificationStatusBillerBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_verification_status_biller, null, false);
-            dialogVerificationStatusBillerBinding.title.setText("Push to Re-verification");
-            dialogVerificationStatusBillerBinding.dialogMessage.setText("Packer not verified for\n Fulfilment ID :" + omsHeader.getRefno() + "\n Push to Picker");
-            dialogVerificationStatusBillerBinding.statusImage.setBackgroundTintList(ColorStateList.valueOf(this.getColor(R.color.red)));
-            dialogVerificationStatusBillerBinding.statusImage.setImageResource(R.drawable.delete_white_icon);
-            dialog.setContentView(dialogVerificationStatusBillerBinding.getRoot());
-            dialog.setCancelable(false);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-            dialogVerificationStatusBillerBinding.dialogButtonNO.setOnClickListener(v -> dialog.dismiss());
-            dialogVerificationStatusBillerBinding.dialogButtonOK.setOnClickListener(v -> {
-                dialog.dismiss();
-                mposOrderUpdate("2");
-
-            });
+                });
+            }
 
 //            new Handler().postDelayed(() -> {
 //                if (dialog != null && dialog.isShowing()) {
@@ -1211,6 +1281,15 @@ fId=getOMSTransactionResponses.get(0).getRefno();
                 if (isPickerPackerStatusMatched) {
                     this.isPackingVerified = 1;
 
+                    activityPickupVerificationBinding.recheckLayout.setVisibility(View.GONE);
+                    activityPickupVerificationBinding.continueBillingLayout.setVisibility(View.VISIBLE);
+                    isContinueBillingCheckBoxChecked = false;
+                    activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+                    activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
+
                     activityPickupVerificationBinding.sendReVer.setEnabled(false);
                     activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.unselect_text_color));
                     activityPickupVerificationBinding.sendReVer.setBackgroundColor(getResources().getColor(R.color.light_grey));
@@ -1220,6 +1299,15 @@ fId=getOMSTransactionResponses.get(0).getRefno();
                     activityPickupVerificationBinding.pickVerified.setBackgroundColor(getResources().getColor(R.color.yellow));
                 } else {
                     this.isPackingVerified = 2;
+
+                    activityPickupVerificationBinding.continueBillingLayout.setVisibility(View.GONE);
+                    activityPickupVerificationBinding.recheckLayout.setVisibility(View.VISIBLE);
+                    isRecheckCheckBoxChecked = false;
+                    activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+                    activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+                    activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
 
                     activityPickupVerificationBinding.sendReVer.setEnabled(true);
                     activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.white));
@@ -1493,6 +1581,7 @@ fId=getOMSTransactionResponses.get(0).getRefno();
 
 
         } else {
+            hideLoading();
             Toast.makeText(this, "No item available", Toast.LENGTH_SHORT).show();
         }
     }

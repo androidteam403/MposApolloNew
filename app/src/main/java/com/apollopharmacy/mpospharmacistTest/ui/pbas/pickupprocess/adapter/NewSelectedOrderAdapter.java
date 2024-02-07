@@ -93,21 +93,6 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.pickedQty.setText("0");
         }
 
-
-        if (salesLine.isOnHold() || salesLine.isSkip()) {
-            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
-            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
-//            holder.pickupSummaryDetailsProductsBinding.skip.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
-//            holder.pickupSummaryDetailsProductsBinding.skip.setEnabled(false);
-            holder.pickupSummaryDetailsProductsBinding.statusLayout.setVisibility(View.GONE);
-            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
-        } else {
-            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
-            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);
-//            holder.pickupSummaryDetailsProductsBinding.skip.setBackgroundResource(R.drawable.bg_red_btn);
-//            holder.pickupSummaryDetailsProductsBinding.skip.setEnabled(true);
-            holder.pickupSummaryDetailsProductsBinding.statusLayout.setVisibility(View.VISIBLE);
-        }
         if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
@@ -137,6 +122,23 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        if (salesLine.isOnHold()) {
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
+            holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.GONE);
+        } else {
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.GONE);
+//            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.VISIBLE);
+        }
+
 
         /*holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +151,9 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
         holder.pickupSummaryDetailsProductsBinding.onHold.setOnClickListener(view -> {
             pickupProcessMvpView.onClickOnHoldItem(salesLine, position);
+        });
+        holder.pickupSummaryDetailsProductsBinding.revertBtn.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickRevertItem(salesLine, position);
         });
         /*holder.pickupSummaryDetailsProductsBinding.skip.setOnClickListener(view -> {
             pickupProcessMvpView.onClickSkipItem(salesLine, position);

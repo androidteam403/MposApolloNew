@@ -224,6 +224,7 @@
             android:id="@+id/child_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -475,6 +476,7 @@
                             android:layout_height="wrap_content"
                             android:text="Update"
                             android:paddingStart="@dimen/dimen7dp"
+                            android:visibility="visible"
                             android:paddingEnd="@dimen/dimen7dp"
                             android:paddingTop="@dimen/dimen2dp"
                             android:paddingBottom="@dimen/dimen2dp"
@@ -496,6 +498,22 @@
                             android:background="@drawable/rounded_rectangle_bg"
                             android:backgroundTint="#38b64c"
                             android:textSize="@dimen/dimen10sp"/>
+
+                        <TextView
+                            android:id="@+id/revert_btn"
+                            android:layout_marginStart="@dimen/dimen7dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_onhold_enable_btn"
+                            android:backgroundTint="#796970"
+                            android:paddingStart="@dimen/dimen4dp"
+                            android:paddingTop="@dimen/dimen2dp"
+                            android:paddingEnd="@dimen/dimen4dp"
+                            android:visibility="gone"
+                            android:paddingBottom="@dimen/dimen2dp"
+                            android:text="Revert"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen10sp" />
                     </LinearLayout>
 
                 </LinearLayout>

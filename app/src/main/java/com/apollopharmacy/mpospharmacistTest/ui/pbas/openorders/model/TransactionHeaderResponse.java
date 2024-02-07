@@ -218,6 +218,15 @@ public class TransactionHeaderResponse implements Serializable {
             this.expandStatus = expandStatus;
         }
 
+        private String orderReason;
+        public String getOrderReason() {
+            return orderReason;
+        }
+
+        public void setOrderReason(String orderReason) {
+            this.orderReason = orderReason;
+        }
+
 
         public String getBusinessDate() {
             return businessDate;
