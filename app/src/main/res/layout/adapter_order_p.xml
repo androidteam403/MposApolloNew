@@ -1012,6 +1012,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/order_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen4dp"
@@ -1435,6 +1436,26 @@
                         android:paddingEnd="@dimen/dimen7dp"
                         android:paddingBottom="@dimen/dimen2dp"
                         android:text="On Hold"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/revert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/timerLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_marginEnd="@dimen/dimen1dp"
+                        android:background="@drawable/bg_onhold_enable_btn"
+                        android:backgroundTint="#796970"
+                        android:paddingStart="@dimen/dimen7dp"
+                        android:paddingTop="@dimen/dimen2dp"
+                        android:paddingEnd="@dimen/dimen7dp"
+                        android:paddingBottom="@dimen/dimen2dp"
+                        android:visibility="gone"
+                        android:text="Revert"
                         android:textColor="@color/white"
                         android:textSize="9sp" />
 

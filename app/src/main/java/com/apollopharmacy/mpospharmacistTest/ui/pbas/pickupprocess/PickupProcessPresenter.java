@@ -548,7 +548,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setReasonCode(reasonCode);
+                    order.setReasonCode(selectedOmsHeaderList.get(i).getOrderReason());
                     ordersList.add(order);
                 }
             }

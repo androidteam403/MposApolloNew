@@ -82,6 +82,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
     boolean isBarCodeProblem;
     List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
     private String scannedQty;
+    private boolean getBatchListBtnClicked = false;
 
     //    private List<BatchListModel> batchListModelList;
 //private  List<GetBatchInfoRes.BatchListObj> batchListModelListl;
@@ -232,6 +233,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
                         noOrderFound(filteredList.size());
 //                        batchListAdapter.getFilter().filter(editable);
                     }
+                } else if (isBarCodeProblem || getBatchListBtnClicked) {
+                    dataRestore = batchList;
+                    noOrderFound(batchList.size());
                 } else {
                     if (batchListAdapter != null) {
                         noOrderFound(0);
@@ -1206,6 +1210,14 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
         }
 
+    }
+
+    @Override
+    public void onClickGetBatchList() {
+        getBatchListBtnClicked = true;
+        batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
+        batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
+        batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
     }
 
     @Override

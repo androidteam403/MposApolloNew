@@ -362,4 +362,9 @@ public class BatchListPresenter<V extends BatchListMvpView> extends BasePresente
     public void onClickScanBatchId() {
         getMvpView().onClickScanBatchId();
     }
+
+    @Override
+    public void onClickGetBatchList() {
+        getMvpView().onClickGetBatchList();
+    }
 }

@@ -59,4 +59,6 @@ public interface BatchListMvpView extends MvpView {
     void onClickScanBatchId();
 
     void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse);
+
+    void onClickGetBatchList();
 }
