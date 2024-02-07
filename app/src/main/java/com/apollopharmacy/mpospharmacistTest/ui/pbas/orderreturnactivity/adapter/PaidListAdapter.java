@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter;
+package com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ViewOrderHistoryPaymentBinding;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.OrderReturnModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.OrderReturnModel;
 
 import java.util.ArrayList;
 

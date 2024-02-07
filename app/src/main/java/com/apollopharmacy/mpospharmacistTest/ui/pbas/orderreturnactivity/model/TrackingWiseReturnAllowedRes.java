@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model;
+package com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

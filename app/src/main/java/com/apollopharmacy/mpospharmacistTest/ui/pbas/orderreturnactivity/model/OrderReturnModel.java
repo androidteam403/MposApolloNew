@@ -1,4 +1,4 @@
-package com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model;
+package com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model;
 
 public class OrderReturnModel {
     private String paymentType;
