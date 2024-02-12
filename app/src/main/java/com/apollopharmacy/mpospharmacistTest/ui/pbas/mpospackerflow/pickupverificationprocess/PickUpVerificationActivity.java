@@ -203,38 +203,45 @@ public class PickUpVerificationActivity extends BaseActivity implements PickUpVe
 
         activityPickupVerificationBinding.continueBillingCheckBox.setOnClickListener(view -> {
             isContinueBillingCheckBoxChecked = !isContinueBillingCheckBoxChecked;
-            if (isContinueBillingCheckBoxChecked) {
-                activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
-                activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(Color.parseColor("#0172bb"));
-            } else {
-                activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
-                activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
-            }
+//            enableContinueBillingCheckBox(isContinueBillingCheckBoxChecked);
         });
 
         activityPickupVerificationBinding.recheckCheckBox.setOnClickListener(view -> {
             isRecheckCheckBoxChecked = !isRecheckCheckBoxChecked;
-            if (isRecheckCheckBoxChecked) {
-                activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
-                activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
-                activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.red));
-            } else {
-                activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
-                activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
-                activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
-            }
+//            enableRecheckCheckBox(isRecheckCheckBoxChecked);
         });
+    }
 
+    private void enableRecheckCheckBox(boolean isRecheckCheckBoxChecked) {
+        if (isRecheckCheckBoxChecked) {
+            activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+            activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.red));
+        } else {
+            activityPickupVerificationBinding.recheckCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+            activityPickupVerificationBinding.recheckCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
+        }
+    }
+
+    private void enableContinueBillingCheckBox(boolean isContinueBillingCheckBoxChecked) {
+        if (isContinueBillingCheckBoxChecked) {
+            activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_40));
+            activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.white));
+            activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(Color.parseColor("#0172bb"));
+        } else {
+            activityPickupVerificationBinding.continueBillingCheckBox.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_artboard_39));
+            activityPickupVerificationBinding.continueBillingCheckingCompletedText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.continueBillingText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
+            activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
+        }
     }
 
     int flag;
@@ -1290,6 +1297,9 @@ fId=getOMSTransactionResponses.get(0).getRefno();
                     activityPickupVerificationBinding.continueBillingRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
                     activityPickupVerificationBinding.continueBillingLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
 
+                    isContinueBillingCheckBoxChecked = true;
+                    enableContinueBillingCheckBox(isContinueBillingCheckBoxChecked);
+
                     activityPickupVerificationBinding.sendReVer.setEnabled(false);
                     activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.unselect_text_color));
                     activityPickupVerificationBinding.sendReVer.setBackgroundColor(getResources().getColor(R.color.light_grey));
@@ -1308,6 +1318,9 @@ fId=getOMSTransactionResponses.get(0).getRefno();
                     activityPickupVerificationBinding.recheckText.setTextColor(getContext().getResources().getColor(R.color.dark_grey));
                     activityPickupVerificationBinding.recheckRightArrow.setColorFilter(getContext().getResources().getColor(R.color.dark_grey));
                     activityPickupVerificationBinding.recheckLayout.setBackgroundColor(getContext().getResources().getColor(R.color.grey));
+
+                    isRecheckCheckBoxChecked = true;
+                    enableRecheckCheckBox(isRecheckCheckBoxChecked);
 
                     activityPickupVerificationBinding.sendReVer.setEnabled(true);
                     activityPickupVerificationBinding.sendReVer.setTextColor(getResources().getColor(R.color.white));

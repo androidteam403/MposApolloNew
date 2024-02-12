@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -1080,21 +1081,17 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             }, 1000);
             dialog.show();
         } else {
-            Toast.makeText(this, "Tray ID does not match so Kindly Scan the Correct Tray ID", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(() -> {
-                initiateScanner();
-            }, 1000);
-            /*Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
-            dialog.setContentView(dialogRackAlertBinding.getRoot());
-            dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
+            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
+            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this),R.layout.dialog_shelf_scan_success, null, false);
+            dialog.setContentView(shelfScanSuccessBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            shelfScanSuccessBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
             dialog.show();
-            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
+            new Handler().postDelayed(() -> {
                 dialog.dismiss();
                 initiateScanner();
-            });*/
+            }, 2000);
         }
     }
 

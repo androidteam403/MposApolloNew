@@ -123,6 +123,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     int minOrdersAllowed = 0;
     boolean isSelectAllIconChecked = false;
     private boolean isFiltersListSet;
+    private boolean continueBtnClicked = false;
 
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
@@ -1500,28 +1501,43 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 //            for (int i = 0; i <= studlistGrouped.size(); i++){
 //                omsHeaderList.addAll(studlistGrouped.get(i))
 //            }
+            Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                    .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
+                    .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
+            omsHeaderList.clear();
+            for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
+                omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
+            }
             if (maxOrdersAllowed > 0) {
-                Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                /*Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
                         .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
                         .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
                 omsHeaderList.clear();
                 for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
                     omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
-                }
+                }*/
                 if (omsHeaderList.size() > 0 && omsHeaderList.size() > maxOrdersAllowed) {
                     omsHeaderList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
                 }
-            } else {
-                Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+            } else if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > 0) {
+                /*Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
                         .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
                         .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
                 omsHeaderList.clear();
                 for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
                     omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
-                }
+                }*/
                 if (omsHeaderList.size() > 0 && omsHeaderList.size() > mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed()) {
                     omsHeaderList = omsHeaderList.stream().limit(mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed()).collect(Collectors.toList());
                 }
+            } else {
+                /*Map<String, List<TransactionHeaderResponse.OMSHeader>> omsHeaderListGroup = omsHeaderList.stream()
+                        .filter(o -> o.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE"))
+                        .collect(Collectors.groupingBy(TransactionHeaderResponse.OMSHeader::getShipmentTat));
+                omsHeaderList.clear();
+                for (Map.Entry<String, List<TransactionHeaderResponse.OMSHeader>> entry : omsHeaderListGroup.entrySet()) {
+                    omsHeaderList.addAll(omsHeaderListGroup.get(entry.getKey()));
+                }*/
             }
 
 
@@ -1546,8 +1562,10 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
 //            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter, getContext()));
             if (maxOrdersAllowed > 0) {
-                maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
-                mPresenter.mposPickPackOrderReservationApiCall(1, maxOrdersList);
+//                maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());
+                mPresenter.mposPickPackOrderReservationApiCall(1, omsHeaderList);
+            } else if (mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > 0) {
+                mPresenter.mposPickPackOrderReservationApiCall(1, omsHeaderList);
             }
             if (endIndex % 100 == 0) {
                 PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("Page No." + (endIndex / 100));
@@ -2578,9 +2596,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
         if (requestType == 1 && mposPickPackOrderReservationResponse.getReturnMessage().equalsIgnoreCase("")) {
             if (mposPickPackOrderReservationResponse != null && mposPickPackOrderReservationResponse.getRequestStatus() == 0) {
-                if (maxOrdersList != null && maxOrdersList.size() > 0) {
-                    for (int i = 0; i < maxOrdersList.size(); i++) {
-                        maxOrdersList.get(i).setPickupReserved(true);
+                if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                    for (int i = 0; i < omsHeaderList.size(); i++) {
+                        omsHeaderList.get(i).setPickupReserved(true);
                     }
                 }
             }
@@ -2832,6 +2850,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickContinue() {
+        continueBtnClicked = true;
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
             if (selectedOmsHeaderList.size() >= minOrdersAllowed) {
                 startActivityForResult(ReadyForPickUpActivity.getStartActivity(getContext(), selectedOmsHeaderList, omsHeaderList, maxOrdersAllowed), READYFORPICKUP);
@@ -2898,6 +2917,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 openOrdersBinding.selectedItemCount.setText(selectedItemCount + "/" + omsHeaderList.size());
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == READYFORPICKUP) {
+            continueBtnClicked = false;
             isBackFromReadyforPickupScreen = true;
             openOrdersBinding.searchByfulfimentid.setText("");
 //            selectedOmsHeaderList.clear();
@@ -3196,8 +3216,16 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @Override
     public void onPause() {
         super.onPause();
-        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+        if (omsHeaderList != null && omsHeaderList.size() > 0 && !continueBtnClicked) {
             mPresenter.mposPickPackOrderReservationApiCall(2, omsHeaderList);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (BaseFragment.mProgressDialog !=null && BaseFragment.mProgressDialog.isShowing()) {
+            BaseFragment.mProgressDialog.cancel();
         }
     }
 }
