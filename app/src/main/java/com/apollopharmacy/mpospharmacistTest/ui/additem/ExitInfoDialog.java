@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -19,8 +20,10 @@ public class ExitInfoDialog {
     //private  Context context;
 
     private boolean negativeExist = false;
+    private Context context;
 
     public ExitInfoDialog(Context context) {
+        this.context = context;
         dialog = new Dialog(context);
         exitInfoDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.exit_info_dialog, null, false);
         dialog.setContentView(exitInfoDialogBinding.getRoot());
@@ -50,7 +53,11 @@ public class ExitInfoDialog {
             exitInfoDialogBinding.dialogButtonNO.setVisibility(View.GONE);
             exitInfoDialogBinding.separator.setVisibility(View.GONE);
         }
-        dialog.show();
+        if (context instanceof Activity) {
+            if (!((Activity) context).isFinishing()) {
+                dialog.show();
+            }
+        }
     }
 
     public void hideContinueButton() {
