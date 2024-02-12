@@ -711,7 +711,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         DialogFarwardtoPackerPBinding updateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.dialog_farwardto_packer_p, null, false);
         if (status.equalsIgnoreCase("SUCCESS")) {
-            updateStatusBinding.message.setText("Forwarded to Packer");
+            updateStatusBinding.message.setText("Forwarded to Checker");
             updateStatusBinding.statusImage.setImageDrawable(getResources().getDrawable(R.drawable.tick_mark));
         } else {
             updateStatusBinding.message.setText("Orders Not Available");
@@ -733,8 +733,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             dialog.dismiss();
         });
         dialog.show();
-        /*new CountDownTimer(5000, 1000) {
-
+        new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -752,7 +751,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 overridePendingTransition(R.anim.slide_from_left_p, R.anim.slide_to_right_p);
                 dialog.dismiss();
             }
-        }.start();*/
+        }.start();
     }
 
 

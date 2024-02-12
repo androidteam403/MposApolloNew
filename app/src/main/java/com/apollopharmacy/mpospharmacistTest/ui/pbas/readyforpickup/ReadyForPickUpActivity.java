@@ -45,6 +45,7 @@ import com.printf.manager.PrintfTSPLManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -82,6 +83,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     int taggedCount = 0;
     int maxAllowedOrder = 0;
+    private boolean isBackPressed = false;
 
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, int maxAllowedOrder) {
@@ -425,6 +427,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         unTagQrCodeDialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickStartPickup() {
 //        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
@@ -447,12 +450,13 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            // return;
 //        } else {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && maxAllowedOrder > 0) {
-            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+        if ((selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) && (maxAllowedOrder > 0 || mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > 0)) {
+            /*for (int i = 0; i < totalOmsHeaderList.size(); i++) {
                 if (!totalOmsHeaderList.get(i).isSelected()) {
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
-            }
+            }*/
+            mPresenter.mposPickPackOrderReservationApiCall(2, totalOmsHeaderList.stream().filter(omsHeader -> !omsHeader.isSelected()).collect(Collectors.toList()));
             boolean isAlltagBox = true;
             for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
                 if (!omsHeader.isTagBox()) {
@@ -745,7 +749,14 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             }
         } else if (requestType == 2) {
 //            totalOmsHeaderList.forEach(omsHeader -> omsHeader.setPickupReserved(false));
-            doBackPressed();
+            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+                if (!totalOmsHeaderList.get(i).isSelected()) {
+                    totalOmsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+            if (isBackPressed) {
+                doBackPressed();
+            }
         }
     }
 
@@ -793,6 +804,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onBackPressed() {
+        isBackPressed = true;
         mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
 //        doBackPressed();
         /*Dialog dialog = new Dialog(this);//R.style.Theme_AppCompat_DayNight_NoActionBar

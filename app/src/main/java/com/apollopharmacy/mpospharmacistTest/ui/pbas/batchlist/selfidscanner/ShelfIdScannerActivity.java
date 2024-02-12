@@ -145,7 +145,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                 BeepManager beepManager = new BeepManager(ShelfIdScannerActivity.this);
                 beepManager.playBeepSoundAndVibrate();
                 if (!isRackIdScanned) {
-                    isRackIdScanned = true;
+//                    isRackIdScanned = true;
                     if (result.getText().equalsIgnoreCase(salesLine.getRackId())) {
                         barcodeScannerView.pause();
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
@@ -156,6 +156,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         new Handler().postDelayed(() -> {
                             if (dialog != null && dialog.isShowing()) {
                                 dialog.dismiss();
+                                isRackIdScanned = true;
                                 if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
                                     Intent intent = new Intent(ShelfIdScannerActivity.this, BatchListActivity.class);
                                     intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
