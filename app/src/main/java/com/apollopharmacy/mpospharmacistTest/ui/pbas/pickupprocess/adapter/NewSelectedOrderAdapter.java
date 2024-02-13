@@ -150,7 +150,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });*/
 
         holder.pickupSummaryDetailsProductsBinding.onHold.setOnClickListener(view -> {
-            pickupProcessMvpView.onClickOnHoldItem(salesLine, position);
+            pickupProcessMvpView.onClickOnHoldItem(salesLine, position, orderAdapterPos);
         });
         holder.pickupSummaryDetailsProductsBinding.revertBtn.setOnClickListener(view -> {
             pickupProcessMvpView.onClickRevertItem(salesLine, position);
