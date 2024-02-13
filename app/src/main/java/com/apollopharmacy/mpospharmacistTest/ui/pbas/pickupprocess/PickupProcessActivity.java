@@ -95,6 +95,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     OMSOrderForwardRequest.ReservedSalesLine reservedSalesLine;
     private boolean isAllOnHold;
     private DialogSkipOrderBinding dialogSkipOrderBinding;
+    int orderAdapterPosition;
+    int newSelectedOrderAdapterPosition;
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
@@ -992,6 +994,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     salesLine.setStatus("NOT AVAILABLE");
                     enableContinueButton();
                     isAllOnHold = false;
+                    onClickItemStatusUpdate(orderAdapterPosition, newSelectedOrderAdapterPosition, "NOT AVAILABLE", false, false, true);
                     orderAdapter.notifyDataSetChanged();
                 } else if (isSKipItem) {
                     dialog.dismiss();
@@ -1075,7 +1078,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     }
 
     @Override
-    public void onClickOnHoldItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+    public void onClickOnHoldItem(GetOMSTransactionResponse.SalesLine salesLine, int position, int orderAdapterPos) {
+        this.newSelectedOrderAdapterPosition = position;
+        this.orderAdapterPosition = orderAdapterPos;
         this.salesLine = salesLine;
         mPresenter.getReasonList(true, false);
     }
