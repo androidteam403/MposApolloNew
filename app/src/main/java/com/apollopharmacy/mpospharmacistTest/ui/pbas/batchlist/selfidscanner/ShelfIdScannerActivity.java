@@ -333,6 +333,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                 finish();
             } else if (isBackPressed) {
                 isRackIdScanned = false;
+                isScannedRackSelfID = false;
             } else {
                 shelfIdScannerBinding.message.setText("Scan the Box ID");
             }
