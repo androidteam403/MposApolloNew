@@ -971,6 +971,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
         salesLine.setReason("");
         salesLine.setOnHold(false);
         salesLine.setStatus("");
+        rackDataSet();
         enableContinueButton();
         orderAdapter.notifyDataSetChanged();
     }
@@ -1265,6 +1266,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                         RackWiseSortedData rackWiseSortedData = new RackWiseSortedData();
 
                         rackWiseSortedData.setRackId(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId());
+                        rackWiseSortedData.setRackStatus(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus());
 
                         List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
                         RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
@@ -1292,6 +1294,8 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setFullfillmentId(selectedOmsHeaderList.get(i).getRefno());
                     RackWiseSortedData rackWiseSortedData = new RackWiseSortedData();
                     rackWiseSortedData.setRackId(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getRackId());
+                    rackWiseSortedData.setRackStatus(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).getStatus());
+
 
                     List<RackWiseSortedData.BoxIdModel> boxIdModelList = new ArrayList<>();
                     RackWiseSortedData.BoxIdModel boxIdModel = new RackWiseSortedData.BoxIdModel();
