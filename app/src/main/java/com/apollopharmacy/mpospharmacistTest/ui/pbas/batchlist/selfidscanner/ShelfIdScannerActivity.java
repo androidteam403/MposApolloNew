@@ -64,6 +64,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
     boolean isBackPressed;
 
     private boolean isScannedRackSelfID = false;
+    private boolean isScannedBoxId = false;
 
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
@@ -200,38 +201,43 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         });
                     }
                 } else {
-                    if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
-                        barcodeScannerView.pause();
-                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
-                        DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
-                        dialog.setContentView(shelfScanSuccessBinding.getRoot());
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
-                        new Handler().postDelayed(() -> {
-                            if (dialog != null && dialog.isShowing()) {
+                    if (!isScannedBoxId) {
+                        if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
+                            barcodeScannerView.pause();
+                            isScannedBoxId = true;
+                            Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+                            dialog.setContentView(shelfScanSuccessBinding.getRoot());
+                            dialog.setCancelable(false);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+                            new Handler().postDelayed(() -> {
+                                if (dialog != null && dialog.isShowing()) {
+                                    dialog.dismiss();
+                                    Intent i = new Intent();
+                                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                    i.putExtra("finalStatus", (String) statusBatchlist);
+                                    setResult(RESULT_OK, i);
+                                    finish();
+                                }
+                            }, 1000);
+                            dialog.show();
+                        } else {
+                            barcodeScannerView.pause();
+                            isScannedBoxId = true;
+                            Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                            dialog.setContentView(dialogRackAlertBinding.getRoot());
+                            dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
+                            dialog.setCancelable(false);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.show();
+                            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                                barcodeScannerView.resume();
+                                isScannedBoxId = false;
                                 dialog.dismiss();
-                                Intent i = new Intent();
-                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                                i.putExtra("finalStatus", (String) statusBatchlist);
-                                setResult(RESULT_OK, i);
-                                finish();
-                            }
-                        }, 1000);
-                        dialog.show();
-                    } else {
-                        barcodeScannerView.pause();
-                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
-                        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
-                        dialog.setContentView(dialogRackAlertBinding.getRoot());
-                        dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
-                        dialog.setCancelable(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
-                            barcodeScannerView.resume();
-                            dialog.dismiss();
-                        });
+                            });
+                        }
                     }
                 }
             }
