@@ -318,6 +318,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         dialogView.setSubtitle("Are you sure want to logout the application ?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setPositiveListener(view -> {
+            dialogView.dismiss();
             mPresenter.logoutUser();
         });
         dialogView.setNegativeLabel("No");
