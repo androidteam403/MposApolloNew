@@ -12,6 +12,9 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
     void onClickClose();
 
     void onClickSkip();
+
+    void onClickBarcodeProblem();
+
     void onAddItemsClicked();
 
     void getBatchDetailsByBarCode(String s, String itemId);
@@ -29,4 +32,16 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
     void onClickProductInfo();
 
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode, Dialog dialog);
+
+    String userName();
+
+    String storeId();
+
+    String terminalId();
+
+    String eposUrl();
+
+    String dataAreaId();
+
+    String stateCode();
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="@dimen/dimen8dp"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_rectangle_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen8dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="@dimen/dimen8dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen3dp"
+                android:text="Apollo247"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_11sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

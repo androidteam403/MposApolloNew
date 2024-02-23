@@ -36,4 +36,8 @@ public interface PickedUpOrdersMvpView extends MvpView {
     void onClickPrevPage();
 
     void onClickNextPage();
+
+    void onClickScanBarCode();
+
+    void onClickSearchBtn();
 }

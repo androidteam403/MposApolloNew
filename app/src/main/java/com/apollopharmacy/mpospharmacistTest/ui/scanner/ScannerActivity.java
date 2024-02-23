@@ -28,8 +28,13 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHold
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
+import com.google.zxing.ResultPoint;
+import com.journeyapps.barcodescanner.BarcodeCallback;
+import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,6 +44,11 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     private TextView textView;
     private boolean isFlashLightOn = false;
     private ActivityScannerBinding activityScannerBinding;
+    String selectedStatus = "";
+    boolean isPickedUpOrdersActivity;
+    boolean isOpenOrdersActivity;
+    boolean isOrdersFragment;
+    boolean isShippingLabelFragment;
 
 
     @Inject
@@ -73,6 +83,13 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
         mPresenter.onAttach(ScannerActivity.this);
 
 
+        if (getIntent() != null) {
+            selectedStatus = getIntent().getStringExtra("selectedStatus");
+            isPickedUpOrdersActivity = getIntent().getBooleanExtra("isPickedUpOrdersActivity", false);
+            isOpenOrdersActivity = getIntent().getBooleanExtra("isOpenOrderActivity", false);
+            isOrdersFragment = getIntent().getBooleanExtra("isOrdersFragment", false);
+            isShippingLabelFragment = getIntent().getBooleanExtra("isShippingLabelFragment", false);
+        }
         //Initialize barcode scanner view
         barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
         ImageView imageView = findViewById(R.id.squarebox);
@@ -113,9 +130,50 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
 //
 
         activityScannerBinding.switchFlashlight.setVisibility(View.VISIBLE);
-        capture = new CaptureManager(this, barcodeScannerView);
-        capture.initializeFromIntent(getIntent(), savedInstanceState);
-        capture.decode();
+        barcodeScannerView.initializeFromIntent(getIntent());
+        barcodeScannerView.decodeContinuous(new BarcodeCallback() {
+            @Override
+            public void barcodeResult(BarcodeResult result) {
+                Intent intent = new Intent();
+                String status = "";
+                if (isPickedUpOrdersActivity) {
+                    intent.putExtra("result", result.getText());
+                } else if (isShippingLabelFragment) {
+                    intent.putExtra("result", result.getText());
+                } else if (isOpenOrdersActivity) {
+                    intent.putExtra("result", result.getText());
+                } else if (isOrdersFragment) {
+                    intent.putExtra("result", result.getText());
+                } else {
+                    if (!selectedStatus.isEmpty()) {
+                        if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                            status = "PARTIAL";
+                        } else {
+                            status = result.getText();
+                        }
+                        boolean isBarcodeMatched = selectedStatus.equalsIgnoreCase(status);
+                        intent.putExtra("isBarcodeMatched", isBarcodeMatched);
+                    } else {
+                        if (result.getText().equalsIgnoreCase("PARTIALLY")) {
+                            status = "PARTIAL";
+                        } else {
+                            status = result.getText();
+                        }
+                        intent.putExtra("result", status);
+                    }
+                }
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public void possibleResultPoints(List<ResultPoint> resultPoints) {
+
+            }
+        });
+//        capture = new CaptureManager(this, barcodeScannerView);
+//        capture.initializeFromIntent(getIntent(), savedInstanceState);
+//        capture.decode();
     }
 
     @Override
@@ -136,25 +194,25 @@ public class ScannerActivity extends BaseActivity implements ScannerMvpView, Dec
     @Override
     protected void onResume() {
         super.onResume();
-        capture.onResume();
+        barcodeScannerView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        capture.onPause();
+        barcodeScannerView.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        capture.onDestroy();
+//        capture.onDestroy();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        capture.onSaveInstanceState(outState);
+//        capture.onSaveInstanceState(outState);
     }
 
     @Override

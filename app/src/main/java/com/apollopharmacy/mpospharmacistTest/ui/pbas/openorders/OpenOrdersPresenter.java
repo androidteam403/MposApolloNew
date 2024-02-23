@@ -157,11 +157,20 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
         getMvpView().onClickScanCode();
     }
 
+    public static boolean isFirstTime = true;
     @Override
     public void onGetOmsTransaction(String fulfilmentId, boolean isItemClick, boolean isAutoAssign, boolean isBulkSelection) {
         if (getMvpView().isNetworkConnected()) {
             if (!isAutoAssign)
+//                getMvpView().showLoading();
+            if (isBulkSelection) {
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    getMvpView().showLoading();
+                }
+            } else {
                 getMvpView().showLoading();
+            }
             getMvpView().hideKeyboard();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOmsTransactionRequest getOmsTransactionRequest = new GetOmsTransactionRequest();
@@ -177,16 +186,19 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
                 public void onResponse(Call<List<GetOMSTransactionResponse>> call, Response<List<GetOMSTransactionResponse>> response) {
                     if (response.isSuccessful()) {
                         if (!isAutoAssign)
-                            getMvpView().hideLoading();
+//                            getMvpView().hideLoading();
                         if (isAutoAssign) {
                             getMvpView().onSuccessGetOmsTransactionAutoAssign(response.body());
                         } else {
-                            if (isItemClick)
+                            if (isItemClick) {
+                                getMvpView().hideLoading();
                                 getMvpView().onSuccessGetOmsTransactionItemClick(response.body());
-                            else if (isBulkSelection)
+                            } else if (isBulkSelection) {
                                 getMvpView().onSuccessGetOmsTransactionBulkSelection(response.body());
-                            else
+                            } else {
+                                getMvpView().hideLoading();
                                 getMvpView().onSucessGetOmsTransaction(response.body());
+                            }
                         }
                     }
                 }
@@ -293,6 +305,7 @@ public class OpenOrdersPresenter<V extends OpenOrdersMvpView> extends BasePresen
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(Call<MPOSPickPackOrderReservationResponse> call, Response<MPOSPickPackOrderReservationResponse> response) {
+
                     getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {

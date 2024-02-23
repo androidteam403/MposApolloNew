@@ -26,11 +26,14 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.docmaster.DoctorMasterFr
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.EprescriptionslistFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.manualbilling.ManualBillingFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3Activity;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginSetUp;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
@@ -199,4 +202,10 @@ public interface ActivityComponent {
     void inject(StockInwardProcessFragment stockInwardProcessFragment);
 
     void inject(StockInwardProcessDetailsActivity stockInwardProcessDetailsActivity);
+
+    void inject(V3NavigationActivity v3NavigationActivity);
+
+    void inject(OpenOrdersV3Activity openOrdersV3Activity);
+
+    void inject(ShelfIdScannerActivity shelfIdScannerActivity);
 }

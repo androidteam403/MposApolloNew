@@ -71,6 +71,10 @@
             name="isOMSOrder"
             type="Boolean" />
 
+        <variable
+            name="isCameFromOrderDetailsScreenActivity"
+            type="Boolean" />
+
     </data>
 
     <LinearLayout
@@ -1790,7 +1794,20 @@
                 android:textAllCaps="false"
                 android:textSize="@dimen/text_dimen_17"
                 android:textStyle="bold"
-                android:visibility="@{paymentMode.generateBill &amp; isPaymentMode ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{isCameFromOrderDetailsScreenActivity ? View.GONE : paymentMode.generateBill &amp; isPaymentMode ? View.VISIBLE : View.GONE}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/fifty_dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:visibility="@{isCameFromOrderDetailsScreenActivity ? View.VISIBLE : View.GONE}">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </layout>

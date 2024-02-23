@@ -103,8 +103,15 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickOnHoldBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position);
 
-    void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse);
+    void onSuccessGetResonListApiCall(ReasonListResponse reasonListResponse, boolean isItemLevelOnHold, boolean isSkipItem);
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog);
 
+    void onClickOnHoldItem(GetOMSTransactionResponse.SalesLine salesLine, int position, int orderAdapterPos);
+
+    void onClickSkipItem(GetOMSTransactionResponse.SalesLine salesLine, int position);
+
+    void onClickRevertBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position);
+
+    void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position);
 }

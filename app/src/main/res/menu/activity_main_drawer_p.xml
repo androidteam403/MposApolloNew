@@ -17,12 +17,12 @@
         <item
             android:id="@+id/nav_packer_vtwo"
             android:icon="@drawable/ic_menu_orders"
-            android:title="@string/label_packer" />
+            android:title="@string/label_checker" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_biller_vtwo"
             android:icon="@drawable/ic_menu_billing"
-            android:title="@string/label_biller" />
+            android:title="@string/label_biller" />-->
         <item
             android:id="@+id/nav_shipping_label"
             android:icon="@drawable/ic_menu_billing"

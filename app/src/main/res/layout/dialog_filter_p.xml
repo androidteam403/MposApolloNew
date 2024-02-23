@@ -137,7 +137,8 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="Stock Availabilty"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dimen14sp" />
+                    android:textSize="@dimen/dimen14sp"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stock_available_filter"
@@ -145,7 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen5dp"
-                    android:layout_marginEnd="@dimen/five_dp" />
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"

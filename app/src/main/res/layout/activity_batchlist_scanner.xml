@@ -61,6 +61,142 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen45dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="FLID: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/flid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="FL2031010111102817172"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Box Number: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/box_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="15896_001"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Qty: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/picked_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="/"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/req_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Rack ID: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/rack_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="F-SC02-06B"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/dimen10dp"
                 android:layout_marginTop="@dimen/dimen10dp"
@@ -102,6 +238,7 @@
                         android:layout_weight=".6"
                         android:background="@color/yellow"
                         android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{() -> callback.onClickBarcodeProblem()}"
                         android:padding="@dimen/dimen10dp"
                         android:text="Barcode Problem?"
                         android:textAlignment="center"
@@ -109,6 +246,24 @@
                         android:textSize="@dimen/dimen16sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/scan_box_id_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen8dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/dimen10dp"
+                        android:text="Scan the Box ID"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>

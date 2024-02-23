@@ -1,5 +1,6 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +26,9 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityPickedUpOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogRackAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.adapter.PickedUpOrdersAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporders.model.OMSTransactionResponse;
@@ -136,7 +139,8 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     protected void setUp(View view) {
         hideKeyboard();
         PickerNavigationActivity.mInstance.setWelcome("");
-        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.welcome.setVisibility(View.GONE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
@@ -146,13 +150,13 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(false);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("");
         PickerNavigationActivity.mInstance.setWelcome("");
-        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.VISIBLE);
+        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.GONE);
 
         activityPickedUpOrdersBinding.terminalId.setText("Terminal ID : " + mvpPresenter.getTerminalId());
 //        activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 //        mvpPresenter.fetchFulfilmentOrderList();
         pulltoRrefresh();
-        searchByFulfilmentId();
+//        searchByFulfilmentId();
         activityPickedUpOrdersBinding.setFilter(mvpPresenter);
         activityPickedUpOrdersBinding.setCallback(mvpPresenter);
 
@@ -181,7 +185,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        }
 
 
-        activityPickedUpOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
+        /*activityPickedUpOrdersBinding.scancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity());
@@ -193,7 +197,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
                 intentIntegrator.initiateScan();
 
             }
-        });
+        });*/
     }
 
     private void pulltoRrefresh() {
@@ -1802,6 +1806,49 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
         }
     }
 
+    @Override
+    public void onClickScanBarCode() {
+        Intent intent = new Intent(getContext(), ScannerActivity.class);
+        intent.putExtra("isPickedUpOrdersActivity", true);
+        startActivityForResult(intent, 444);
+        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+    }
+
+    @Override
+    public void onClickSearchBtn() {
+        hideKeyboard();
+        TransactionHeaderResponse.OMSHeader omsHeader = null;
+        String status = "";
+        String searchText = activityPickedUpOrdersBinding.searchText.getText().toString();
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
+            if (boxId.equalsIgnoreCase(searchText)) {
+                omsHeader = omsHeaderList.get(i);
+            }
+        }
+        if (omsHeader != null) {
+            if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                status = omsHeader.getOverallOrderStatus().substring(0, 1);
+            }
+            if (status.equalsIgnoreCase("1")) {
+                startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+                getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            } else {
+                Toast.makeText(getContext(), "Searched Tray ID is partially picked! Kindly Pick “Fully Picked” Status Tray", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getContext(), "Kindly search the “Fully Picked” Tray Id", Toast.LENGTH_SHORT).show();
+            /*Dialog dialog = new Dialog(getContext());
+            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
+            dialog.setContentView(dialogRackAlertBinding.getRoot());
+            dialogRackAlertBinding.message.setText("The Box ID is Not Available \nKindly Check Again");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());*/
+        }
+    }
+
 
 //    @Override
 //    public void onItemClick(int position, String status, List<RackAdapter.RackBoxModel.ProductData> productDataList, List<RacksDataResponse.FullfillmentDetail> fullFillModelList, RacksDataResponse.FullfillmentDetail fillModel) {
@@ -1816,10 +1863,47 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
 //    }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        TransactionHeaderResponse.OMSHeader omsHeader = null;
+        if (requestCode == 444 && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+                String result = data.getStringExtra("result");
+//                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
+                    if (boxId.equalsIgnoreCase(result)) {
+                        omsHeader = omsHeaderList.get(i);
+                    }
+                }
+                if (omsHeader != null) {
+                    String status = "";
+                    if (omsHeader.getOverallOrderStatus() != null && !omsHeader.getOverallOrderStatus().isEmpty()) {
+                        status = omsHeader.getOverallOrderStatus().substring(0, 1);
+                    }
+                    if (status.equalsIgnoreCase("1")) {
+                        startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+                        getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+                    } else {
+                        Toast.makeText(getContext(), "Scanned Tray ID is partially picked! Kindly Pick “Fully Picked” Status Tray", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Kindly scan the “Fully Picked” Tray Id", Toast.LENGTH_SHORT).show();
+                    /*Dialog dialog = new Dialog(getContext());
+                    DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
+                    dialog.setContentView(dialogRackAlertBinding.getRoot());
+                    dialogRackAlertBinding.message.setText("Please scan valid Box Id");
+                    dialog.setCancelable(false);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> dialog.dismiss());*/
+                }
+            } else {
+                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
+        /*IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
             if (Result.getContents() == null) {
 //                Toast.makeText(getContext(), "cancelled", Toast.LENGTH_SHORT).show();
@@ -1835,7 +1919,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
-        }
+        }*/
 //        if (resultCode == RESULT_OK) {
 //            switch (requestCode) {
 //                case PICKUP_VERIFICATION_ACTIVITY:

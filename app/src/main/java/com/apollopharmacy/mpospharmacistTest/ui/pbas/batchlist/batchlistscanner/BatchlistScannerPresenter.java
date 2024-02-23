@@ -47,6 +47,11 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     }
 
     @Override
+    public void onClickBarcodeProblem() {
+        getMvpView().onClickBarcodeProblem();
+    }
+
+    @Override
     public void onAddItemsClicked() {
         getMvpView().onAddItemsClicked(false);
     }
@@ -256,5 +261,35 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
                 }
             });
         }
+    }
+
+    @Override
+    public String userName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String storeId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String terminalId() {
+        return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public String eposUrl() {
+        return getDataManager().getEposURL();
+    }
+
+    @Override
+    public String dataAreaId() {
+        return getDataManager().getDataAreaId();
+    }
+
+    @Override
+    public String stateCode() {
+        return getDataManager().getGlobalJson().getStateCode();
     }
 }

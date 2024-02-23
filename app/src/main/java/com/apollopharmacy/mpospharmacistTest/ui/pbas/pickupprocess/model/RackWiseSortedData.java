@@ -43,6 +43,7 @@ public class RackWiseSortedData {
     public void setGetOMSTransactionResponse(GetOMSTransactionResponse getOMSTransactionResponse) {
         this.getOMSTransactionResponse = getOMSTransactionResponse;
     }
+
     private int expandStatus = 0;
 
     public int getExpandStatus() {
@@ -66,6 +67,8 @@ public class RackWiseSortedData {
         private String boxIdStatus;
         private String orderItemNo;
 
+        private boolean isSelected;
+
         public String getBoxId() {
             return boxId;
         }
@@ -88,6 +91,14 @@ public class RackWiseSortedData {
 
         public void setOrderItemNo(String orderItemNo) {
             this.orderItemNo = orderItemNo;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
         }
     }
 }

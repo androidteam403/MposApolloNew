@@ -1012,6 +1012,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/order_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen4dp"
@@ -1025,11 +1026,12 @@
             <LinearLayout
                 android:id="@+id/order_child_layout"
                 android:layout_width="match_parent"
+                android:padding="5dp"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="#00bdbf"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
@@ -1048,7 +1050,7 @@
                         android:text="001"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen12sp" />
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <ImageView
                     android:layout_width="14dp"
@@ -1057,15 +1059,40 @@
                     android:layout_marginTop="@dimen/dimen8dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="-90"
-                    android:src="@drawable/partialcirculargreeenorange" />
+                    android:src="@drawable/partialcirculargreeenorange"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen5dp"
                     android:layout_marginTop="@dimen/dimen8dp"
                     android:layout_marginBottom="@dimen/dimen8dp"
+                    android:layout_marginStart="@dimen/dimen8dp"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/tagBoxLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/fifteen_dp"
+                            android:layout_height="@dimen/fifteen_dp"
+                            android:layout_marginEnd="5dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/cart"
+                            android:tint="#01576f" />
+
+                        <TextView
+                            android:id="@+id/boxId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BOX099"
+                            android:textColor="#01576f"
+                            android:textSize="@dimen/dimen12sp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1084,6 +1111,7 @@
                             android:id="@+id/fullfillmentID"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="FL20230117301108512"
                             android:textColor="@color/black"
@@ -1093,7 +1121,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1116,7 +1145,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1235,9 +1265,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/dimen5dp"
                     android:layout_marginEnd="@dimen/three_dp"
-                    android:layout_marginBottom="@dimen/dimen5dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -1270,6 +1298,72 @@
                             android:paddingEnd="@dimen/dimen7dp"
                             android:paddingBottom="@dimen/dimen2dp"
                             android:text="Not Available"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_9_sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/partially_picked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen25dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4dp"
+                            android:layout_marginEnd="@dimen/dimen7dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Status"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen_9_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_rectangle_bg"
+                            android:backgroundTint="#20b273"
+                            android:paddingStart="@dimen/dimen7dp"
+                            android:paddingTop="@dimen/dimen2dp"
+                            android:paddingEnd="@dimen/dimen7dp"
+                            android:paddingBottom="@dimen/dimen2dp"
+                            android:text="Partially Picked"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_9_sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/fully_picked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen25dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4dp"
+                            android:layout_marginEnd="@dimen/dimen7dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Status"
+                            android:textColor="#b6b4af"
+                            android:textSize="@dimen/dimen_9_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_rectangle_bg"
+                            android:backgroundTint="#20b273"
+                            android:paddingStart="@dimen/dimen7dp"
+                            android:paddingTop="@dimen/dimen2dp"
+                            android:paddingEnd="@dimen/dimen7dp"
+                            android:paddingBottom="@dimen/dimen2dp"
+                            android:text="Fully Picked"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dimen_9_sp" />
                     </LinearLayout>
@@ -1309,7 +1403,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:gravity="center_vertical|end">
+                        android:gravity="center_vertical|end"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1322,8 +1417,8 @@
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/ic_artboard_35"
                             android:layout_marginStart="@dimen/dimen2dp"
+                            android:src="@drawable/ic_artboard_35"
                             android:tint="#7d8282" />
                     </LinearLayout>
 
@@ -1334,7 +1429,6 @@
                         android:layout_below="@+id/timerLayout"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/dimen1dp"
-                        android:layout_marginTop="@dimen/dimen5dp"
                         android:layout_marginEnd="@dimen/dimen1dp"
                         android:background="@drawable/bg_onhold_enable_btn"
                         android:paddingStart="@dimen/dimen7dp"
@@ -1343,6 +1437,26 @@
                         android:paddingBottom="@dimen/dimen2dp"
                         android:text="On Hold"
                         android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/revert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/timerLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/dimen1dp"
+                        android:layout_marginEnd="@dimen/dimen1dp"
+                        android:background="@drawable/bg_onhold_enable_btn"
+                        android:backgroundTint="#796970"
+                        android:paddingStart="@dimen/dimen7dp"
+                        android:paddingTop="@dimen/dimen2dp"
+                        android:paddingEnd="@dimen/dimen7dp"
+                        android:paddingBottom="@dimen/dimen2dp"
+                        android:visibility="gone"
+                        android:text="Revert"
+                        android:textColor="@color/white"
                         android:textSize="9sp" />
 
                     <LinearLayout
@@ -1350,6 +1464,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="@dimen/dimen1dp"
                         android:gravity="center_vertical|bottom">
 
                         <TextView

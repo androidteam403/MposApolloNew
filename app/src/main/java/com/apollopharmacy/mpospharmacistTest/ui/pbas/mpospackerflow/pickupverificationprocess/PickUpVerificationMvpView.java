@@ -3,12 +3,18 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverif
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
 import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.MedicineBatchResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter.RackAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PickUpVerificationMvpView extends MvpView {
@@ -17,14 +23,25 @@ public interface PickUpVerificationMvpView extends MvpView {
     void onPartialWarningYesClick();
 
     void onPartialWarningNoClick();
+    void onSucessfullFulfilmentIdList(OMSTransactionHeaderResModel omsHeader);
+    void showTransactionID(TransactionIDResModel model);
+    void getCorporateList(CorporateModel corporateModel);
+    void getDoctorSearchList(DoctorSearchResModel doctorSearchResModel);
 
     void onClickReVerificatio();
 
     void onClickUpdate(int pos, String refNo);
 
     void onClickVerification();
+    void CheckBatchStockSuccess(CustomerDataResBean response);
+
+    void LoadOmsOrderSuccess(CustomerDataResBean response);
+
+    void LoadOmsOrderFailure(CustomerDataResBean response);
+    void CheckBatchStockFailure(CustomerDataResBean response);
 
     void onSuccessGetOMSTransaction(List<GetOMSTransactionResponse> response);
+    void onSuccessGetOMSTransactionBiller(ArrayList<CustomerDataResBean> response);
 
     void onSuccessGetOMSPhysicalBatch(MedicineBatchResBean response);
 

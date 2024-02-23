@@ -2,38 +2,46 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="@dimen/dimen100dp"
-        android:layout_height="@dimen/dimen35dp"
+        android:id="@+id/parent_layout"
+        android:layout_width="80dp"
+        android:layout_height="55dp"
         android:layout_marginEnd="@dimen/dimen5dp"
         android:layout_marginBottom="@dimen/dimen5dp"
-        android:background="@drawable/right_rounded_bg"
+        android:background="@drawable/rack_row_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingBottom="0.1dp">
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="@dimen/dimen20dp"
             android:layout_height="@dimen/dimen20dp"
             android:layout_marginStart="@dimen/dimen5dp"
             android:layout_marginEnd="@dimen/dimen10dp"
             android:src="@drawable/cart"
-            android:tint="@color/white" />
-
-        <TextView
-            android:id="@+id/rack_box_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen8dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dimen10sp" />
+            android:tint="@color/white" />-->
 
         <TextView
             android:id="@+id/order_item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="B1"
+            android:layout_marginStart="@dimen/dimen10dp"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dimen14sp" />
+            android:textSize="@dimen/dimen16sp" />
+
+        <TextView
+            android:id="@+id/rack_box_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dimen10dp"
+            android:paddingEnd="@dimen/dimen10dp"
+            android:gravity="center"
+            android:background="@drawable/rack_row_order_item_bg"
+            android:layout_marginStart="@dimen/dimen8dp"
+            android:text="001014"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen12sp" />
     </LinearLayout>
 </layout>

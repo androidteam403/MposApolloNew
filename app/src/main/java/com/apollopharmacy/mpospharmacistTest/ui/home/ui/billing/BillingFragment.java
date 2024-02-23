@@ -59,6 +59,7 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -316,7 +317,9 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
         newstaffApiRes = new PharmacyStaffApiRes();
         newstaffApiRes = staffApiRes;
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
-        fragmentBillingBinding.availablePoints.setText(String.valueOf(availableAmount));
+        DecimalFormat d = new DecimalFormat("#.##");
+        fragmentBillingBinding.availablePoints.setText(d.format(availableAmount));
+        /*fragmentBillingBinding.availablePoints.setText(String.valueOf(availableAmount));*/
         fragmentBillingBinding.getCorporate().setPrg_Tracking(fragmentBillingBinding.prgTrackingEdit.getText().toString());
         fragmentBillingBinding.customerDetailsArrow.setEnabled(false);
 //        fragmentBillingBinding.doctorDetailsArrow.setEnabled(false);
@@ -617,6 +620,11 @@ public class BillingFragment extends BaseFragment implements BillingMvpView, Mai
     public void onSuccessPatientMaster(PatientMasterResponse patientMasterResponse) {
         this.patientMasterList = patientMasterResponse.getDropdownValue();
         setUp();
+    }
+
+    @Override
+    public String getTransactionId() {
+        return transactionIdItem.getTransactionID();
     }
 
     private boolean stopLooping;

@@ -499,7 +499,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
     }
 
     @Override
-    public void getReasonList() {
+    public void getReasonList(boolean isItemLevelOnHold, boolean isSkipItem) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
@@ -517,7 +517,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     if (response.isSuccessful()) {
                         getMvpView().hideLoading();
                         if (response.isSuccessful() && response.body().getData() != null && response.body().getData().size() > 0) {
-                            getMvpView().onSuccessGetResonListApiCall(response.body());
+                            getMvpView().onSuccessGetResonListApiCall(response.body(), isItemLevelOnHold, isSkipItem);
                         }
                     }
                 }
@@ -548,7 +548,7 @@ public class PickupProcessPresenter<V extends PickupProcessMvpView> extends Base
                     order.setStoreID(getDataManager().getStoreId());
                     order.setTerminalID(getDataManager().getTerminalId());
                     order.setTransactionID(selectedOmsHeaderList.get(i).getRefno());
-                    order.setReasonCode(reasonCode);
+                    order.setReasonCode(selectedOmsHeaderList.get(i).getOrderReason());
                     ordersList.add(order);
                 }
             }

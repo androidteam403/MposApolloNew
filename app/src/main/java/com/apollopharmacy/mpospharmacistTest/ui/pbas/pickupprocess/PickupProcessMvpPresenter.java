@@ -50,7 +50,7 @@ public interface PickupProcessMvpPresenter<V extends PickupProcessMvpView> exten
 
     GetGlobalConfingRes getGlobalConfigRes();
 
-    void getReasonList();
+    void getReasonList(boolean isItemLevelOnHold, boolean isSkipItem);
 
     void mposPickPackOrderReservationApiCall(int requestType, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String reasonCode, Dialog dialog);
 }

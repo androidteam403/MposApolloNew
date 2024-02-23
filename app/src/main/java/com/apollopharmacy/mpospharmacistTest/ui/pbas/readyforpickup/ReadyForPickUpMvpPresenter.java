@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup;
 
 import com.apollopharmacy.mpospharmacistTest.ui.base.MvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface ReadyForPickUpMvpPresenter<V extends ReadyForPickUpMvpView> ext
     String eposUrl();
 
     String dataAreaId();
+
+    GetGlobalConfingRes getGlobalConfiguration();
 }

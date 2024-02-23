@@ -442,6 +442,16 @@ public class GetOMSTransactionResponse implements Serializable {
         @Expose
         private String PreferredBatch;
 
+        public String getReason() {
+            return reason;
+        }
+
+        public void setReason(String reason) {
+            this.reason = reason;
+        }
+
+        private String reason;
+
         public String getPackerStatus() {
             return packerStatus;
         }
@@ -713,9 +723,29 @@ public class GetOMSTransactionResponse implements Serializable {
         private GetBatchInfoRes getBatchInfoRes;
         private String fullfillmentId;
         private String orderItemNo;
+        private boolean isOrderItemNoSelected;
         private String pickedQty;
         private String pickerStatus;
         private boolean isOnHold;
+        private boolean isSkip;
+        private String startTime;
+        private String endTime;
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
 
 
         public GetBatchInfoRes getGetBatchInfoRes() {
@@ -1520,6 +1550,14 @@ public class GetOMSTransactionResponse implements Serializable {
             this.orderItemNo = orderItemNo;
         }
 
+        public boolean isOrderItemNoSelected() {
+            return isOrderItemNoSelected;
+        }
+
+        public void setOrderItemNoSelected(boolean isOrderItemNoSelected) {
+            this.isOrderItemNoSelected = isOrderItemNoSelected;
+        }
+
         public String getPickedQty() {
             return pickedQty;
         }
@@ -1542,6 +1580,14 @@ public class GetOMSTransactionResponse implements Serializable {
 
         public void setOnHold(boolean onHold) {
             isOnHold = onHold;
+        }
+
+        public boolean isSkip() {
+            return isSkip;
+        }
+
+        public void setSkip(boolean skip) {
+            isSkip = skip;
         }
     }
 

@@ -421,9 +421,10 @@
                             android:id="@+id/scannedCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
                             android:text="001"
                             android:textColor="#757575"
-                            android:textSize="8sp"
+                            android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
