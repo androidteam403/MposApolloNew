@@ -66,6 +66,8 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
     private boolean isScannedRackSelfID = false;
     private boolean isScannedBoxId = false;
 
+    private BarcodeResult barcodeResult;
+
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,12 +145,16 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         }
         barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
-            public void barcodeResult(BarcodeResult result) {
-                BeepManager beepManager = new BeepManager(ShelfIdScannerActivity.this);
+            public void barcodeResult(BarcodeResult barcodeResult) {
+                ShelfIdScannerActivity.this.barcodeResult = barcodeResult;
+                hanlder.removeCallbacks(barcodeResultRunnable);
+                hanlder.postDelayed(barcodeResultRunnable, 300);
+
+               /* BeepManager beepManager = new BeepManager(ShelfIdScannerActivity.this);
                 beepManager.playBeepSoundAndVibrate();
                 if (!isRackIdScanned) {
 //                    isRackIdScanned = true;
-                    if (result.getText().equalsIgnoreCase(salesLine.getRackId())) {
+                    if (barcodeResult.getText().equalsIgnoreCase(salesLine.getRackId())) {
                         barcodeScannerView.pause();
                         if (!isScannedRackSelfID) {
                             Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
@@ -202,7 +208,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                     }
                 } else {
                     if (!isScannedBoxId) {
-                        if (result.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
+                        if (barcodeResult.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
                             barcodeScannerView.pause();
                             isScannedBoxId = true;
                             Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
@@ -239,7 +245,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                             });
                         }
                     }
-                }
+                }*/
             }
 
             @Override
@@ -250,6 +256,109 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
 
         shelfIdScannerBinding.close.setOnClickListener(view -> onClickClose());
     }
+
+    private Handler hanlder = new Handler();
+    private Runnable barcodeResultRunnable = new Runnable() {
+        @Override
+        public void run() {
+            BeepManager beepManager = new BeepManager(ShelfIdScannerActivity.this);
+            beepManager.playBeepSoundAndVibrate();
+            if (!isRackIdScanned) {
+//                    isRackIdScanned = true;
+                if (barcodeResult.getText().equalsIgnoreCase(salesLine.getRackId())) {
+                    barcodeScannerView.pause();
+                    if (!isScannedRackSelfID) {
+                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                        DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+                        dialog.setContentView(shelfScanSuccessBinding.getRoot());
+                        dialog.setCancelable(false);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        isScannedRackSelfID = true;
+                        new Handler().postDelayed(() -> {
+                            if (dialog != null && dialog.isShowing()) {
+                                dialog.dismiss();
+                                isRackIdScanned = true;
+                                if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
+                                    isScannedRackSelfID = true;
+                                    Intent intent = new Intent(ShelfIdScannerActivity.this, BatchListActivity.class);
+                                    intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                    intent.putExtra("salesLine", (Serializable) salesLine);
+                                    intent.putExtra("orderAdapterPos", orderAdapterPos);
+                                    intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+                                    intent.putExtra("noBatchDetails", noBatchDetails);
+                                    startActivityForResult(intent, BATCH_LIST_ACTIVITY);
+                                } else {
+                                    isScannedRackSelfID = true;
+                                    Intent intent = new Intent(ShelfIdScannerActivity.this, BatchlistScannerActivity.class);
+                                    intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                    intent.putExtra("salesLine", (Serializable) salesLine);
+                                    intent.putExtra("orderAdapterPos", orderAdapterPos);
+                                    intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
+                                    intent.putExtra("noBatchDetails", noBatchDetails);
+                                    startActivityForResult(intent, BATCH_LIST_SCANNER);
+                                    //finish();
+                                }
+                            }
+                        }, 1000);
+                        dialog.show();
+                    }
+                } else {
+                    barcodeScannerView.pause();
+                    isRackIdScanned = false;
+                    Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                    DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                    dialog.setContentView(dialogRackAlertBinding.getRoot());
+                    dialogRackAlertBinding.message.setText("Please enter valid rack ID");
+                    dialog.setCancelable(false);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                        barcodeScannerView.resume();
+                        dialog.dismiss();
+                    });
+                }
+            } else {
+                if (!isScannedBoxId) {
+                    if (barcodeResult.getText().equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
+                        barcodeScannerView.pause();
+                        isScannedBoxId = true;
+                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                        DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+                        dialog.setContentView(shelfScanSuccessBinding.getRoot());
+                        dialog.setCancelable(false);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+                        new Handler().postDelayed(() -> {
+                            if (dialog != null && dialog.isShowing()) {
+                                dialog.dismiss();
+                                Intent i = new Intent();
+                                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                                i.putExtra("finalStatus", (String) statusBatchlist);
+                                setResult(RESULT_OK, i);
+                                finish();
+                            }
+                        }, 1000);
+                        dialog.show();
+                    } else {
+                        barcodeScannerView.pause();
+                        isScannedBoxId = true;
+                        Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
+                        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                        dialog.setContentView(dialogRackAlertBinding.getRoot());
+                        dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
+                        dialog.setCancelable(false);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+                        dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                            barcodeScannerView.resume();
+                            isScannedBoxId = false;
+                            dialog.dismiss();
+                        });
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     protected void setUp() {
@@ -292,25 +401,41 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         super.onActivityResult(requestCode, resultCode, data);
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_SCANNER && resultCode == RESULT_OK) {
-            shelfIdScannerBinding.message.setText("Scan the Box ID");
-            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
-            statusBatchlist = data.getStringExtra("finalStatus");
-            isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
-            boolean isBarCodeProblem = data.getBooleanExtra("isBarCodeProblem", false);
-            if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty() != null) {
-                if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty().isEmpty()) {
-                    shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+            boolean isBackPressedFromBatchListScanner = data.getBooleanExtra("IS_BACKFROM_BATCH_SCANNER_ACTIVITY", false);
+            if (!isBackPressedFromBatchListScanner) {
+                shelfIdScannerBinding.message.setText("Scan the Box ID");
+                selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
+                statusBatchlist = data.getStringExtra("finalStatus");
+                isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
+                boolean isBarCodeProblem = data.getBooleanExtra("isBarCodeProblem", false);
+                if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty() != null) {
+                    if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty().isEmpty()) {
+                        double scannedQty = 0.0;
+                        if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes() != null
+                                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList() != null
+                                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size() > 0) {
+                            for (GetBatchInfoRes.BatchListObj batchListObj : selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList()) {
+                                scannedQty = scannedQty + batchListObj.getREQQTY();
+                            }
+                        }
+                        String scannedQtyString = String.valueOf(scannedQty);
+                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQtyString.substring(0, scannedQtyString.indexOf(".")));
+                        shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
+                    }
+                } else {
+                    shelfIdScannerBinding.pickedQty.setText("0");
+                }
+                if (!isBarCodeProblem) {
+                    Intent i = new Intent();
+                    i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+                    i.putExtra("finalStatus", (String) statusBatchlist);
+                    i.putExtra("IS_BATCH_HOLD", isBatchHold);
+                    setResult(RESULT_OK, i);
+                    finish();
                 }
             } else {
-                shelfIdScannerBinding.pickedQty.setText("0");
-            }
-            if (!isBarCodeProblem) {
-                Intent i = new Intent();
-                i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
-                i.putExtra("finalStatus", (String) statusBatchlist);
-                i.putExtra("IS_BATCH_HOLD", isBatchHold);
-                setResult(RESULT_OK, i);
-                finish();
+                isRackIdScanned = false;
+                isScannedRackSelfID = false;
             }
         } else if (requestCode == BATCH_LIST_ACTIVITY && resultCode == RESULT_OK) {
 //            shelfIdScannerBinding.completeBox.setVisibility(View.VISIBLE);

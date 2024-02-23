@@ -733,7 +733,7 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:onClick="@{()-> callback.onClickForwardToPacker()}"
-            android:text="@string/label_forward_to_packer"
+            android:text="@string/label_continue"
             android:textAllCaps="true"
             android:textColor="@color/text_color_grey"
             android:visibility="gone" />
