@@ -202,6 +202,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.GONE);
         }
+        if (!isAllCompleted) {
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
 
         NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
