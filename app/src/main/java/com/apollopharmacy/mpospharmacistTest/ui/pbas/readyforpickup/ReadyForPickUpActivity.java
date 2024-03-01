@@ -35,6 +35,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.ScanQ
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.UnTagQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -85,6 +86,9 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     int maxAllowedOrder = 0;
     private boolean isBackPressed = false;
 
+    public  static   boolean camera_zebrascanner=false;
+
+    public static final int ZEBRA_ACTIVITY_REQUEST_CODE = 0;
 
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, int maxAllowedOrder) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
@@ -217,7 +221,11 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         scannedItemPos = pos;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
         BillerOrdersActivity.isBillerActivity = false;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+       /* new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);*/
+
+        Intent intent = new Intent(this, ZebrascannerActivity.class);
+        startActivityForResult(intent, ZEBRA_ACTIVITY_REQUEST_CODE);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
@@ -861,5 +869,18 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             e.printStackTrace();
         }*/
 
+    }
+    @Override
+    protected  void onResume()
+    {
+        super.onResume();
+
+        if(camera_zebrascanner)
+        {
+            camera_zebrascanner=false;
+            new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+        }
     }
 }

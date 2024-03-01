@@ -37,6 +37,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.adapter.BatchListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
@@ -1041,6 +1042,7 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
+        ZebraSelfscanner.isRackIdScanned=false;
         if (dialog1 != null && dialog1.isShowing()) {
             dialog1.dismiss();
         }

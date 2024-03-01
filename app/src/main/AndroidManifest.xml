@@ -325,6 +325,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/StockInwardProcessDetailsActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+
+        <activity
+            android:name=".ui.zebrascanner.ZebrascannerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.pbas.batchlist.batchlistscanner.ZebraBatchlistScanner"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pbas.pickupsummary.scanner.PickupSummaryZebrascannerActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

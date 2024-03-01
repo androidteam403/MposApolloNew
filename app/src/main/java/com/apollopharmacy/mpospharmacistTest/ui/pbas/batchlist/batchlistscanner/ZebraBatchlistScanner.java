@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -13,18 +12,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
-import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistScannerBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.ActivityZebraBatchlistScannerBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogAddBatchDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
@@ -49,26 +46,30 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
-import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-public class BatchlistScannerActivity extends BaseActivity implements BatchlistScannerMvpView, DecoratedBarcodeView.TorchListener, CaptureManagerCallback {
+public class ZebraBatchlistScanner extends BaseActivity implements  BatchlistScannerMvpView
+{
     private static final int BATCH_LIST_DETAILS = 888;
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
     private boolean isFlashLightOn = false;
-    private ActivityBatchlistScannerBinding activityBatchlistScannerBinding;
+    private ActivityZebraBatchlistScannerBinding activityBatchlistScannerBinding;
     private ScannedBatchListAdapter scannedBatchListAdapter;
     private List<GetBatchInfoRes.BatchListObj> batchList = new ArrayList<>();
     private List<GetBatchInfoRes.BatchListObj> scannedBatchList = new ArrayList<>();
@@ -98,27 +99,24 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     private String scannedQty;
     public static boolean isBoxIdScan;
 
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, BatchlistScannerActivity.class);
-    }
+    double scannedQuantity = 0.0;
+   // GetOMSTransactionResponse.SalesLine salesLine;
+  //  List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList;
+  //  List<GetBatchInfoRes.BatchListObj> batchList;
+   // List<GetBatchInfoRes.BatchListObj> scannedBatchList;
+    GetBatchInfoRes.BatchListObj batchListObj;
+    List<GetBatchInfoRes.BatchListObj> salesLineBatchList = new ArrayList<>();
+    Context applicationContext;
+    Activity activity;
+    DecoratedBarcodeView barcodeView;
 
-    @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        double diagonalInches = UiUtils.displaymetrics(this);
-        if (diagonalInches >= 10) {
-            Log.i("Tab inches-->", "10 inches");
-            //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            Log.i("Tab inches below 7 and 7 inces-->", "7 inches");
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        }
-        activityBatchlistScannerBinding = DataBindingUtil.setContentView(this, R.layout.activity_batchlist_scanner);
+        //setContentView(R.layout.activity_zebra_batchlist_scanner);
+        activityBatchlistScannerBinding=DataBindingUtil.setContentView(this, R.layout.activity_zebra_batchlist_scanner);
         getActivityComponent().inject(this);
-        mPresenter.onAttach(BatchlistScannerActivity.this);
+        mPresenter.onAttach(ZebraBatchlistScanner.this);
         activityBatchlistScannerBinding.setCallback(mPresenter);
 
         String itemId = "";
@@ -141,12 +139,19 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         eposUrl = mPresenter.eposUrl();
         dataAreaId = mPresenter.dataAreaId();
         stateCode = mPresenter.stateCode();
-        //Initialize barcode scanner view
-        barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
-        ImageView imageView = findViewById(R.id.squarebox);
-        barcodeScannerView.setTorchListener(this);
 
-        barcodeScannerView.initializeFromIntent(getIntent());
+        //Initialize barcode scanner view
+       // barcodeScannerView = findViewById(R.id.zxing_barcode_scanners);
+       // ImageView imageView = findViewById(R.id.squarebox);
+       // barcodeScannerView.setTorchListener(this);
+
+       // barcodeScannerView.initializeFromIntent(getIntent());
+        activityBatchlistScannerBinding.scanbarcode.requestFocus();
+
+
+
+
+
         String finalItemId = itemId;
         activityBatchlistScannerBinding.flid.setText(salesLine.getFullfillmentId());
         if (selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode() != null) {
@@ -187,7 +192,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 //
 
 //        activityBatchlistScannerBinding.switchFlashlight.setVisibility(View.VISIBLE);
-        capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
+        /*capture = new CaptureManager(this, barcodeScannerView, getApplicationContext());
         this.savedInstanceState = savedInstanceState;
         capture.setCaptureManagerCallback(this);
         capture.setSalesLine(salesLine);
@@ -198,7 +203,32 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             }
         }
         capture.initializeFromIntent(getIntent(), savedInstanceState);
-        capture.decode();
+        capture.decode();*/
+
+
+        activityBatchlistScannerBinding.scanbarcode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > 0)
+                {
+                    Scanbarcode(String.valueOf(s));
+                }
+            }
+        });
+
+        activityBatchlistScannerBinding.scanbarcode.setOnTouchListener(otl);
+
+
 
         /*ArrayList<GetBatchInfoRes.BatchListObj> filteredList = new ArrayList<>();
         activityBatchlistScannerBinding.search.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -245,6 +275,12 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         searchByFulfilmentId();
     }
 
+    private View.OnTouchListener otl = new View.OnTouchListener() {
+        public boolean onTouch (View v, MotionEvent event) {
+            return true; // the listener has consumed the event
+        }
+    };
+
 
     private void searchByFulfilmentId() {
         activityBatchlistScannerBinding.searchbybatchId.addTextChangedListener(new TextWatcher() {
@@ -278,12 +314,126 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         });
     }
 
+
+    public  void Scanbarcode(String s)
+    {
+        if (isBatchListScanner && !isBarCodeProblem) {
+            onBarcodeScan(s);
+        } else if (scannedQuantity == salesLine.getQty()) {
+
+            onCompleteScan(s, salesLineBatchList);
+            activityBatchlistScannerBinding.scanbarcode.setText("");
+            activityBatchlistScannerBinding.scanbarcode.requestFocus();
+
+        } else {
+            mPresenter.getBatchDetailsByzebraBarCode(s, salesLine.getItemId(), eposUrl,storeId, dataAreaId, terminalId, stateCode);
+           // new CaptureManagerController(activity, CaptureManager.this).getBatchDetailsByBarCode(result.getText(), salesLine.getItemId(), BatchlistScannerActivity.eposUrl, BatchlistScannerActivity.storeId, BatchlistScannerActivity.dataAreaId, BatchlistScannerActivity.terminalId, BatchlistScannerActivity.stateCode);
+        }
+    }
+
+
+    @Override
+    public void onSuccessGetBatchDetailszebraBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
+        if (isBatchListScanner) {
+            batchList = scannedBatchList;
+            isBatchListScanner = false;
+        } else {
+            batchList = getBatchDetailsByBarcodeResponse.getBatchList();
+        }
+        boolean isMatched = false;
+        if (batchList != null && batchList.size() > 0) {
+            for (int i = 0; i < batchList.size(); i++) {
+                if (batchList.get(i).isNearByExpiry()) {
+                    batchList.remove(i);
+                    i--;
+                }
+            }
+            Collections.sort(batchList, (o1, o2) -> {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy"); // 31-Jan-2024
+                Date date1 = null;
+                Date date2 = null;
+                try {
+                    date1 = dateFormat.parse(o1.getExpDate());
+                    date2 = dateFormat.parse(o2.getExpDate());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return date1.compareTo(date2);
+            });
+            for (int i = 0; i < batchList.size(); i++) {
+                if (salesLine.getPreferredBatch().equalsIgnoreCase(batchList.get(i).getBatchNo())) {
+                    // if qoh available add batch to sales line and increase req qty of batch item
+                    if (batchList.get(i).getQ_O_H() != null) {
+                        isMatched = true;
+                        if (salesLineBatchList.size() > 0) {
+                            for (int j = 0; j < salesLineBatchList.size(); j++) {
+                                if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                                    salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
+                                } else {
+                                    batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
+                                    salesLineBatchList.add(this.batchList.get(j));
+                                }
+                            }
+                        } else {
+                            batchList.get(i).setREQQTY(batchList.get(i).getREQQTY() + 1);
+                            salesLineBatchList.add(batchList.get(i));
+                        }
+                    }
+                    batchListObj = batchList.get(i);
+                }
+            }
+            if (!isMatched) {
+                Collections.sort(batchList, (o1, o2) -> {
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                    long diff1 = 0;
+                    long diff2 = 0;
+                    try {
+                        diff1 = Math.abs(dateFormat.parse(o1.getExpDate()).getTime() - currentDate.getTime());
+                        diff2 = Math.abs(dateFormat.parse(o2.getExpDate()).getTime() - currentDate.getTime());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return Long.compare(diff1, diff2);
+                });
+                batchListObj = batchList.get(0);
+                if (salesLineBatchList.size() > 0) {
+                    for (int j = 0; j < salesLineBatchList.size(); j++) {
+                        if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                            salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
+                        } else {
+                            batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
+                            salesLineBatchList.add(this.batchList.get(j));
+                        }
+                    }
+                } else {
+                    batchListObj.setREQQTY(batchListObj.getREQQTY() + 1);
+                    salesLineBatchList.add(batchListObj);
+                }
+            }
+            double totalQty = 0.0;
+            for (int i = 0; i < salesLineBatchList.size(); i++) {
+                totalQty = totalQty + salesLineBatchList.get(i).getREQQTY();
+            }
+            scannedQuantity = totalQty;
+            if (scannedQuantity == salesLine.getQty()) {
+                onScanned(salesLineBatchList);
+                dialogShow(Double.toString(scannedQuantity));
+                enableCompleteBoxBtn();
+            } else {
+                onScanned(salesLineBatchList);
+                dialogShow(Double.toString(scannedQuantity));
+            }
+        } else {
+            invalidBarcode();
+        }
+    }
     @Override
     protected void setUp() {
 
     }
 
-    @Override
+  /*  @Override
     public void onTorchOn() {
 //        activityBatchlistScannerBinding.switchFlashlight.setText(R.string.turn_off_flashlight);
     }
@@ -291,19 +441,19 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @Override
     public void onTorchOff() {
 //        activityBatchlistScannerBinding.switchFlashlight.setText(R.string.turn_on_flashlight);
-    }
+    }*/
 
     @Override
     protected void onResume() {
         super.onResume();
-        barcodeScannerView.resume();
+//        barcodeScannerView.resume();
 //        capture.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        barcodeScannerView.pause();
+       // barcodeScannerView.pause();
 //        capture.onPause();
     }
 
@@ -322,23 +472,21 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 //        capture.onSaveInstanceState(outState);
     }
 
-    @Override
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return barcodeScannerView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        Intent intent = new Intent();
-        intent.putExtra("IS_BACKFROM_BATCH_SCANNER_ACTIVITY", true);
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        super.onBackPressed();
+        ZebraSelfscanner.isRackIdScanned=false;
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        ZebraSelfscanner.isRackIdScanned=false;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
@@ -360,14 +508,15 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
             return true;
         }
+        ZebraSelfscanner.isRackIdScanned=false;
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClickClose() {
-       /* super.onBackPressed();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);*/
-        onBackPressed();
+        super.onBackPressed();
+        ZebraSelfscanner.isRackIdScanned=false;
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
     @Override
@@ -379,7 +528,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     public void onClickBarcodeProblem() {
 //        if (batchList != null && batchList.size() > 0) {
         isBarCodeProblem = true;
-        Intent intent = new Intent(BatchlistScannerActivity.this, BatchListActivity.class);
+        Intent intent = new Intent(ZebraBatchlistScanner.this, BatchListActivity.class);
         intent.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
         intent.putExtra("orderAdapterPos", orderAdapterPos);
         intent.putExtra("newSelectedOrderAdapterPos1", newSelectedOrderAdapterPos);
@@ -970,6 +1119,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
 
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog1) {
+        ZebraSelfscanner.isRackIdScanned=false;
         if (dialog1 != null && dialog1.isShowing()) {
             dialog1.dismiss();
         }
@@ -992,13 +1142,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         dialog.show();
     }
 
-    @Override
-    public void onSuccessGetBatchDetailszebraBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {
 
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
     public void dialogShow(String scannedQty) {
         this.scannedQty = scannedQty;
         activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
@@ -1007,7 +1151,10 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         if (Double.parseDouble(scannedQty) == salesLine.getQty()) {
             showCompleteDialog();
         } else {
-            initiateScanner();
+            activityBatchlistScannerBinding.scanbarcode.setText("");
+            activityBatchlistScannerBinding.scanbarcode.requestFocus();
+
+            //initiateScanner();
         }
         /*dialog = new Dialog(this);
         DialogScanBinding dialogScanBinding = DataBindingUtil.inflate(
@@ -1036,15 +1183,17 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
     @SuppressLint("SetTextI18n")
     private void showCompleteDialog() {
         isBoxIdScan = true;
-        Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-        DialogShelfScanSuccessBinding dialogShelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+        Dialog dialog = new Dialog(ZebraBatchlistScanner.this);
+        DialogShelfScanSuccessBinding dialogShelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ZebraBatchlistScanner.this), R.layout.dialog_shelf_scan_success, null, false);
         dialog.setContentView(dialogShelfScanSuccessBinding.getRoot());
         dialogShelfScanSuccessBinding.message.setText("Product Scanned Successfully");
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         new Handler().postDelayed(() -> {
             dialog.dismiss();
-            initiateScanner();
+            activityBatchlistScannerBinding.scanbarcode.setText("");
+            activityBatchlistScannerBinding.scanbarcode.requestFocus();
+            //initiateScanner();
         }, 2000);
         dialog.show();
         /*Dialog dialog = new Dialog(BatchlistScannerActivity.this);
@@ -1060,13 +1209,14 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         });*/
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
+
+
     public void onCompleteScan(String tryId, List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
         BatchlistScannerActivity.isBarCodeProblem = false;
+        ZebraSelfscanner.isRackIdScanned=false;
         if (tryId.equalsIgnoreCase(selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode())) {
-            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+            Dialog dialog = new Dialog(ZebraBatchlistScanner.this);
+            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ZebraBatchlistScanner.this), R.layout.dialog_shelf_scan_success, null, false);
             dialog.setContentView(shelfScanSuccessBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -1087,37 +1237,42 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             }, 1000);
             dialog.show();
         } else {
-            Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
-            dialog.setContentView(shelfScanSuccessBinding.getRoot());
+
+            Dialog dialog = new Dialog(ZebraBatchlistScanner.this);
+            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ZebraBatchlistScanner.this), R.layout.dialog_rack_alert, null, false);
+            dialog.setContentView(dialogRackAlertBinding.getRoot());
+            dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            shelfScanSuccessBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
             dialog.show();
-            new Handler().postDelayed(() -> {
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
                 dialog.dismiss();
-                initiateScanner();
-            }, 2000);
+                activityBatchlistScannerBinding.scanbarcode.setText("");
+                activityBatchlistScannerBinding.scanbarcode.requestFocus();
+               // initiateScanner();
+            });
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
+
     public void enableCompleteBoxBtn() {
         activityBatchlistScannerBinding.scanBoxIdText.setVisibility(View.VISIBLE);
         activityBatchlistScannerBinding.btnLayout.setVisibility(View.GONE);
+
+        activityBatchlistScannerBinding.scanbarcode.setText("");
+        activityBatchlistScannerBinding.scanbarcode.requestFocus();
+        activityBatchlistScannerBinding.scanbarcode.setHint("Scan BoxId");
     }
 
-    @Override
+
     public void onScanned(List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
         this.batchList = salesLineBatchList;
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
+
     public void invalidBarcode() {
-        Dialog dialog = new Dialog(BatchlistScannerActivity.this);
-        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(BatchlistScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+        Dialog dialog = new Dialog(ZebraBatchlistScanner.this);
+        DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ZebraBatchlistScanner.this), R.layout.dialog_rack_alert, null, false);
         dialog.setContentView(dialogRackAlertBinding.getRoot());
         dialogRackAlertBinding.message.setText("Product Barcode Doesn’t Match with the Requested Item");
         dialog.setCancelable(false);
@@ -1125,11 +1280,15 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         dialog.show();
         dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v -> {
             dialog.dismiss();
-            initiateScanner();
+            activityBatchlistScannerBinding.scanbarcode.setText("");
+            activityBatchlistScannerBinding.scanbarcode.requestFocus();
+
+
+           // initiateScanner();
         });
     }
 
-    @Override
+
     public void onBarcodeScan(String resultText) {
         Intent intent = new Intent();
         intent.putExtra("result", resultText);
@@ -1137,74 +1296,24 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
         finish();
     }
 
-    public void initiateScanner() {
+    /*public void initiateScanner() {
         new IntentIntegrator(this).setCaptureActivity(BatchlistScannerActivity.class).initiateScan();
         capture.setCaptureManagerCallback(this);
         capture.setSalesLine(salesLine);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_DETAILS && resultCode == RESULT_OK) {
-            selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
-            salesLine = (GetOMSTransactionResponse.SalesLine) data.getSerializableExtra("salesLine");
+            List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             String statusBatchlist = data.getStringExtra("finalStatus");
             boolean isBackPressed = data.getBooleanExtra("isBackPressed", false);
             if (isBackPressed) {
                 activityBatchlistScannerBinding.btnLayout.setVisibility(View.VISIBLE);
                 activityBatchlistScannerBinding.scanBoxIdText.setVisibility(View.GONE);
-
-                boolean isOnClickBarcodetoScanwhenfmcg = data.getBooleanExtra("onClickBarcodetoScanwhenfmcg", false);
-                if (isOnClickBarcodetoScanwhenfmcg) {
-                    if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty().isEmpty()) {
-                        double scannedQty = 0.0;
-                        if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes() != null
-                                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList() != null
-                                && selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList().size() > 0) {
-                            for (GetBatchInfoRes.BatchListObj batchListObj : selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList()) {
-                                scannedQty = scannedQty + batchListObj.getREQQTY();
-                            }
-                            capture.setSalesLineBatchList(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList());
-                            onScanned(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getGetBatchInfoRes().getBatchList());
-                        }
-                        String scannedQtyString = String.valueOf(scannedQty);
-//                    selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQtyString.substring(0, scannedQtyString.indexOf(".")));
-
-
-                        this.scannedQty = scannedQtyString;
-                        activityBatchlistScannerBinding.pickedQty.setText(scannedQtyString.substring(0, scannedQtyString.indexOf(".")));
-                        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQtyString.substring(0, scannedQtyString.indexOf(".")));
-//                Toast.makeText(this, "Requested Qty - " + salesLine.getQty() + "\n" + "Scanned Qty - " + scannedQty.substring(0, scannedQty.indexOf(".")), Toast.LENGTH_SHORT).show();
-                        capture.setScannedQty(Double.parseDouble(scannedQtyString));
-
-                        if (Double.parseDouble(scannedQtyString) == salesLine.getQty()) {
-
-                            enableCompleteBoxBtn();
-                            showCompleteDialog();
-                        } else {
-                            initiateScanner();
-                        }
-                    }
-
-//                    shelfIdScannerBinding.pickedQty.setText(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).getPickedQty());
-                }
-
-
-
-               /* this.scannedQty = scannedQty;
-                activityBatchlistScannerBinding.pickedQty.setText(scannedQty.substring(0, scannedQty.indexOf(".")));
-                selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos).setPickedQty(scannedQty.substring(0, scannedQty.indexOf(".")));
-//                Toast.makeText(this, "Requested Qty - " + salesLine.getQty() + "\n" + "Scanned Qty - " + scannedQty.substring(0, scannedQty.indexOf(".")), Toast.LENGTH_SHORT).show();
-                if (Double.parseDouble(scannedQty) == salesLine.getQty()) {
-                    showCompleteDialog();
-                } else {
-                    initiateScanner();
-                }*/
-
-
             } else {
                 Intent i = new Intent();
                 i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);

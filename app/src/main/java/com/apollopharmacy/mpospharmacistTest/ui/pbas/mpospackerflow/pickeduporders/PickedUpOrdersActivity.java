@@ -138,6 +138,7 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
     @Override
     protected void setUp(View view) {
         hideKeyboard();
+        activityPickedUpOrdersBinding.searchText.requestFocus();
         PickerNavigationActivity.mInstance.setWelcome("");
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.welcome.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.GONE);
@@ -171,6 +172,28 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
             }
         });
 
+
+        activityPickedUpOrdersBinding.searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(s.length() > 3)
+                {
+                    zebrascanfunctionality(String.valueOf(s));
+                }
+
+            }
+        });
 //        if (mvpPresenter.getFullFillmentList() != null) {
 //            activityPickedUpOrdersBinding.zeropicked.setVisibility(View.GONE);
 //            activityPickedUpOrdersBinding.headerOrdersCount.setText("Total " + String.valueOf(mvpPresenter.getFullFillmentList().size()) + " Orders");
@@ -210,7 +233,37 @@ public class PickedUpOrdersActivity extends BaseFragment implements PickedUpOrde
 //            }
 //        });
     }
+    public  void zebrascanfunctionality(String s)
+    {
+        String matchedBoxId="";
+        TransactionHeaderResponse.OMSHeader omsHeader = new TransactionHeaderResponse.OMSHeader();
+        for (int i = 0; i < omsHeaderList.size(); i++) {
+            String boxId = omsHeaderList.get(i).getOverallOrderStatus().substring(2);
+            if (boxId.equalsIgnoreCase(s)) {
+                matchedBoxId = boxId;
+                omsHeader = omsHeaderList.get(i);
+            }
+        }
+        if (!matchedBoxId.isEmpty()) {
+            startActivityForResult(PickUpVerificationActivity.getStartActivity(getContext(), omsHeader), PICKUP_VERIFICATION_ACTIVITY);
+            getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        } else {
 
+            Dialog dialog = new Dialog(getContext());
+            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_rack_alert, null, false);
+            dialog.setContentView(dialogRackAlertBinding.getRoot());
+            dialogRackAlertBinding.message.setText("Please scan valid Box Id");
+            dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 ->
+            {
+                activityPickedUpOrdersBinding.searchText.setText("");
+                activityPickedUpOrdersBinding.searchText.requestFocus();
+                dialog.dismiss();
+            });
+        }
+    }
     private void searchByFulfilmentId() {
         activityPickedUpOrdersBinding.searchText.addTextChangedListener(new TextWatcher() {
             @Override

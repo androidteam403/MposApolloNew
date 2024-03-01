@@ -41,6 +41,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.CheckBatchInvent
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.model.ReasonListResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
@@ -98,6 +99,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     int orderAdapterPosition;
     int newSelectedOrderAdapterPosition;
 
+    public  static  boolean cameraenabled=false;
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList) {
         Intent intent = new Intent(context, PickupProcessActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
@@ -1647,7 +1649,9 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
     @Override
     public void onClickBatchDetails(int orderAdapterPos, GetOMSTransactionResponse.SalesLine salesLine, int adapterPosition) {
 //        Intent i = new Intent(PickupProcessActivity.this, BatchListActivity.class);
-        Intent i = new Intent(PickupProcessActivity.this, ShelfIdScannerActivity.class);
+
+        // Intent i = new Intent(PickupProcessActivity.this, ShelfIdScannerActivity.class);
+        Intent i = new Intent(PickupProcessActivity.this, ZebraSelfscanner.class);
         i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
         i.putExtra("omsHeader", (Serializable) omsHeaderObj);
         i.putExtra("salesLine", (Serializable) salesLinee);
@@ -1971,4 +1975,26 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             }
         }
     }
+
+    @Override
+    protected  void onResume()
+    {
+        super.onResume();
+        if(cameraenabled == true) {
+            cameraenabled = false;
+            //   Intent i = new Intent(PickupProcessActivity.this, BatchListActivity.class);
+            Intent i = new Intent(PickupProcessActivity.this, ShelfIdScannerActivity.class);
+            // Intent i = new Intent(PickupProcessActivity.this, ZebraSelfscanner.class);
+            i.putExtra("selectedOmsHeaderList", (Serializable) selectedOmsHeaderList);
+            i.putExtra("omsHeader", (Serializable) omsHeaderObj);
+            i.putExtra("salesLine", (Serializable) salesLinee);
+            i.putExtra("orderAdapterPos", orderAdapterPos);
+            i.putExtra("newSelectedOrderAdapterPos1", this.position);
+            i.putExtra("noBatchDetails", this.noBatchDetails);
+            startActivityForResult(i, 777);
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        }
+
+    }
+
 }

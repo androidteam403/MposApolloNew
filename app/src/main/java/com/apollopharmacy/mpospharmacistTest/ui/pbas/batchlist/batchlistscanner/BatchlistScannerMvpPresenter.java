@@ -44,4 +44,6 @@ public interface BatchlistScannerMvpPresenter<V extends BatchlistScannerMvpView>
     String dataAreaId();
 
     String stateCode();
+
+    void  getBatchDetailsByzebraBarCode(String barcode, String itemId, String eposurl, String storeId, String dataAreaId, String terminalId, String stateCode);
 }
