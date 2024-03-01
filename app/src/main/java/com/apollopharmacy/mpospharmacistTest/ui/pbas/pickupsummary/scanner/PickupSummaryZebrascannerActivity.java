@@ -43,6 +43,7 @@ public class PickupSummaryZebrascannerActivity extends AppCompatActivity {
     private int orderPos;
 
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
