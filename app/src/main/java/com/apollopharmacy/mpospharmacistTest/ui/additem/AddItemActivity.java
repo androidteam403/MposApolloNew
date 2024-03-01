@@ -1283,6 +1283,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.vendorPayButtonLayout.setVisibility(View.GONE);
         addItemBinding.CODPayButtonLayout.setVisibility(View.VISIBLE);
 
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                mPresenter.onClickCodPayMode();
+            }
+        }
 
     }
 
@@ -2280,7 +2286,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             tenderAddList.add(tenderLineEntity);
             calculatePosTransactionRes.setTenderLine(tenderAddList);
         }
+
 //To generate bill directly
+        if (Constant.getInstance().remainamount <=  0) {
+            Constant.getInstance().vendorcredit = true;
+            isBillGenerate=true;
+        }
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
             if (isCameFromOrderDetailsScreenActivity) {

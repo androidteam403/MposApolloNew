@@ -70,10 +70,10 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.model.OrderListReq;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.model.AdminLoginReqModel;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.model.AdminLoginResModel;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.FeedBackRequest;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.FeedBackResponse;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.SalesTrackingDataReq;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.FeedBackRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.FeedBackResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.SalesTrackingDataReq;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.TrackingWiseReturnAllowedRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PayLoadRes;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelRequest;

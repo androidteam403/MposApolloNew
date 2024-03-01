@@ -60,8 +60,8 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     public void hideLoading() {
         if (getContext() instanceof Activity) {
             if (!((Activity) getContext()).isFinishing()) {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.cancel();
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
                 }
             }
         }
@@ -90,11 +90,9 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     }
 
     public void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(mActivity.findViewById(android.R.id.content),
-                message, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(mActivity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
         View sbView = snackbar.getView();
-        TextView textView = sbView
-                .findViewById(R.id.snackbar_text);
+        TextView textView = sbView.findViewById(R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(mActivity, R.color.white));
         snackbar.show();
     }
@@ -112,7 +110,6 @@ public abstract class BaseFragment extends Fragment implements MvpView {
             mActivity.showMessage(resId);
         }
     }
-
 
 
     @Override

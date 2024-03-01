@@ -1423,8 +1423,8 @@ public class AddItemPresenter<V extends AddItemMvpView> extends BasePresenter<V>
                                     getMvpView().updatePayedAmount(response.body().getValidateOMSOrderResult(), false);
 
                                     if (Constant.getInstance().remainamount > 0) {
-                                        getMvpView().omsremainamount(Constant.getInstance().remainamount);
                                         Constant.getInstance().vendorcredit = true;
+                                        getMvpView().omsremainamount(Constant.getInstance().remainamount);
                                     }
                                     //getMvpView().updatePayedAmount(response.body().getGenerateTenderLineResult());
 

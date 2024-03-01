@@ -81,9 +81,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrders
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnMvpPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryPresenter;
@@ -96,6 +93,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersPresenter;
@@ -127,6 +127,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersPresen
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintPresenter;
@@ -196,6 +199,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.storesetup.StoreSetupPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.AppSchedulerProvider;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -626,4 +632,15 @@ public class ActivityModule {
         return presenter;
     }
 
+    @Provides
+    @PerActivity
+    ZebrascannerMvpPresenter<ZebrascannerMvpView> provideZebrascannerPresenter(ZebrascannerPresenter<ZebrascannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ZebraSelfscannerMvpPresenter<ZebraSelfscannerMvpView> provideZebraSelfscannerPresenter(ZebraSelfscannerPresenter<ZebraSelfscannerMvpView> presenter) {
+        return presenter;
+    }
 }

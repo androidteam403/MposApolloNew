@@ -200,6 +200,12 @@ public class CaptureManager implements CallbackCaptureManager {
     public void setSalesLine(GetOMSTransactionResponse.SalesLine salesLine) {
         this.salesLine = salesLine;
     }
+    public void setScannedQty(double scannedQuantity) {
+        this.scannedQuantity = scannedQuantity;
+    }
+    public void setSalesLineBatchList(List<GetBatchInfoRes.BatchListObj> salesLineBatchList) {
+        this.salesLineBatchList = salesLineBatchList;
+    }
 
     @Override
     public void onSuccessGetBatchDetailsBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse) {

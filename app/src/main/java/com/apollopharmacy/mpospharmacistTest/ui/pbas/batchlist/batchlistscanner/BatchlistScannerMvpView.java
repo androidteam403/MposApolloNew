@@ -35,4 +35,6 @@ public interface BatchlistScannerMvpView extends MvpView {
     void onClickProductInfo();
 
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse, Dialog dialog);
+
+    void onSuccessGetBatchDetailszebraBarcode(GetBatchInfoRes getBatchDetailsByBarcodeResponse);
 }

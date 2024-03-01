@@ -47,6 +47,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.adapter.Summa
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrderForwardResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.scanner.PickupSummaryScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.scanner.PickupSummaryZebrascannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
@@ -93,6 +94,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
     public static List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     String selectedStatus = "";
 
+    public  static  boolean cameraenabled=false;
     public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String time, String stopWatch, TransactionHeaderResponse.OMSHeader omsHeader, GetOMSTransactionResponse.SalesLine salesLine, int orderAdapterPos, int position) {
         Intent intent = new Intent(context, PickUpSummmaryActivityNew.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
@@ -335,7 +337,7 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
 
     }
 
-    @Override
+   /* @Override
     public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus, String itemStatus) {
 
         position=pos;
@@ -352,6 +354,36 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
         intent.putExtra("selectedStatus", selectedStatus);
         startActivityForResult(intent, 222);
         this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        //        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString(), selectedOmsHeaderList.get(pos).getScannedBarcode()));
+//        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
+    }*/
+
+    @Override
+    public void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus, String itemStatus) {
+
+        position=pos;
+        String boxid="";
+        omsHeaderList.clear();
+        for (int i = 0; i < selectedOmsHeaderList.size(); i++) {
+            if (selectedOmsHeaderList.get(i).isEnabled() && selectedOmsHeaderList.get(i).getItemStatus().equalsIgnoreCase(itemStatus)) {
+                omsHeaderList.add(selectedOmsHeaderList.get(i));
+                boxid=selectedOmsHeaderList.get(orderAdapterPos).getScannedBarcode();
+            }
+        }
+        this.selectedStatus = selectedStatus;
+
+//        new IntentIntegrator(this).setCaptureActivity(com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity.class).initiateScan();
+       /* Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickupSummaryScannerActivity.class);
+        intent.putExtra("selectedStatus", selectedStatus);
+        startActivityForResult(intent, 222);
+        this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);*/
+
+        Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickupSummaryZebrascannerActivity.class);
+        intent.putExtra("selectedStatus", selectedStatus);
+        intent.putExtra("boxid",boxid);
+        startActivityForResult(intent, 222);
+        this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
         //        startActivity(PickupSummaryDetailsActivity.getStartActivity(this, selectedOmsHeaderList.get(pos), activityPickUpSummaryBinding.time.getText().toString(), activityPickUpSummaryBinding.chrono.getText().toString(), selectedOmsHeaderList.get(pos).getScannedBarcode()));
 //        startActivity(PickupSummaryDetailsActivity.getStartIntent(this, selectedOmsHeaderList.get(pos)));
     }
@@ -933,5 +965,20 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                 }
             }
         }
+    }
+
+    @Override
+    protected  void onResume()
+    {
+        super.onResume();
+        if(cameraenabled == true)
+        {
+            cameraenabled=false;
+            Intent intent = new Intent(PickUpSummmaryActivityNew.this, PickupSummaryScannerActivity.class);
+            intent.putExtra("selectedStatus", selectedStatus);
+            startActivityForResult(intent, 222);
+            this.overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        }
+
     }
 }

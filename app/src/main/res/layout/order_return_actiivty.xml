@@ -21,7 +21,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnMvpPresenter" />
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnMvpPresenter" />
     </data>
 
     <LinearLayout

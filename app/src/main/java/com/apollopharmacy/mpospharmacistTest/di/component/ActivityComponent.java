@@ -29,11 +29,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3Activity;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginSetUp;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.ZebraBatchlistScanner;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.ePrescription.EPrescriptionActivity;
@@ -43,6 +44,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickeduporde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminFragment;
@@ -66,6 +68,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.searchproductlistactivity.Produc
 import com.apollopharmacy.mpospharmacistTest.ui.splash.SplashActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.StoreSetupActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialog;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerActivity;
 
 import dagger.Component;
 
@@ -214,4 +217,10 @@ public interface ActivityComponent {
     void inject(AdminFragment adminFragment);
 
     void inject(AllOrdersActivity allOrdersActivity);
+
+    void inject(ZebrascannerActivity zebrascannerActivity);
+
+    void inject(ZebraBatchlistScanner zebraBatchlistScanner);
+
+    void inject(ZebraSelfscanner zebraSelfscanner);
 }
