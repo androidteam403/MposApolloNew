@@ -45,6 +45,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersActivi
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminFragment;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
@@ -208,4 +210,8 @@ public interface ActivityComponent {
     void inject(OpenOrdersV3Activity openOrdersV3Activity);
 
     void inject(ShelfIdScannerActivity shelfIdScannerActivity);
+
+    void inject(AdminFragment adminFragment);
+
+    void inject(AllOrdersActivity allOrdersActivity);
 }

@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/five_dp"
         android:gravity="center_vertical"
+        android:background="@drawable/square_stroke_bg"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -19,9 +20,12 @@
             android:paddingEnd="@dimen/dimen7dp">
 
             <LinearLayout
+                android:id="@+id/rack_child_header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:clickable="true"
+                android:orientation="vertical"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -39,8 +43,8 @@
                             android:id="@+id/rack_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
@@ -78,8 +82,8 @@
                         android:id="@+id/rack_no_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen5dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -210,6 +214,8 @@
             android:id="@+id/product_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen3dp"
+            android:layout_marginEnd="@dimen/dimen3dp"
             android:layout_marginBottom="@dimen/two_dp"
             android:background="@drawable/bottom_stroke_bg"
             android:visibility="gone">

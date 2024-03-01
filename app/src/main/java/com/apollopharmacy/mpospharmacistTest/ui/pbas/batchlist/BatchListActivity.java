@@ -132,7 +132,9 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             batchlistBinding.scanBatchId.setBackgroundColor(Color.parseColor("#bbbbbb"));
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
+            batchlistBinding.enterLastThreeDigitsText.setVisibility(View.VISIBLE);
         } else {
+            batchlistBinding.enterLastThreeDigitsText.setVisibility(View.GONE);
 //            batchlistBinding.batchlayout.setVisibility(View.VISIBLE);
 //            batchlistBinding.scanBatchId.setVisibility(View.GONE);
 //            batchlistBinding.batchDetails.setVisibility(View.GONE);
@@ -880,10 +882,29 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
             batchlistBinding.batchListRecycler.setLayoutManager(mLayoutManager);
             batchlistBinding.batchListRecycler.setAdapter(batchListAdapter);
             batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+            batchlistBinding.enterLastThreeDigitsText.setVisibility(View.GONE);
+            batchlistBinding.getBatchList.setVisibility(View.GONE);
         } else {
             batchlistBinding.batchDetails.setVisibility(View.GONE);
             batchlistBinding.batchListRecycler.setVisibility(View.GONE);
             batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+            if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
+                batchlistBinding.getBatchList.setVisibility(View.VISIBLE);
+                if (batchlistBinding.searchbybatchId.getText().toString().isEmpty()) {
+                    batchlistBinding.enterLastThreeDigitsText.setVisibility(View.VISIBLE);
+                    batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+                    batchlistBinding.getBatchList.setVisibility(View.GONE);
+                } else {
+                    batchlistBinding.enterLastThreeDigitsText.setVisibility(View.GONE);
+                    batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+                    batchlistBinding.getBatchList.setVisibility(View.VISIBLE);
+                }
+                if (getBatchListBtnClicked) {
+                    batchlistBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+                    batchlistBinding.enterLastThreeDigitsText.setVisibility(View.GONE);
+                    batchlistBinding.getBatchList.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
@@ -1218,6 +1239,8 @@ public class BatchListActivity extends BaseActivity implements BatchListMvpView 
         batchlistBinding.batchDetails.setVisibility(View.VISIBLE);
         batchlistBinding.batchListRecycler.setVisibility(View.VISIBLE);
         batchlistBinding.noOrderFoundText.setVisibility(View.GONE);
+        batchlistBinding.enterLastThreeDigitsText.setVisibility(View.GONE);
+        batchlistBinding.getBatchList.setVisibility(View.GONE);
     }
 
     @Override

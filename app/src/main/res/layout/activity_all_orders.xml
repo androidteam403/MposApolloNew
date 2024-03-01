@@ -9,7 +9,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
@@ -32,6 +32,7 @@
                         android:id="@+id/header_back"
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
+                        android:onClick="@{()-> callback.onClickBack()}"
                         android:contentDescription="@string/app_name"
                         android:padding="@dimen/dimen3dp"
                         android:src="@drawable/ic_back_arrow_white" />
@@ -46,6 +47,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/all_orders_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen7dp"
@@ -123,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_4dp"
-                        android:text="Inprogress"
+                        android:text="Not Allocated"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen10sp" />
 
@@ -307,14 +309,37 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ordersRecycler"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/dimen5dp"
-                android:layout_marginTop="@dimen/dimen10dp"
-                android:layout_marginEnd="@dimen/dimen5dp" />
+                android:layout_marginTop="@dimen/dimen10dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ordersRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginEnd="@dimen/dimen5dp" />
+
+                <TextView
+                    android:id="@+id/no_order_found_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="No Order Found"
+                    android:textSize="@dimen/dimen16sp"
+                    android:textColor="@color/red"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/roboto_bold"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpPresenter" />
+    </data>
 </layout>

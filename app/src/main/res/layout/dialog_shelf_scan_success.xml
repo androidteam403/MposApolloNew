@@ -21,7 +21,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
-                android:text="Shelf Scanned Successfully"
+                android:text="Rack ID Scanned Successfully"
                 android:textAlignment="center"
                 android:textColor="#000"
                 android:textSize="15sp" />

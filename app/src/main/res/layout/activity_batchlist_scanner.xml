@@ -102,7 +102,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:text="Box Number: "
+                        android:text="Tray ID: "
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen14sp" />
 
@@ -250,8 +250,8 @@
                     android:id="@+id/scan_box_id_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen8dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen8dp"
                     android:visibility="gone">
 
                     <TextView
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="@dimen/dimen10dp"
-                        android:text="Scan the Box ID"
+                        android:text="Scan the Tray ID"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen16sp" />

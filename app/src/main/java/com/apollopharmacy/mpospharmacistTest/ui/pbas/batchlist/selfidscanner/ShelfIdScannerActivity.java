@@ -137,9 +137,9 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         shelfIdScannerBinding.reqQty.setText(Integer.toString(salesLine.getQty()));
         shelfIdScannerBinding.rackId.setText(salesLine.getRackId());
         if (isRackIdScanned) {
-            shelfIdScannerBinding.message.setText("Scan the Box ID");
+            shelfIdScannerBinding.message.setText("Scan the Tray ID");
         } else {
-            shelfIdScannerBinding.message.setText("Scan the Shelf ID");
+            shelfIdScannerBinding.message.setText("Scan the Rack ID");
         }
         barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
@@ -187,7 +187,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         }
                     } else {
                         barcodeScannerView.pause();
-                        isRackIdScanned = false;
+//                        isRackIdScanned = false;
                         Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
                         DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
                         dialog.setContentView(dialogRackAlertBinding.getRoot());
@@ -196,6 +196,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
                         dialogRackAlertBinding.dialogButtonOK.setOnClickListener(v1 -> {
+                            isRackIdScanned = false;
                             barcodeScannerView.resume();
                             dialog.dismiss();
                         });
@@ -210,7 +211,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                             dialog.setContentView(shelfScanSuccessBinding.getRoot());
                             dialog.setCancelable(false);
                             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+                            shelfScanSuccessBinding.message.setText("Tray ID Scanned Successfully");
                             new Handler().postDelayed(() -> {
                                 if (dialog != null && dialog.isShowing()) {
                                     dialog.dismiss();
@@ -226,7 +227,18 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                             barcodeScannerView.pause();
                             isScannedBoxId = true;
                             Dialog dialog = new Dialog(ShelfIdScannerActivity.this);
-                            DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
+                            DialogShelfScanSuccessBinding shelfScanSuccessBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_shelf_scan_success, null, false);
+                            dialog.setContentView(shelfScanSuccessBinding.getRoot());
+                            dialog.setCancelable(false);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            shelfScanSuccessBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
+                            new Handler().postDelayed(() -> {
+                                isScannedBoxId = false;
+                                barcodeScannerView.resume();
+                                dialog.dismiss();
+                            }, 2000);
+                            dialog.show();
+                            /*DialogRackAlertBinding dialogRackAlertBinding = DataBindingUtil.inflate(LayoutInflater.from(ShelfIdScannerActivity.this), R.layout.dialog_rack_alert, null, false);
                             dialog.setContentView(dialogRackAlertBinding.getRoot());
                             dialogRackAlertBinding.message.setText("Tray ID does not match so Kindly Scan the Correct Tray ID");
                             dialog.setCancelable(false);
@@ -236,7 +248,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                                 barcodeScannerView.resume();
                                 isScannedBoxId = false;
                                 dialog.dismiss();
-                            });
+                            });*/
                         }
                     }
                 }
@@ -287,12 +299,13 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (requestCode == BATCH_LIST_SCANNER && resultCode == RESULT_OK) {
-            shelfIdScannerBinding.message.setText("Scan the Box ID");
+            shelfIdScannerBinding.message.setText("Scan the Tray ID");
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) data.getSerializableExtra("selectedOmsHeaderList");
             statusBatchlist = data.getStringExtra("finalStatus");
             isBatchHold = data.getBooleanExtra("IS_BATCH_HOLD", false);
@@ -341,7 +354,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                 isRackIdScanned = false;
                 isScannedRackSelfID = false;
             } else {
-                shelfIdScannerBinding.message.setText("Scan the Box ID");
+                shelfIdScannerBinding.message.setText("Scan the Tray ID");
             }
         }
     }

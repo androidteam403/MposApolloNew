@@ -84,7 +84,7 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
             holder.rackBinding.productDetailsLayout.setVisibility(View.GONE);
         }
 
-        holder.itemView.setOnClickListener(view -> {
+        holder.rackBinding.rackChildHeaderLayout.setOnClickListener(view -> {
             if (mvpView != null) {
                 mvpView.onClickRackAdapterOne(position);
                 // mvpView.onClickRackAdapter(position);

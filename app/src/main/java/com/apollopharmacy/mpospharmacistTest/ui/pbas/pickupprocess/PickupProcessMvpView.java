@@ -113,5 +113,5 @@ public interface PickupProcessMvpView extends MvpView {
 
     void onClickRevertBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position);
 
-    void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position);
+    void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position, int orderAdapterPos);
 }

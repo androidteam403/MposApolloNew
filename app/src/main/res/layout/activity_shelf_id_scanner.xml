@@ -88,7 +88,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:text="Box Number: "
+                        android:text="Tray ID: "
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen14sp" />
 
@@ -211,7 +211,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Scan the Shelf ID"
+                        android:text="Scan the Rack ID"
                         android:layout_marginBottom="@dimen/dimen20dp"
                         android:textAlignment="center"
                         android:textColor="@color/white"

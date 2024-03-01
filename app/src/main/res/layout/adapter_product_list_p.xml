@@ -60,13 +60,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <!--<TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="FulFilment ID : "
                             android:textColor="@color/text_color_grey"
-                            android:textSize="@dimen/ten_sp" />
+                            android:textSize="@dimen/ten_sp" />-->
 
                         <TextView
                             android:id="@+id/fullfillment_id"
@@ -254,7 +254,7 @@
                     android:layout_weight=".2"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingStart="@dimen/dimen5dp"
-                    android:text="Preferred Batch"
+                    android:text="Pref. Batch"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/eight_sp" />
 

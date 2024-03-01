@@ -955,25 +955,93 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
 
     @Override
     public void onClickRevertBtn(TransactionHeaderResponse.OMSHeader omsHeader, int position) {
-        omsHeader.setOnHold(false);
-        omsHeader.setExpanded(true);
-        omsHeader.setExpandStatus(0);
+        selectedOmsHeaderList.get(position).setOnHold(false);
+        selectedOmsHeaderList.get(position).setExpanded(true);
+        selectedOmsHeaderList.get(position).setExpandStatus(0);
         if (orderAdapter != null) {
             orderAdapter.notifyDataSetChanged();
         }
         rackDataSet();
         enableContinueButton();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long completed = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty() || item.isOnHold()).count();
+            pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long fullCount = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty() || item.isOnHold()).count();
+            pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+            pickupProcessBinding.notAvailableCount.setText(String.valueOf(notAvailableCount));
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position) {
+    public void onClickRevertItem(GetOMSTransactionResponse.SalesLine salesLine, int position, int orderAdapterPos) {
         isAllOnHold = false;
-        salesLine.setReason("");
-        salesLine.setOnHold(false);
-        salesLine.setStatus("");
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setReason("");
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setOnHold(false);
+        selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(position).setStatus("");
         rackDataSet();
         enableContinueButton();
         orderAdapter.notifyDataSetChanged();
+
+        boolean isNotAvailable = true;
+        boolean isFull = true;
+        boolean isNull = false;
+        boolean isAllOrdersOnHold = true;
+        for (int i = 0; i < selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().size(); i++) {
+            if (selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus() != null) {
+                if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("NOT AVAILABLE")) {
+                    isNotAvailable = false;
+                }
+                if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).getStatus().equals("FULL")) {
+                    isFull = false;
+                }
+                if (!selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(i).isOnHold()) {
+                    isAllOrdersOnHold = false;
+                }
+            } else {
+                isNull = true;
+            }
+        }
+        if (!isNull) {
+            if (isNotAvailable) {
+                selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("NOT AVAILABLE");
+            } else if (isFull) {
+                selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("FULL");
+            } else if (!isNotAvailable && !isFull) {
+                selectedOmsHeaderList.get(orderAdapterPos).setItemStatus("PARTIAL");
+            }
+            if (isAllOrdersOnHold) {
+                selectedOmsHeaderList.get(orderAdapterPos).setOnHold(true);
+            }
+        }
+
+        long completedCount = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            completedCount = selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).count();
+            pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completedCount));
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            pickupProcessBinding.completedCount.setText(String.valueOf(completedCount));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            long notAvailableCount = selectedOmsHeaderList.stream().filter(omsHeader -> omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+            pickupProcessBinding.notAvailableCount.setText(String.valueOf(notAvailableCount));
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -1014,6 +1082,18 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
                     enableContinueButton();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         pickupProcessBinding.onHoldCount.setText(String.valueOf(selectedOmsHeaderList.stream().filter(TransactionHeaderResponse.OMSHeader::isOnHold).collect(Collectors.toList()).size()));
+                    }
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        long completed = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty() || item.isOnHold()).count();
+                        pickupProcessBinding.pendingCount.setText(String.valueOf(selectedOmsHeaderList.size() - completed));
+                    }
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        long fullCount = selectedOmsHeaderList.stream().filter(item -> !item.getItemStatus().isEmpty() || item.isOnHold()).count();
+                        pickupProcessBinding.completedCount.setText(String.valueOf(fullCount));
+                    }
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+                        pickupProcessBinding.notAvailableCount.setText(String.valueOf(notAvailableCount));
                     }
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
@@ -1254,7 +1334,7 @@ public class PickupProcessActivity extends BaseActivity implements PickupProcess
             for (int j = 0; j < selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().size(); j++) {
                 selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setFullfillmentId(selectedOmsHeaderList.get(i).getRefno());
                 selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setOrderItemNo("B" + String.valueOf(i + 1));
-                selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setOnHold(selectedOmsHeaderList.get(i).isOnHold());
+                selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).setOnHold(selectedOmsHeaderList.get(i).getGetOMSTransactionResponse().getSalesLine().get(j).isOnHold());
                 if (rackWiseSortedDataList.size() > 0) {
                     int rackWiseSortedDataListPos = -1;
                     for (int k = 0; k < rackWiseSortedDataList.size(); k++) {

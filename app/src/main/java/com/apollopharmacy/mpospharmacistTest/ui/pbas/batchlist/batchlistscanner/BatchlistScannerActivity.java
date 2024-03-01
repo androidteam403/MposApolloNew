@@ -40,6 +40,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityBatchlistScannerBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogAddBatchDetailsBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogBatchAlertBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogCancelBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogOnHoldBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogRackAlertBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogReferToAdminBinding;
@@ -54,6 +55,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.apollopharmacy.mpospharmacistTest.utils.UiUtils;
@@ -1064,7 +1066,7 @@ public class BatchlistScannerActivity extends BaseActivity implements BatchlistS
             dialog.setContentView(shelfScanSuccessBinding.getRoot());
             dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+            shelfScanSuccessBinding.message.setText("Tray ID Scanned Successfully");
             new Handler().postDelayed(() -> {
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();

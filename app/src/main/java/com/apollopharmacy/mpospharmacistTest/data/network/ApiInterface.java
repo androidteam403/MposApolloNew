@@ -95,6 +95,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.model.GetOMSTransactionHeaderRequest;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.model.GetOMSTransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.PDFShippingLabelResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GeneratePdfbyFlidResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsRequest;
@@ -482,5 +484,8 @@ public interface ApiInterface {
 
     @POST("SalesTransactionService.svc/GetPatientMaster")
     Call<PatientMasterResponse> PATIENT_MASTER_API_CALL();
+
+    @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
+    Call<GetOMSTransactionHeaderResponse> getOmsTransactionHeaderApiCall(@Body GetOMSTransactionHeaderRequest getOMSTransactionHeaderRequest);
 
 }

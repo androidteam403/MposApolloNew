@@ -14,14 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterOrdersListLayoutBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.model.GetOMSTransactionHeaderResponse;
+
+import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private Context context;
     private AllOrdersMvpView mvpView;
+    private List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList;
 
-    public OrdersAdapter(Context context, AllOrdersMvpView mvpView) {
+    public OrdersAdapter(Context context, AllOrdersMvpView mvpView, List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList) {
         this.context = context;
         this.mvpView = mvpView;
+        this.omsHeaderList = omsHeaderList;
     }
 
     @NonNull
@@ -34,6 +39,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        GetOMSTransactionHeaderResponse.OMSHeader omsHeader = omsHeaderList.get(position);
         if (position == 0) {
             holder.ordersListLayoutBinding.status.setText("Inprogress");
             holder.ordersListLayoutBinding.items.setText("2");
@@ -71,6 +77,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             holder.ordersListLayoutBinding.requestLayout.setVisibility(View.GONE);
             holder.ordersListLayoutBinding.onHoldLayout.setVisibility(View.VISIBLE);
         }
+        
+        holder.ordersListLayoutBinding.fulfilmentId.setText(omsHeader.getRefno());
+        holder.ordersListLayoutBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
 
         holder.ordersListLayoutBinding.parentLayout.setOnClickListener(v -> {
             mvpView.onClickOrder(position);
@@ -79,7 +88,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return omsHeaderList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

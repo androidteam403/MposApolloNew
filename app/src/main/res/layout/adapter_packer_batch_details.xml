@@ -30,7 +30,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen5dp"
-                android:layout_weight=".22"
+                android:gravity="center"
+                android:layout_weight=".4"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{model.pickupPhysicalInventBatchId}"
                 android:textColor="@color/black"
@@ -58,7 +59,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/eight_sp" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/required_quantity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -67,7 +68,7 @@
                 android:gravity="center"
                 android:text="@{String.valueOf(Math.round(model.pickupQty))}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/eight_sp" />
+                android:textSize="@dimen/eight_sp" />-->
         </LinearLayout>
 
     </RelativeLayout>

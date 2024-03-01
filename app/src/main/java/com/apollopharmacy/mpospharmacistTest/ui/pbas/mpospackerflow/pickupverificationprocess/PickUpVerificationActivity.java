@@ -1038,14 +1038,25 @@ fId=getOMSTransactionResponses.get(0).getRefno();
         dialogUpdateStatusPBinding.productName.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getItemName());
         dialogUpdateStatusPBinding.qty.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).getQty()));
         dialogUpdateStatusPBinding.update.setText("Save Status");
+        String pickedQty = "0";
+        if (salesLine.getPickedQty() != null && !salesLine.getPickedQty().isEmpty()) {
+            pickedQty = salesLine.getPickedQty();
+        }
         if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("FULL")) {
             dialogUpdateStatusPBinding.fullPickedRadio.setChecked(true);
+            dialogUpdateStatusPBinding.quantity.setText("0");
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.GONE);
         } else if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("PARTIAL")) {
             dialogUpdateStatusPBinding.partiallyPickedRadio.setChecked(true);
+            dialogUpdateStatusPBinding.quantity.setText(pickedQty);
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.VISIBLE);
         } else if (salesLine.getPickerStatus() != null && salesLine.getPickerStatus().equals("NOT AVAILABLE")) {
             dialogUpdateStatusPBinding.notAvailableRadio.setChecked(true);
+            dialogUpdateStatusPBinding.quantity.setText("0");
+            dialogUpdateStatusPBinding.editQuantityLayout.setVisibility(View.GONE);
         } else {
             dialogUpdateStatusPBinding.notAvailableRadio.setChecked(true);
+            dialogUpdateStatusPBinding.quantity.setText("0");
         }
         dialogUpdateStatusPBinding.fullPickedRadioOne.setOnClickListener(view -> {
             dialogUpdateStatusPBinding.fullPickedRadio.setChecked(true);
@@ -1082,10 +1093,14 @@ fId=getOMSTransactionResponses.get(0).getRefno();
         dialogUpdateStatusPBinding.update.setOnClickListener(view -> {
             if (dialogUpdateStatusPBinding.fullPickedRadio.isChecked()) {
                 omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPackerStatus("FULL");
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPickerStatus("FULL");
             } else if (dialogUpdateStatusPBinding.partiallyPickedRadio.isChecked()) {
                 omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPackerStatus("PARTIAL");
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPickerStatus("PARTIAL");
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPickedQty(dialogUpdateStatusPBinding.quantity.getText().toString());
             } else if (dialogUpdateStatusPBinding.notAvailableRadio.isChecked()) {
                 omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPackerStatus("NOT AVAILABLE");
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().get(pos).setPickerStatus("NOT AVAILABLE");
             }
             if (pickUpVerificationAdapter != null) {
                 pickUpVerificationAdapter.notifyDataSetChanged();

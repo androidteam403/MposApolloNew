@@ -151,36 +151,40 @@ public class SummaryFullfillmentAdapter extends RecyclerView.Adapter<SummaryFull
         });
 
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.rounded_background_red));
 //            holder.orderBinding.statusText.setText("NOT AVAILABLE");
 //            holder.orderBinding.statuss.setText("Not Available");
-            holder.orderBinding.greenTick.setVisibility(View.GONE);
+//            holder.orderBinding.greenTick.setVisibility(View.GONE);
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.red));
             omsHeader.setOverallOrderStatus("3");
 
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
-            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.rounded_background_green));
 //            holder.orderBinding.statusText.setText("FULL");
             holder.orderBinding.statusIcon.setRotation(0);
 //            holder.orderBinding.statuss.setText("Full");
-            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
+//            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
             omsHeader.setOverallOrderStatus("1");
 
         }
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
-            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.orderBinding.statusIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
 //            holder.orderBinding.statusText.setText("PARTIAL");
 //            holder.orderBinding.statuss.setText("Partial");
-            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
+//            holder.orderBinding.greenTick.setVisibility(View.VISIBLE);
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
             omsHeader.setOverallOrderStatus("2");
 
         }
         if (omsHeader.isEnabled()) {
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.orderBinding.scanIcon.setColorFilter(ContextCompat.getColor(context, R.color.black));
+            holder.orderBinding.boxId.setTextColor(ContextCompat.getColor(context, R.color.black));
         } else {
             holder.orderBinding.fullfillmentID.setTextColor(ContextCompat.getColor(context, R.color.grey));
+            holder.orderBinding.scanIcon.setColorFilter(ContextCompat.getColor(context, R.color.grey));
+            holder.orderBinding.boxId.setTextColor(ContextCompat.getColor(context, R.color.grey));
         }
         if (omsHeader.isScanned()){
             holder.orderBinding.deleteIcon.setVisibility(View.VISIBLE);

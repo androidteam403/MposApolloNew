@@ -4,13 +4,16 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +28,8 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 
 public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrderAdapter.ViewHolder> implements NewSelectedOrderAdapterCallback {
@@ -69,16 +74,30 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
     int adapterPosition;
 
-    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
         this.position = salesLineList.get(position);
 
         if (position == salesLineList.size() - 1) {
-            holder.pickupSummaryDetailsProductsBinding.bottomStripLine.setVisibility(View.GONE);
+//            holder.pickupSummaryDetailsProductsBinding.bottomStripLine.setVisibility(View.GONE);
         }
         holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLine.getItemName());
+        LocalTime startTime = null, endTime = null;
+        if (salesLine.getStartTime() != null && !salesLine.getStartTime().isEmpty()) {
+            startTime = LocalTime.parse(salesLine.getStartTime());
+        }
+        if (salesLine.getEndTime() != null && !salesLine.getEndTime().isEmpty()) {
+            endTime = LocalTime.parse(salesLine.getEndTime());
+        }
+        if (startTime != null && endTime != null) {
+            Duration duration = Duration.between(startTime, endTime);
+            long minutes = duration.toMinutes() % 60;
+            long seconds = duration.getSeconds() % 60;
+            holder.pickupSummaryDetailsProductsBinding.timeTaken.setText(String.format("%02d:%02d%n", minutes, seconds).replace("\n", ""));
+        }
 //        holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
 
 //        holder.pickupSummaryDetailsProductsBinding.batchNo.setText(salesLine.getInventBatchId());
@@ -94,49 +113,58 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         }
 
         if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
-            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_partial));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_brown));
+//            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_block_24));
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setColorFilter(context.getResources().getColor(R.color.red));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_red));
+//            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
-            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
-            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
+//            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setRotation(0);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_artboard_26));
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setColorFilter(Color.parseColor("#009245"));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
-            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_green));
+//            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else {
-            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
+            holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageResource(0);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_grey));
+//            holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
 
         if (salesLine.isOnHold()) {
 //            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
 //            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.GONE);
-            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_red));
             holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.GONE);
         } else {
+            if (salesLine.getStatus() == null || salesLine.getStatus().isEmpty()) {
 //            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
 //            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);
-            holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.VISIBLE);
-            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-            holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.GONE);
+                holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.VISIBLE);
+                holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackground(context.getResources().getDrawable(R.drawable.rounded_bg_light_grey));
+                holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.GONE);
 //            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.VISIBLE);
+            }
         }
 
 
@@ -153,7 +181,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             pickupProcessMvpView.onClickOnHoldItem(salesLine, position, orderAdapterPos);
         });
         holder.pickupSummaryDetailsProductsBinding.revertBtn.setOnClickListener(view -> {
-            pickupProcessMvpView.onClickRevertItem(salesLine, position);
+            pickupProcessMvpView.onClickRevertItem(salesLine, position, orderAdapterPos);
         });
         /*holder.pickupSummaryDetailsProductsBinding.skip.setOnClickListener(view -> {
             pickupProcessMvpView.onClickSkipItem(salesLine, position);

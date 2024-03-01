@@ -133,6 +133,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderR
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
@@ -605,6 +611,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ShelfIdScannerMvpPresenter<ShelfIdScannerMvpView> provideShelfIdScannerPresenter(ShelfIdScannerPresenter<ShelfIdScannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AdminMvpPresenter<AdminMvpView> adminPresenter(AdminPresenter<AdminMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AllOrdersMvpPresenter<AllOrdersMvpView> allOrdersPresenter(AllOrdersPresenter<AllOrdersMvpView> presenter) {
         return presenter;
     }
 

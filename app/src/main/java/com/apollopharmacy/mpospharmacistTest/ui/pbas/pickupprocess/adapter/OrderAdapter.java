@@ -3,6 +3,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,13 +97,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.boxId.setText("-");
         }
         if (omsHeader.isOnHold()) {
-            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_red));
+            holder.orderBinding.orderParentLayout.setBackgroundColor(Color.parseColor("#f7e3e5"));
             holder.orderBinding.onHold.setVisibility(View.GONE);
             holder.orderBinding.revert.setVisibility(View.VISIBLE);
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
         } else {
-            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
+            holder.orderBinding.orderParentLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
             holder.orderBinding.onHold.setVisibility(View.VISIBLE);
             holder.orderBinding.revert.setVisibility(View.GONE);
@@ -171,6 +172,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
         boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
         boolean isAnyOnHold = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.isOnHold());
+        boolean isPartial = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null && item.getStatus().equalsIgnoreCase("PARTIAL"));
         if (isAnyOnHold) {
             holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
@@ -188,7 +190,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
         }
-        if (isAllCompleted && isAnyOnHold) {
+        if (isPartial || (isAllCompleted && isAnyOnHold)) {
             holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.GONE);
@@ -199,6 +201,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(GetOMSTransactionResponse.SalesLine::isOnHold);
         if (isAllOnHold) {
             holder.orderBinding.notAvailable.setVisibility(View.VISIBLE);
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
+        if (!isAnyCompleted && !isAllCompleted && !isAnyOnHold && !isAllOnHold) {
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
             holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
             holder.orderBinding.fullyPicked.setVisibility(View.GONE);
         }

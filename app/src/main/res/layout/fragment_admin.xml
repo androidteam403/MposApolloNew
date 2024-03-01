@@ -262,6 +262,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/all_orders"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen10dp"
@@ -294,12 +295,13 @@
                     <ImageView
                         android:layout_width="@dimen/dimen35dp"
                         android:layout_height="@dimen/dimen35dp"
-                        android:layout_marginBottom="@dimen/dimen5dp"
                         android:layout_marginTop="@dimen/dimen15dp"
+                        android:layout_marginBottom="@dimen/dimen5dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/inprogress" />
 
                     <TextView
+                        android:id="@+id/stock_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
@@ -310,7 +312,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dimen5dp"
                         android:text="Stock\n Available"
                         android:textAlignment="center"
                         android:textColor="#4c4c4c"
@@ -323,9 +324,9 @@
                         android:layout_marginBottom="@dimen/dimen5dp"
                         android:text="Not Allocated\n to Pickers"
                         android:textAlignment="center"
+                        android:fontFamily="@font/price_regular"
                         android:textColor="@color/red"
-                        android:textSize="@dimen/dimen_11sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/dimen_11sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -341,12 +342,13 @@
                     <ImageView
                         android:layout_width="@dimen/dimen35dp"
                         android:layout_height="@dimen/dimen35dp"
-                        android:layout_marginBottom="@dimen/dimen5dp"
                         android:layout_marginTop="@dimen/dimen15dp"
+                        android:layout_marginBottom="@dimen/dimen5dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/notallocated" />
 
                     <TextView
+                        android:id="@+id/partially_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="30"
@@ -414,8 +416,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen10dp"
                         android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_marginTop="@dimen/dimen10dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -608,7 +610,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/dimen10dp"
@@ -617,16 +619,24 @@
                 android:layout_marginBottom="@dimen/dimen10dp"
                 android:background="@drawable/rectangle_rounded_corners_green"
                 android:backgroundTint="#f2f2f2"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:orientation="vertical">
 
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen20dp"
+                    android:layout_marginTop="@dimen/dimen15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Order Status"
+                    android:textColor="#4c4c4c"
+                    android:textSize="@dimen/dimen14sp" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart"
-                    android:layout_width="@dimen/dimen150dp"
-                    android:layout_height="@dimen/dimen150dp" />
-            </LinearLayout>
+                    android:layout_width="@dimen/two_hundred_sixty_dp"
+                    android:layout_height="@dimen/two_hundred_thirty_dp"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 </layout>

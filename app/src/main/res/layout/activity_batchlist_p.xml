@@ -152,22 +152,6 @@
                     android:text="Add Batch Items"
                     android:textColor="@color/black"
                     android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/get_batch_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_toRightOf="@+id/refer_to_admin"
-                    android:background="#b97a56"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:onClick="@{()-> callback.onClickGetBatchList()}"
-                    android:paddingStart="@dimen/dimen10dp"
-                    android:paddingEnd="10dp"
-                    android:text="Get batch List"
-                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <TextView
@@ -355,6 +339,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Required Qty:  "
@@ -362,6 +347,7 @@
                         android:textSize="@dimen/dimen_11sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/available_qty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -380,7 +366,7 @@
                         android:paddingTop="@dimen/_4dp"
                         android:paddingEnd="@dimen/dimen7dp"
                         android:paddingBottom="@dimen/_4dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <ImageView
                             android:layout_width="18dp"
@@ -1127,6 +1113,38 @@
             android:text="No Batch Details Found"
             android:textColor="@color/red"
             android:textSize="@dimen/dimen14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/get_batch_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/dimen10dp"
+            android:background="#b97a56"
+            android:layout_below="@+id/no_order_found_text"
+            android:fontFamily="@font/roboto_bold"
+            android:padding="@dimen/dimen5dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:onClick="@{()-> callback.onClickGetBatchList()}"
+            android:paddingStart="@dimen/dimen10dp"
+            android:paddingEnd="10dp"
+            android:text="Get batch List"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/enter_last_three_digits_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="Enter the Last \n3 digits of the \nBatch"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen16sp"
             android:visibility="gone" />
         <!--        <TextView-->
         <!--            android:id="@+id/apollo_mrp"-->

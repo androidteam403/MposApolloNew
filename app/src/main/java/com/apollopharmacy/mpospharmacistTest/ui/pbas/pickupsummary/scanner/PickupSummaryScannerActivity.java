@@ -33,7 +33,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
     private Button switchFlashlightButton;
     private boolean isFlashLightOn = false;
     Bundle savedInstanceState;
-    TextView scannedText, barcodeCount, fulfilmentId;
+    TextView scannedText, barcodeCount, fulfilmentId, trayId, flidText, trayIdText;
     public String selectedStatus = "";
     private int pos = 0;
     Dialog dialog;
@@ -52,7 +52,10 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
         closeBtn.setOnClickListener(view -> onBackPressed());
         scannedText = findViewById(R.id.scanned_text);
         barcodeCount = findViewById(R.id.barcode_count);
-        fulfilmentId = findViewById(R.id.fulfilment_id_num);
+        fulfilmentId = findViewById(R.id.flid);
+        trayId = findViewById(R.id.tray_id);
+        trayIdText = findViewById(R.id.tray_id_text);
+        flidText = findViewById(R.id.flid_text);
 
         int scannedOrdersCount = 0;
 
@@ -60,6 +63,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
             for (int i = 0; i < PickUpSummmaryActivityNew.omsHeaderList.size(); i++) {
                 if (!PickUpSummmaryActivityNew.omsHeaderList.get(i).isScanned()) {
                     fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(i).getRefno());
+                    trayId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(i).getScannedBarcode());
                     pos = i;
                     break;
                 }
@@ -93,7 +97,23 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
             }
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 0) {
                 fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getRefno());
+                trayId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getScannedBarcode());
             }
+        }
+        if (selectedStatus != null && !selectedStatus.isEmpty()) {
+            scannedText.setVisibility(View.GONE);
+            barcodeCount.setVisibility(View.GONE);
+            trayId.setVisibility(View.GONE);
+            trayIdText.setVisibility(View.GONE);
+            fulfilmentId.setVisibility(View.GONE);
+            flidText.setVisibility(View.GONE);
+        } else {
+            scannedText.setVisibility(View.VISIBLE);
+            barcodeCount.setVisibility(View.VISIBLE);
+            trayId.setVisibility(View.VISIBLE);
+            trayIdText.setVisibility(View.VISIBLE);
+            fulfilmentId.setVisibility(View.VISIBLE);
+            flidText.setVisibility(View.VISIBLE);
         }
         capture = new PickupSummaryCaptureManager(this, barcodeScannerView, getApplicationContext());
         capture.setSelectedStatus(selectedStatus);
@@ -136,6 +156,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
             for (int i = 0; i < PickUpSummmaryActivityNew.omsHeaderList.size(); i++) {
                 if (!PickUpSummmaryActivityNew.omsHeaderList.get(i).isScanned()) {
                     fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(i).getRefno());
+                    trayId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(i).getScannedBarcode());
                     pos = i;
                     break;
                 }
@@ -154,6 +175,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
         }
         barcodeCount.setText(scannedOrdersCount + "/" + PickUpSummmaryActivityNew.omsHeaderList.size());
         fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getRefno());
+        trayId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getScannedBarcode());
     }
 
     @SuppressLint("SetTextI18n")
