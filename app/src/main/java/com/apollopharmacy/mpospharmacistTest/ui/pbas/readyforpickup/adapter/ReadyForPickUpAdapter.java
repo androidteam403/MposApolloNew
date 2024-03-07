@@ -80,7 +80,13 @@ public class ReadyForPickUpAdapter extends RecyclerView.Adapter<ReadyForPickUpAd
         String outputDate = outputFormat.format(inputDate);
         holder.adapterReadyForPickupBinding.deliveryDatePickpack.setText(outputDate);
 
-        holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+        if (omsHeader.getGetOMSTransactionResponse() != null) {
+            if (omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
+                holder.adapterReadyForPickupBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+            }
+        } else {
+            holder.adapterReadyForPickupBinding.totalItems.setText("-");
+        }
 
 
         if (omsHeader.isTagBox()) {

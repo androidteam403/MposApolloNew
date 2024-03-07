@@ -98,7 +98,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
 //            allowChangeQty = (boolean) getIntent().getSerializableExtra("ALLOW_CHANGE_QTY");
 //            allowMultiBatch = (boolean) getIntent().getSerializableExtra("ALLOW_MULTI_BATCH");
         }
-        boolean isRackIdScanAllowed = true; // mPresenter.getGlobalConfiguration().isRackidScanAllowed();
+        boolean isRackIdScanAllowed = mPresenter.getGlobalConfiguration().isRackidScanAllowed();
         if (!isRackIdScanAllowed) {
             if (salesLine.getCategoryCode().equalsIgnoreCase("P")) {
                 Intent intent = new Intent(ShelfIdScannerActivity.this, BatchListActivity.class);
@@ -254,7 +254,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                                 barcodeScannerView.resume();
                                 isScannedBoxId = false;
                                 dialog.dismiss();
-                            });*/
+                            });
                         }
                     }
                 }*/
@@ -339,7 +339,7 @@ public class ShelfIdScannerActivity extends BaseActivity implements ShelfIdScann
                         dialog.setContentView(shelfScanSuccessBinding.getRoot());
                         dialog.setCancelable(false);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        shelfScanSuccessBinding.message.setText("Box Scanned Successfully");
+                        shelfScanSuccessBinding.message.setText("Tray ID Scanned Successfully");
                         new Handler().postDelayed(() -> {
                             if (dialog != null && dialog.isShowing()) {
                                 dialog.dismiss();

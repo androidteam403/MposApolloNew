@@ -2286,7 +2286,9 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
 
             if (omsHeaderList.get(getPos).isSelected()) {
 
-                omsHeaderList.get(getPos).setGetOMSTransactionResponse(getOMSTransactionResponseList.get(0));
+                if (getOMSTransactionResponseList != null && getOMSTransactionResponseList.size() > 0) {
+                    omsHeaderList.get(getPos).setGetOMSTransactionResponse(getOMSTransactionResponseList.get(0));
+                }
                 selectedOmsHeaderList.add(omsHeaderList.get(getPos));
             } else {
                 if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
@@ -2709,11 +2711,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessGetOmsTransactionBulkSelection(List<GetOMSTransactionResponse> body) {
-        if (omsHeaderList != null && omsHeaderList.size() > 0) {
-            for (int i = 0; i < omsHeaderList.size(); i++) {
-                if (omsHeaderList.get(i).getRefno().equalsIgnoreCase(body.get(0).getRefno())) {
-                    omsHeaderList.get(i).setGetOMSTransactionResponse(body.get(0));
-                    selectedOmsHeaderList.add(omsHeaderList.get(i));
+        if (body != null && body.size() > 0) {
+            if (omsHeaderList != null && omsHeaderList.size() > 0) {
+                for (int i = 0; i < omsHeaderList.size(); i++) {
+                    if (omsHeaderList.get(i).getRefno().equalsIgnoreCase(body.get(0).getRefno())) {
+                        omsHeaderList.get(i).setGetOMSTransactionResponse(body.get(0));
+                        selectedOmsHeaderList.add(omsHeaderList.get(i));
+                    }
                 }
             }
         }
