@@ -95,7 +95,7 @@ public class PickupSummaryZebrascannerActivity extends AppCompatActivity {
 
         if(!BillerOrdersActivity.isBillerActivity) {
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 1) {
-                pos = PickUpSummmaryActivityNew.position;
+//                pos = PickUpSummmaryActivityNew.position;
             }
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 0) {
                 fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getRefno());

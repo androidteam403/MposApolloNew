@@ -367,11 +367,11 @@ public class ZebraBatchlistScanner extends BaseActivity implements  BatchlistSca
                         isMatched = true;
                         if (salesLineBatchList.size() > 0) {
                             for (int j = 0; j < salesLineBatchList.size(); j++) {
-                                if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                                if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(i).getBatchNo())) {
                                     salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
                                 } else {
-                                    batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
-                                    salesLineBatchList.add(this.batchList.get(j));
+                                    batchList.get(i).setREQQTY(this.batchList.get(i).getREQQTY() + 1);
+                                    salesLineBatchList.add(this.batchList.get(i));
                                 }
                             }
                         } else {
@@ -399,11 +399,11 @@ public class ZebraBatchlistScanner extends BaseActivity implements  BatchlistSca
                 batchListObj = batchList.get(0);
                 if (salesLineBatchList.size() > 0) {
                     for (int j = 0; j < salesLineBatchList.size(); j++) {
-                        if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(j).getBatchNo())) {
+                        if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(0).getBatchNo())) {
                             salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
                         } else {
-                            batchList.get(j).setREQQTY(this.batchList.get(j).getREQQTY() + 1);
-                            salesLineBatchList.add(this.batchList.get(j));
+                            batchList.get(j).setREQQTY(this.batchList.get(0).getREQQTY() + 1);
+                            salesLineBatchList.add(this.batchList.get(0));
                         }
                     }
                 } else {
