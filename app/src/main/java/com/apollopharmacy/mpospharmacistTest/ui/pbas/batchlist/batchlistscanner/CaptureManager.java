@@ -277,7 +277,7 @@ public class CaptureManager implements CallbackCaptureManager {
                         if (salesLineBatchList.get(j).getBatchNo().equalsIgnoreCase(batchList.get(0).getBatchNo())) {
                             salesLineBatchList.get(j).setREQQTY(salesLineBatchList.get(j).getREQQTY() + 1);
                         } else {
-                            batchList.get(j).setREQQTY(this.batchList.get(0).getREQQTY() + 1);
+                            batchList.get(0).setREQQTY(this.batchList.get(0).getREQQTY() + 1);
                             salesLineBatchList.add(this.batchList.get(0));
                         }
                     }

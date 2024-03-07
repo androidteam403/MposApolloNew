@@ -388,6 +388,9 @@ public interface ApiInterface {
     @POST("SalesTransactionService.svc/GetOMSTransactionHeader")
     Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER(@Body TransactionHeaderRequest transactionHeaderRequest);
 
+    @POST("https://jsonblob.com/api/json/1214495424798121984")
+    Call<TransactionHeaderResponse> GET_OMS_TRANSACTION_HEADER_PICKER_test();
+
     //UAT
     @POST
     Call<OMSOrderForwardResponse> UPDATE_OMS_ORDER(@Body OMSOrderForwardRequest request, @Url String url);//OMSSERVICE/OMSService.svc/MPOSOrderUpdate

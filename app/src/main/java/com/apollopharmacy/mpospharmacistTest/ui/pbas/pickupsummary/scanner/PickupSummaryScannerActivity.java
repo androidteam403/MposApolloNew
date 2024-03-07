@@ -93,7 +93,7 @@ public class PickupSummaryScannerActivity extends AppCompatActivity implements D
 
         if (!BillerOrdersActivity.isBillerActivity) {
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 1) {
-                pos = PickUpSummmaryActivityNew.position;
+//                pos = PickUpSummmaryActivityNew.position;
             }
             if (PickUpSummmaryActivityNew.omsHeaderList != null && PickUpSummmaryActivityNew.omsHeaderList.size() > 0) {
                 fulfilmentId.setText(PickUpSummmaryActivityNew.omsHeaderList.get(pos).getRefno());
