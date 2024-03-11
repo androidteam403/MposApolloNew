@@ -236,17 +236,21 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView, Picke
         isScanerBack = true;
         BillerOrdersActivity.isBillerActivity = true;
         isOrdersPFragment = true;
-        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+//        new IntentIntegrator(getActivity()).setCaptureActivity(ScannerActivity.class).initiateScan();
+        Intent intent = new Intent(getActivity(), ScannerActivity.class);
+        intent.putExtra("isOrdersFragment", isOrdersPFragment);
+        startActivityForResult(intent, 999);
         getActivity().overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (Result != null) {
-            if (Result.getContents() != null) {
-                Toast.makeText(getContext(), "Scanned -> " + Result.getContents(), Toast.LENGTH_SHORT).show();
-                ordersBinding.searchText.setText(Result.getContents());
+//        IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            String result = data.getStringExtra("result");
+            if (result != null) {
+                Toast.makeText(getContext(), "Scanned -> " + result, Toast.LENGTH_SHORT).show();
+                ordersBinding.searchText.setText(result);
                 BillerOrdersActivity.isBillerActivity = false;
             }
         } else {

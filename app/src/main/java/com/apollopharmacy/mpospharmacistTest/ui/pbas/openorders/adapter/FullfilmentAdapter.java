@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable, HeaderItemDecoration.StickyHeaderInterface {
+public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.ViewHolder> implements Filterable {//, HeaderItemDecoration.StickyHeaderInterface
     private final Context context;
     private List<TransactionHeaderResponse.OMSHeader> filteredOmsHeaderList = new ArrayList<>();
     private List<TransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
@@ -261,12 +261,12 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             holder.fullfilmentBinding.fullfillmentSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_artboard_39));
 //            holder.fullfilmentBinding.fullfillmentParentLayout.setBackground(context.getResources().getDrawable(R.drawable.square_stroke_bg));
         }
-        holder.fullfilmentBinding.rightArrow.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             if (mvpView != null) {
                 mvpView.ondownArrowClicked(omsHeader.getRefno(), position);
             }
         });
-        holder.itemView.setOnClickListener(v -> {
+        holder.fullfilmentBinding.fullfillmentSelectIcon.setOnClickListener(v -> {
             if (!omsHeader.getStockStatus().equals("NOT AVAILABLE")) {
                 /*if ((omsHeader.getPickPackStatus().equalsIgnoreCase("1") && !userId.equalsIgnoreCase(omsHeader.getPickPackUser()))) {
                     Toast.makeText(context, "Order is in progress", Toast.LENGTH_SHORT).show();
@@ -307,12 +307,14 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
                 && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL() != null
                 && omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL().size() > 0) {
             holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.VISIBLE);
+            holder.fullfilmentBinding.prescriptionsParentLayout.setVisibility(View.VISIBLE);
             PrescriptionsAdapter prescriptionsAdapter = new PrescriptionsAdapter(context, mvpView, omsHeader.getGetOMSTransactionResponse().getOrderPrescriptionURL());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             holder.fullfilmentBinding.prescriptionsRecycler.setLayoutManager(mLayoutManager);
             holder.fullfilmentBinding.prescriptionsRecycler.setAdapter(prescriptionsAdapter);
         } else {
             holder.fullfilmentBinding.prescriptionsLayout.setVisibility(View.GONE);
+            holder.fullfilmentBinding.prescriptionsParentLayout.setVisibility(View.GONE);
         }
     }
 
@@ -366,6 +368,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
         };
     }
 
+    /* sticky header
     @Override
     public int getHeaderPositionForItem(int itemPosition) {
         int headerPosition = 0;
@@ -427,7 +430,7 @@ public class FullfilmentAdapter extends RecyclerView.Adapter<FullfilmentAdapter.
             }
         }
         return false;
-    }
+    }*/
 
     public void isBulkSelected(boolean isBulkSelection, String selectedShipmentTat) {
         this.isSelectIconChecked = isBulkSelection;

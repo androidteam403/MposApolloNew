@@ -259,6 +259,11 @@ public class ManualBillingFragment extends BaseFragment implements BillingMvpVie
 
     }
 
+    @Override
+    public String getTransactionId() {
+        return null;
+    }
+
 //    @Override
 //    public void updateUHIDDetails(Uhid_details uhid_details) {
 //

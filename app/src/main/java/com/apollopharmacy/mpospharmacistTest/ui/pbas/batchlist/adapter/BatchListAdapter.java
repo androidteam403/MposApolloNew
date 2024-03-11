@@ -286,7 +286,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                 } else {
                                     Toast.makeText(mContext, "Batch list mvp view is null", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
+                            } else if (!holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString().equalsIgnoreCase(batchListModelListl.get(position).getBatchNo())) {
                                 Dialog physicalBatchIdDialog = new Dialog(mContext);//, R.style.Theme_AppCompat_DayNight_NoActionBar
                                 DialogPhysicalBatchIdBinding dialogPhysicalBatchIdBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_physical_batch_id, null, false);
                                 physicalBatchIdDialog.setContentView(dialogPhysicalBatchIdBinding.getRoot());
@@ -318,6 +318,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
                                 });
 //                            dialogPhysicalBatchIdBinding.dialogButtonNot.setOnClickListener(v3 -> physicalBatchIdDialog.dismiss());
                                 physicalBatchIdDialog.show();
+                            } else {
+                                batchListModel.setSelected(true);
+                                batchListModel.setBatchNo(batchListModelListl.get(position).getBatchNo());
+                                batchListModel.setREQQTY(Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()));
+                                batchListModel.setPhysicalBatchID(holder.adapterBatchlistBinding.phisicalbatchEdit.getText().toString());
+                                batchListMvpView.onClickSelectedBatch(batchListModel, false);
                             }
 
                         } else if (Double.parseDouble(holder.adapterBatchlistBinding.requiredQuantity.getText().toString()) > Double.parseDouble(batchListModel.getQ_O_H())) {
@@ -360,7 +366,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             @Override
             public void onClick(View v) {
                 batchListModel.setSelected(false);
-                batchListModel.setREQQTY(0);
+//                batchListModel.setREQQTY(0);
                 if (batchListMvpView != null) {
                     batchListMvpView.onClickSelectedBatch(batchListModel, false);
                 }
@@ -409,11 +415,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.View
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    batchListModelListl = omsHeaderList;
+                    batchListModelListl.clear();
                 } else {
                     filteredList.clear();
                     for (GetBatchInfoRes.BatchListObj row : omsHeaderList) {
-                        if (!filteredList.contains(row) && (row.getBatchNo().toLowerCase().contains(charString.toLowerCase()))) {
+                        if (!filteredList.contains(row) && (row.getBatchNo().substring(0, 3).equalsIgnoreCase(charString))) {
                             filteredList.add(row);
                         }
 

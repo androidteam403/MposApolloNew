@@ -283,14 +283,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen20dp"
                 android:id="@+id/scanner_layout"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_weight=".3"
                 android:gravity="end">
 
                 <ImageView
+                    android:id="@+id/header_scanner"
                     android:layout_width="@dimen/dimen20dp"
                     android:layout_height="@dimen/dimen20dp"
                     android:src="@drawable/ic_artboard_36" />
+
+                <RelativeLayout
+                    android:id="@+id/header_scanner_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_artboard_36" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="3dp"
+                        android:src="@drawable/action_accept"
+                        android:visibility="visible" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -348,10 +371,13 @@
                             android:src="@drawable/cart" />
 
                         <TextView
+                            android:id="@+id/boxId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/price_bold"
+                            android:textColor="@color/black"
                             android:text="001"
-                            android:textSize="8sp" />
+                            android:textSize="@dimen/dimen_11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -365,7 +391,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="FL20230117301108524"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/dimen10sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -380,6 +406,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen7dp"
+                        android:visibility="gone"
                         android:fontFamily="@font/roboto_bold"
                         android:text="1/2"
                         android:textColor="@color/black"
@@ -403,7 +430,28 @@
                             android:layout_marginEnd="@dimen/dimen10dp"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_artboard_36" />
-                        <ImageView
+
+                        <RelativeLayout
+                            android:id="@+id/scannedTick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen10dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/ic_artboard_36" />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:contentDescription="@string/app_name"
+                                android:padding="3dp"
+                                android:src="@drawable/action_accept" />
+                        </RelativeLayout>
+                        <!--<ImageView
                             android:id="@+id/scannedTick"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
@@ -411,7 +459,7 @@
                             android:padding="3dp"
                             android:visibility="gone"
                             android:src="@drawable/action_accept"
-                            />
+                            />-->
                     </RelativeLayout>
 
 

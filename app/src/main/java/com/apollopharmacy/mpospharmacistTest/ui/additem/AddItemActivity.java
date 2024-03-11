@@ -2,6 +2,7 @@ package com.apollopharmacy.mpospharmacistTest.ui.additem;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -322,6 +323,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         return intent;
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -347,6 +349,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     protected void setUp() {
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                addItemBinding.setIsCameFromOrderDetailsScreenActivity(isCameFromOrderDetailsScreenActivity);
+            }
+        }
         if (mPresenter.isMposV1Flow()) {
             addItemBinding.detailsLayout.uploadApi.setVisibility(View.VISIBLE);
         } else {
@@ -397,14 +405,22 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 if (customerEntity.getAvailablePoints() == null || customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
                     addItemBinding.detailsLayout.availablePoints.setText("--");
                 } else {
-                    addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
+                    DecimalFormat d = new DecimalFormat("#.##");
+                    if (customerEntity.getAvailablePoints() != null && !customerEntity.getAvailablePoints().isEmpty()) {
+                        double availableAmount = Double.parseDouble(customerEntity.getAvailablePoints());
+                        addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                    }
+//                    addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
                 }
             }
 
             pharmacyStaffApiRes = (PharmacyStaffApiRes) getIntent().getSerializableExtra("staff_avail_amt");
             if (pharmacyStaffApiRes != null) {
                 double availableAmount = Double.parseDouble(pharmacyStaffApiRes.getTotalBalance()) - Double.parseDouble(pharmacyStaffApiRes.getUsedBalance());
-                addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+                DecimalFormat d = new DecimalFormat("#.##");
+                addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+
+//                addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
             }
             if (customerEntity.getCardNo() == null || customerEntity.getCardNo().equalsIgnoreCase("")) {
                 prgData = getIntent().getStringExtra("prg_track");
@@ -909,9 +925,17 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 if (addItemBinding.getIsPaymentMode() != null && addItemBinding.getIsPaymentMode()) {
                     paymentMethodModel.setGenerateBill(true);
                 }
-                updatePayedAmount(calculatePosTransactionRes);
+                updatePayedAmount(calculatePosTransactionRes, false);
                 addItemBinding.setIsPaymentMode(true);
                 setEnableEditTextChange();
+
+                //To generate bill directly
+                if (getIntent() != null) {
+                    isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+                    if (isCameFromOrderDetailsScreenActivity) {
+                        mPresenter.onClickVendorPayMode();
+                    }
+                }
             } else {
                 alertQuantityError("Please Enter Remainder Days!!");
             }
@@ -1243,6 +1267,14 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         //  addItemBinding.cashPayButtonLayout.setVisibility(View.VISIBLE);
         addItemBinding.CODPayButtonLayout.setVisibility(View.VISIBLE);
 
+        //To generate bill directly
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                mPresenter.onClickCodPayMode();
+            }
+        }
+
     }
 
     @Override
@@ -1251,6 +1283,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         addItemBinding.vendorPayButtonLayout.setVisibility(View.GONE);
         addItemBinding.CODPayButtonLayout.setVisibility(View.VISIBLE);
 
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                mPresenter.onClickCodPayMode();
+            }
+        }
 
     }
 
@@ -1291,10 +1329,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 calculatePosTransactionRes.setReturnMessage("");
 
                 if (Constant.getInstance().vendorcredit) {
-                    mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null);
+                    mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null, true);
 
                 } else {
-                    mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
+                    mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null, true);
                 }
 
                 // mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
@@ -1314,10 +1352,10 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             paymentMethodModel.setCodPayMode(true);
 
             if (Constant.getInstance().vendorcredit) {
-                mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null);
+                mPresenter.generateTenterLineService(Constant.getInstance().remainamount, null, true);
 
             } else {
-                mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
+                mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null, true);
             }
 
             // mPresenter.generateTenterLineService(orderPriceInfoModel.getOrderTotalAmount(), null);
@@ -1721,7 +1759,17 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 onClickGenerateBill();
             }
         } else {
-            showMessage(body.getReturnMessage());
+            if (getIntent() != null) {
+                isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+                if (isCameFromOrderDetailsScreenActivity) {
+//                    showMessage(body.getReturnMessage());
+                } else {
+                    showMessage(body.getReturnMessage());
+                }
+            } else {
+                showMessage(body.getReturnMessage());
+            }
+
         }
         ObjectAnimator anim = ObjectAnimator.ofFloat(addItemBinding.detailsLayout.expandCollapseIcon, "rotation", rotationAngle, rotationAngle + 180);
         anim.setDuration(500);
@@ -1860,7 +1908,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         rotationAngle += 180;
         rotationAngle = rotationAngle % 360;
         ViewAnimationUtils.collapse(addItemBinding.detailsLayout.customerDoctorLayout);
-        updatePayedAmount(calculatePosTransactionRes);
+        updatePayedAmount(calculatePosTransactionRes, false);
 
         if (getIntent() != null) {
             isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
@@ -1904,7 +1952,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     public void onSuccessOneApolloOtp(ValidatePointsResModel.OneApolloProcessResultEntity entity) {
         addItemBinding.setValidatePoints(entity);
         paymentMethodModel.setOTPView(false);
-        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()), null);
+        mPresenter.generateTenterLineService(Double.parseDouble(entity.getRedeemPoints()), null, false);
     }
 
     @Override
@@ -2043,7 +2091,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
     PayAdapterModel payAdapterModel;
 
     @Override
-    public void updatePayedAmount(CalculatePosTransactionRes transactionRes) {
+    public void updatePayedAmount(CalculatePosTransactionRes transactionRes, boolean isBillGenerate) {
         if (clearItems) {
             transactionRes.getTenderLine().clear();
             clearItems = false;
@@ -2239,6 +2287,19 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             calculatePosTransactionRes.setTenderLine(tenderAddList);
         }
 
+//To generate bill directly
+        if (Constant.getInstance().remainamount <=  0) {
+            Constant.getInstance().vendorcredit = true;
+            isBillGenerate=true;
+        }
+        if (getIntent() != null) {
+            isCameFromOrderDetailsScreenActivity = (Boolean) getIntent().getBooleanExtra("IS_CAME_FROM_ORDER_DETAILS_SCREEN_ACTIVITY", false);
+            if (isCameFromOrderDetailsScreenActivity) {
+                if (isBillGenerate) {
+                    mPresenter.onClickGenerateBill();
+                }
+            }
+        }
     }
 
     @Override
@@ -2275,7 +2336,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 tenderLineEntities.add(tenderLineEntity);
             }
             calculatePosTransactionRes.setTenderLine(tenderLineEntities);
-            updatePayedAmount(calculatePosTransactionRes);
+            updatePayedAmount(calculatePosTransactionRes, false);
         }
     }
 
@@ -2669,7 +2730,12 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                 }
             } else {
                 isCorporatePayment = true;
-                addItemBinding.detailsLayout.availablePoints.setText(availableData);
+                DecimalFormat d = new DecimalFormat("#.##");
+                if (availableData != null && !availableData.isEmpty()) {
+                    double availableAmount = Double.parseDouble(availableData);
+                    addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                }
+//                addItemBinding.detailsLayout.availablePoints.setText(availableData);
             }
         } else {
             isCorporatePayment = false;
@@ -2682,19 +2748,26 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
 
     @Override
     public void onSucessStaffListData(PharmacyStaffApiRes staffApiRes) {
+        DecimalFormat d = new DecimalFormat("#.##");
         double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
-        addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));
+        addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+
+
+        /*double availableAmount = Double.parseDouble(staffApiRes.getTotalBalance()) - Double.parseDouble(staffApiRes.getUsedBalance());
+        addItemBinding.detailsLayout.availablePoints.setText(String.valueOf(availableAmount));*/
         isCorporatePayment = true;
         clearallBtnVisibilitybyCorpPayment(isCorporatePayment);
         if (customerEntity != null) {
             customerEntity.setCardName(staffApiRes.getEmpName());
             customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
             addItemBinding.setCustomer(customerEntity);
+            getCalculatedPosTransactionRes().setCustomerName(staffApiRes.getEmpName());
         } else {
             customerEntity = new GetCustomerResponse.CustomerEntity();
             customerEntity.setCardName(staffApiRes.getEmpName());
             customerEntity.setMobileNo(staffApiRes.getRegMobileNo());
             addItemBinding.setCustomer(customerEntity);
+            getCalculatedPosTransactionRes().setCustomerName(staffApiRes.getEmpName());
         }
     }
 
@@ -2927,13 +3000,18 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
             mPresenter.getPharmacyStaffApiDetails("", "ENQUIRY", amount);
         } else {
             getPaymentMethod().setCreditMode(true);
-            mPresenter.generateTenterLineService(amount, null);
+            mPresenter.generateTenterLineService(amount, null, false);
         }
     }
 
     @Override
     public String getPatientType() {
         return selectedPatient;
+    }
+
+    @Override
+    public String getTransactionId() {
+        return addItemBinding.getTransaction().getTransactionID();
     }
 
     private void noStockAlertDialog() {
@@ -2951,6 +3029,7 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
         dialog.show();
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -3078,7 +3157,11 @@ public class AddItemActivity extends BaseActivity implements AddItemMvpView, Cus
                             if (customerEntity.getAvailablePoints() == null || customerEntity.getAvailablePoints().equalsIgnoreCase("")) {
                                 addItemBinding.detailsLayout.availablePoints.setText("--");
                             } else {
-                                addItemBinding.detailsLayout.availablePoints.setText(customerEntity.getAvailablePoints());
+                                DecimalFormat d = new DecimalFormat("#.##");
+                                if (customerEntity.getAvailablePoints() != null && !customerEntity.getAvailablePoints().isEmpty()) {
+                                    double availableAmount = Double.parseDouble(customerEntity.getAvailablePoints());
+                                    addItemBinding.detailsLayout.availablePoints.setText(d.format(availableAmount));
+                                }
                             }
                             if (calculatePosTransactionRes != null) {
                                 calculatePosTransactionRes.setCustomerID(customerEntity.getCustId());

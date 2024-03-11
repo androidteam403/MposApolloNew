@@ -27,6 +27,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.Transactio
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.SelectAppFlowActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     FullfilmentAdapter fullfilmentAdapter;
     private String fragmentName = null;
+    private String userType;
 
     public static Intent getStartIntent(Context mContext, String fragmentName) {
         Intent intent = new Intent(mContext, PickerNavigationActivity.class);
@@ -75,6 +77,14 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 
     @Override
     protected void setUp() {
+        List<UserModel._DropdownValueBean> loginUserResult = mPresenter.getLoginUserResult();
+        for (int i = 0; i < loginUserResult.size(); i++) {
+            if (mPresenter.getUserId().equalsIgnoreCase(loginUserResult.get(i).getCode())) {
+                userType = loginUserResult.get(i).getUserType();
+            }
+        }
+        Menu menu = activityNavigation3Binding.navView.getMenu();
+        menu.findItem(R.id.nav_on_hold).setVisible(userType.equalsIgnoreCase("1"));
         mInstance = this;
 //        activityNavigation3Binding.setCallback(mPresenter);
         setSupportActionBar(activityNavigation3Binding.appBarMain.toolbar);
@@ -308,6 +318,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         dialogView.setSubtitle("Are you sure want to logout the application ?");
         dialogView.setPositiveLabel("Yes");
         dialogView.setPositiveListener(view -> {
+            dialogView.dismiss();
             mPresenter.logoutUser();
         });
         dialogView.setNegativeLabel("No");

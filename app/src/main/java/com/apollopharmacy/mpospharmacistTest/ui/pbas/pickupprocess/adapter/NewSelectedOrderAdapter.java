@@ -1,6 +1,7 @@
 
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +69,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
     int adapterPosition;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NewSelectedOrderAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
@@ -83,18 +86,27 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 //        holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
         this.reqqty = salesLine.getQty();
-
+        holder.pickupSummaryDetailsProductsBinding.requiredQty.setText(Integer.toString(salesLine.getQty()));
+        if (salesLine.getPickedQty() != null) {
+            holder.pickupSummaryDetailsProductsBinding.pickedQty.setText(salesLine.getPickedQty());
+        } else {
+            holder.pickupSummaryDetailsProductsBinding.pickedQty.setText("0");
+        }
 
         if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("PARTIAL")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("NOT AVAILABLE")) {
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_available));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else if (salesLine.getStatus() != null && salesLine.getStatus().equalsIgnoreCase("FULL")) {
@@ -102,21 +114,50 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_circle_tick));
             holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
             holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
             holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setVisibility(View.VISIBLE);
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.parseColor("#33FFFF00"));
         } else {
             holder.pickupSummaryDetailsProductsBinding.itemLayout.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        if (salesLine.isOnHold()) {
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(false);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
+            holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.GONE);
+            holder.pickupSummaryDetailsProductsBinding.done.setVisibility(View.GONE);
+        } else {
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+//            holder.pickupSummaryDetailsProductsBinding.onHold.setEnabled(true);
+            holder.pickupSummaryDetailsProductsBinding.onHold.setVisibility(View.VISIBLE);
+            holder.pickupSummaryDetailsProductsBinding.childItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            holder.pickupSummaryDetailsProductsBinding.revertBtn.setVisibility(View.GONE);
+//            holder.pickupSummaryDetailsProductsBinding.start.setVisibility(View.VISIBLE);
+        }
 
-        holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
+
+        /*holder.pickupSummaryDetailsProductsBinding.statusUpdateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (pickupProcessMvpView != null) {
                     pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
                 }
             }
+        });*/
+
+        holder.pickupSummaryDetailsProductsBinding.onHold.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickOnHoldItem(salesLine, position, orderAdapterPos);
         });
+        holder.pickupSummaryDetailsProductsBinding.revertBtn.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickRevertItem(salesLine, position);
+        });
+        /*holder.pickupSummaryDetailsProductsBinding.skip.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickSkipItem(salesLine, position);
+        });*/
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
@@ -180,7 +221,7 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
         holder.pickupSummaryDetailsProductsBinding.done.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+//                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
 
 //                Dialog dialog = new Dialog(context);
 //                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
@@ -242,13 +283,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
 
 
-        /*if (salesLine.getGetBatchInfoRes() != null) {
+        if (salesLine.getGetBatchInfoRes() != null) {
             holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
             SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList(), salesLine);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
-        }*/
+        }
     }
 
     @Override

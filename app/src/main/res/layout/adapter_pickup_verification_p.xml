@@ -1,38 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dimen5dp"
+        android:paddingStart="@dimen/dimen5dp"
+        android:paddingEnd="@dimen/dimen5dp"
         android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_4dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/product_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/square_stroke_bg"
                 android:orientation="horizontal"
                 android:padding="@dimen/ten_dp"
+                android:paddingStart="@dimen/dimen7dp"
                 android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/product_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Products"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/eight_sp" />
+                <ImageView
+                    android:id="@+id/status_icon"
+                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/sixteen_dp"
+                    android:rotation="-90"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_circular_partial"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Ceruvin A 75 Tab"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/eight_sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Rack ID: "
+                            android:textSize="@dimen/dimen_9_sp"/>
+
+                        <TextView
+                            android:id="@+id/rack_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="42125"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_9_sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Preferred Batch: "
+                            android:textSize="@dimen/dimen_9_sp"/>
+
+                        <TextView
+                            android:id="@+id/preffered_batch_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="--"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_9_sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Picker: "
+                            android:textSize="@dimen/dimen_9_sp"/>
+
+                        <TextView
+                            android:id="@+id/picker_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Verified"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/dimen_9_sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -44,6 +132,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
+                        android:text="1/"
                         android:textColor="@color/black"
                         android:textSize="@dimen/eight_sp" />
 
@@ -51,6 +140,7 @@
                         android:id="@+id/available_qty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="1"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:textColor="@color/black"
@@ -58,7 +148,7 @@
 
                 </LinearLayout>
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -72,14 +162,13 @@
                         android:layout_marginStart="@dimen/dimen5dp"
                         android:layout_marginEnd="@dimen/dimen5dp"
                         android:contentDescription="@string/app_name" />
-                </RelativeLayout>
+                </RelativeLayout>-->
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.15"
-                    android:gravity="center_horizontal">
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.3">
 
                     <TextView
                         android:id="@+id/update"
@@ -89,31 +178,52 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/dimen5dp"
                         android:background="@drawable/rounded_corners_bg"
-                        android:backgroundTint="@color/green"
-                        android:fontFamily="@font/roboto_bold"
+                        android:backgroundTint="@color/yellow"
+                        android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
                         android:paddingStart="@dimen/dimen6dp"
                         android:paddingTop="@dimen/dimen1dp"
                         android:paddingEnd="@dimen/dimen6dp"
                         android:paddingBottom="@dimen/dimen1dp"
-                        android:text="update"
+                        android:text="Pending"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="8dp"
                         android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/re_check"
+                        android:layout_width="@dimen/dimen60dp"
+                        android:layout_height="@dimen/dimen18sp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:background="@drawable/rounded_corners_bg"
+                        android:backgroundTint="@color/red"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/dimen6dp"
+                        android:paddingTop="@dimen/dimen1dp"
+                        android:paddingEnd="@dimen/dimen6dp"
+                        android:paddingBottom="@dimen/dimen1dp"
+                        android:text="Re-Check"
+                        android:textColor="@color/white"
+                        android:textSize="8dp"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/packer_status_icon"
                         android:layout_width="20dp"
                         android:layout_height="@dimen/dimen20dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="@dimen/dimen5dp"
-                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:layout_marginEnd="@dimen/dimen20dp"
                         android:contentDescription="@string/app_name"
                         android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen10dp"
@@ -135,75 +245,86 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/ten_sp" />
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
-                android:id="@+id/headings"
+                android:id="@+id/batch_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/ten_dp"
-                android:paddingEnd="@dimen/ten_dp"
-                android:weightSum="1">
+                android:background="@drawable/square_stroke_bg_top"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/headings"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_weight=".2"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Batch No"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/eight_sp" />
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingEnd="@dimen/ten_dp"
+                    android:weightSum="1">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen5dp"
-                    android:layout_weight=".22"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Updated Batch No"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/eight_sp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_weight=".2"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Batch No"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/eight_sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".2"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="@string/label_exp_date"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/eight_sp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_weight=".22"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Updated Batch No"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/eight_sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".2"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="@string/label_mrp"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/eight_sp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".2"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@string/label_exp_date"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/eight_sp" />
 
-                <TextView
-                    android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".2"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@string/label_mrp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/eight_sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".18"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="@string/requied_qty"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/eight_sp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/selectedbatches_recycler"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".18"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="@string/requied_qty"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/eight_sp" />
+                    tools:itemCount="2"
+                    android:layout_marginTop="@dimen/dimen2dp"
+                    android:layout_marginBottom="@dimen/dimen5dp"
+                    android:paddingStart="@dimen/ten_dp"
+                    android:paddingEnd="@dimen/ten_dp" />
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/selectedbatches_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen2dp"
-                android:paddingStart="@dimen/ten_dp"
-                android:paddingEnd="@dimen/ten_dp" />
 
         </LinearLayout>
 
@@ -211,6 +332,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"
             android:layout_alignParentBottom="true"
+            android:visibility="gone"
             android:background="@color/light_grey" />
 
     </RelativeLayout>

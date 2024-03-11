@@ -35,7 +35,7 @@ public interface PickUpSummaryMvpView extends MvpView {
 
     void OmsOrderUpdateFailure(OMSOrderUpdateResponse response);
 
-    void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
+    void onClickItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, String selectedStatus, String itemStatus);
     void ondeleteItem(int pos, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList);
 
     void onClickScanCode();
@@ -45,4 +45,6 @@ public interface PickUpSummaryMvpView extends MvpView {
     void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse);
 
     void onClickOnHold(TransactionHeaderResponse.OMSHeader omsHeader);
+
+    void onClickEnableBtn(List<TransactionHeaderResponse.OMSHeader> omsHeaderList);
 }

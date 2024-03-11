@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/dimen10dp"
+            app:cardElevation="@dimen/dimen10dp"
+            android:layout_width="@dimen/dimen70dp"
+            android:layout_height="@dimen/dimen70dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_marginEnd="@dimen/dimen5dp"
+            android:layout_marginBottom="@dimen/dimen5dp"
+            android:onClick="@{()-> mvpView.onClickPrescriptionPreview(orderPrescriptionURL, prescriptionsList, position)}">
+
+            <ImageView
+                android:id="@+id/prescription_image"
+                android:layout_width="@dimen/dimen70dp"
+                android:layout_height="@dimen/dimen70dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="mvpView"
+            type="com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3MvpView" />
+
+        <variable
+            name="orderPrescriptionURL"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse.OrderPrescriptionURL" />
+
+        <variable
+            name="prescriptionsList"
+            type="java.util.List&lt;OrderPrescriptionURL>" />
+
+        <import type="com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse.OrderPrescriptionURL" />
+
+        <variable
+            name="position"
+            type="int" />
+    </data>
+</layout>

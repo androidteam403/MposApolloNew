@@ -34,6 +34,15 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:roundIcon,android:theme,android:allowBackup">
         <activity
+            android:name=".ui.pbas.pickupsummary.scanner.PickupSummaryScannerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.mposvthree.home.V3NavigationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.pbas.pickerhome.ui.admin.notallocatedorders.NotAllocatedOrdersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -152,7 +161,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
-            android:name=".ui.orderreturnactivity.OrderReturnActivity"
+            android:name=".ui.pbas.orderreturnactivity.OrderReturnActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
@@ -316,6 +325,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/StockInwardProcessDetailsActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+
+        <activity
+            android:name=".ui.zebrascanner.ZebrascannerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscanner"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.pbas.batchlist.batchlistscanner.ZebraBatchlistScanner"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pbas.pickupsummary.scanner.PickupSummaryZebrascannerActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -72,12 +72,15 @@ import com.apollopharmacy.mpospharmacistTest.ui.home.ui.manualbilling.ManualBill
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.home.ui.orders.OrdersPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.home.V3NavigationPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3MvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3MvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.mposvthree.openorders.OpenOrdersV3Presenter;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.newadminloginsetup.NewAdminLoginPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnMvpPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrderReturnPresenter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.OrderSummaryPresenter;
@@ -87,6 +90,12 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.BatchListPresente
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.batchlistscanner.BatchlistScannerPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.zebraselfidscanner.ZebraSelfscannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersPresenter;
@@ -118,6 +127,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.OpenOrdersPresen
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderdetails.OrderDetailsPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrderReturnPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.OrederReturnMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderReturnBillPrintPresenter;
@@ -181,6 +193,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.storesetup.StoreSetupPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.storesetup.dialog.GetStoresDialogPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerPresenter;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.AppSchedulerProvider;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
@@ -581,4 +596,33 @@ public class ActivityModule {
         return presenter;
     }
 
+    @Provides
+    @PerActivity
+    V3NavigationMvpPresenter<V3NavigationMvpView> provideV3NavigationPresenter(V3NavigationPresenter<V3NavigationMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OpenOrdersV3MvpPresenter<OpenOrdersV3MvpView> provideOpenOrdersV3Presenter(OpenOrdersV3Presenter<OpenOrdersV3MvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ShelfIdScannerMvpPresenter<ShelfIdScannerMvpView> provideShelfIdScannerPresenter(ShelfIdScannerPresenter<ShelfIdScannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ZebrascannerMvpPresenter<ZebrascannerMvpView> provideZebrascannerPresenter(ZebrascannerPresenter<ZebrascannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ZebraSelfscannerMvpPresenter<ZebraSelfscannerMvpView> provideZebraSelfscannerPresenter(ZebraSelfscannerPresenter<ZebraSelfscannerMvpView> presenter) {
+        return presenter;
+    }
 }

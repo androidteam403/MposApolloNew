@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +35,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.ScanQ
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.dialog.UnTagQrCodeDialog;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.scanner.ScannerActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.zebrascanner.ZebrascannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.BluetoothActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -43,6 +46,7 @@ import com.printf.manager.PrintfTSPLManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -79,12 +83,18 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
     private List<TransactionHeaderResponse.OMSHeader> totalOmsHeaderList;
 
     int taggedCount = 0;
+    int maxAllowedOrder = 0;
+    private boolean isBackPressed = false;
 
+    public  static   boolean camera_zebrascanner=false;
 
-    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList) {
+    public static final int ZEBRA_ACTIVITY_REQUEST_CODE = 0;
+
+    public static Intent getStartActivity(Context context, List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList, List<TransactionHeaderResponse.OMSHeader> omsHeaderList, int maxAllowedOrder) {
         Intent intent = new Intent(context, ReadyForPickUpActivity.class);
         intent.putExtra(CommonUtils.SELECTED_ORDERS_LIST, (Serializable) selectedOmsHeaderList);
         intent.putExtra(CommonUtils.ALL_ORDERS, (Serializable) omsHeaderList);
+        intent.putExtra(CommonUtils.MAX_ALLOWED_ORDER, maxAllowedOrder);
         return intent;
     }
 
@@ -126,6 +136,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         if (getIntent() != null) {
             selectedOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.SELECTED_ORDERS_LIST);
             totalOmsHeaderList = (List<TransactionHeaderResponse.OMSHeader>) getIntent().getSerializableExtra(CommonUtils.ALL_ORDERS);
+            maxAllowedOrder = getIntent().getIntExtra(CommonUtils.MAX_ALLOWED_ORDER, 0);
 //            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
 //                for (int i = 0; i < totalOmsHeaderList.size(); i++) {
 //                    if (!totalOmsHeaderList.get(i).isSelected()) {
@@ -172,8 +183,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
 //                    activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.text_color_grey));
 
-                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
-                    activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
+//                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
+//                    activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
 
                 } else {
 //                    activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
@@ -185,10 +196,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
 //                    activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.black));
 
-                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
-                    activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
+//                    activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
+//                    activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                 }
-                takePrintEnableHandled(isAlltagBox);
+//                takePrintEnableHandled(isAlltagBox);
 
             }
         }
@@ -210,7 +221,11 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         scannedItemPos = pos;
         this.selectedOmsHeaderListTest = selectedOmsHeaderList;
         BillerOrdersActivity.isBillerActivity = false;
-        new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+       /* new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+        overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);*/
+
+        Intent intent = new Intent(this, ZebrascannerActivity.class);
+        startActivityForResult(intent, ZEBRA_ACTIVITY_REQUEST_CODE);
         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
     }
 
@@ -265,8 +280,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
 //                        activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.text_color_grey));
 
-                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
-                        activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
+//                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
+//                        activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
 
                     } else {
 //                        activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
@@ -278,10 +293,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
 //                        activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.black));
 
-                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
-                        activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
+//                        activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
+//                        activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                     }
-                    takePrintEnableHandled(isAlltagBox);
+//                    takePrintEnableHandled(isAlltagBox);
                 }
             } else {
                 BillerOrdersActivity.isBillerActivity = false;
@@ -344,8 +359,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
 //                            activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.text_color_grey));
 
-                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
-                            activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
+//                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
+//                            activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
                         } else {
 //                            activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
 //                            activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
@@ -356,10 +371,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackground(getResources().getDrawable(R.drawable.btn_signin_ripple_effect));
 //                            activityReadyForPickupBinding.startPickingWithoutQrCode.setTextColor(getResources().getColor(R.color.black));
 
-                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
-                            activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
+//                            activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
+//                            activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                         }
-                        takePrintEnableHandled(isAlltagBox);
+//                        takePrintEnableHandled(isAlltagBox);
                     }
                 } else {
                     BillerOrdersActivity.isBillerActivity = false;
@@ -396,8 +411,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 activityReadyForPickupBinding.startPicking.setBackgroundColor(getResources().getColor(R.color.yellow));
                 activityReadyForPickupBinding.startPickingText.setTextColor(getResources().getColor(R.color.black));
 
-                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
-                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
+//                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
+//                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
 
 
             } else {
@@ -410,16 +425,17 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 activityReadyForPickupBinding.startPicking.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 activityReadyForPickupBinding.startPickingText.setTextColor(getResources().getColor(R.color.text_color_grey));
 
-                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
-                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
+//                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
+//                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
 
             }
-            takePrintEnableHandled(isAlltagBox);
+//            takePrintEnableHandled(isAlltagBox);
         });
         unTagQrCodeDialog.setNegativeListener(v -> unTagQrCodeDialog.dismiss());
         unTagQrCodeDialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClickStartPickup() {
 //        if (!BluetoothManager.getInstance(getContext()).isConnect()) {
@@ -442,26 +458,39 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 //            // overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //            // return;
 //        } else {
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+        if ((selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) && (maxAllowedOrder > 0 || mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed() > 0)) {
+            /*for (int i = 0; i < totalOmsHeaderList.size(); i++) {
                 if (!totalOmsHeaderList.get(i).isSelected()) {
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
+            }*/
+            mPresenter.mposPickPackOrderReservationApiCall(2, totalOmsHeaderList.stream().filter(omsHeader -> !omsHeader.isSelected()).collect(Collectors.toList()));
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList) {
+                if (!omsHeader.isTagBox()) {
+                    isAlltagBox = false;
+                    break;
+                }
             }
-        }
-        boolean isAlltagBox = true;
-        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-            if (!omsHeader.isTagBox())
-                isAlltagBox = false;
-        if (isAlltagBox) {
-            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+            if (isAlltagBox) {
+                startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+                overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+            }
+        } else {
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                if (!omsHeader.isTagBox())
+                    isAlltagBox = false;
+            if (isAlltagBox) {
+                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
 ////            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
 ////            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
-        } else {
+            } else {
 //            Toast.makeText(this, "Tag All boxes", Toast.LENGTH_SHORT).show();
-        }
+            }
 //        }
 //    }
+        }
     }
 
     @Override
@@ -551,19 +580,22 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 ////        } else {
 
 
-        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+        if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && maxAllowedOrder > 0) {
             for (int i = 0; i < totalOmsHeaderList.size(); i++) {
                 if (!totalOmsHeaderList.get(i).isSelected()) {
                     totalOmsHeaderList.get(i).setPickupReserved(false);
                 }
             }
-        }
-        boolean isAlltagBox = true;
-        for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
-            if (!omsHeader.isTagBox())
-                isAlltagBox = false;
-        if (!isAlltagBox) {
-            mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+            startActivity(PickupProcessActivity.getStartActivity(this, selectedOmsHeaderList));
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+        } else {
+            boolean isAlltagBox = true;
+            for (TransactionHeaderResponse.OMSHeader omsHeader : selectedOmsHeaderList)
+                if (!omsHeader.isTagBox())
+                    isAlltagBox = false;
+            if (!isAlltagBox) {
+                mPresenter.mposPickPackOrderReservationApiCall(1, selectedOmsHeaderList);
+            }
         }
 
 
@@ -607,6 +639,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSuccessMposPickPackOrderReservationApiCall(int requestType, MPOSPickPackOrderReservationResponse mposPickPackOrderReservationResponse) {
         if (requestType == 1 && mposPickPackOrderReservationResponse.getReturnMessage() != null && !mposPickPackOrderReservationResponse.getReturnMessage().equalsIgnoreCase("")) {
@@ -644,8 +677,8 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                                 activityReadyForPickupBinding.startPicking.setBackgroundColor(getResources().getColor(R.color.yellow));
                                 activityReadyForPickupBinding.startPickingText.setTextColor(getResources().getColor(R.color.black));
 
-                                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
-                                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
+//                                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.light_gray));
+//                                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.text_color_grey));
                             } else {
 //                                activityReadyForPickupBinding.startPicking.setBackground(getResources().getDrawable(R.drawable.btn_ripple_effect_grey));
 //                                activityReadyForPickupBinding.startPicking.setTextColor(getResources().getColor(R.color.text_color_grey));
@@ -656,10 +689,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                                 activityReadyForPickupBinding.startPicking.setBackgroundColor(getResources().getColor(R.color.light_gray));
                                 activityReadyForPickupBinding.startPickingText.setTextColor(getResources().getColor(R.color.text_color_grey));
 
-                                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
-                                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
+//                                activityReadyForPickupBinding.startPickingWithoutQrCode.setBackgroundColor(getResources().getColor(R.color.green));
+//                                activityReadyForPickupBinding.startPickingWithoutQrCodeText.setTextColor(getResources().getColor(R.color.white));
                             }
-                            takePrintEnableHandled(isAlltagBox);
+//                            takePrintEnableHandled(isAlltagBox);
                         }
 
                     }
@@ -723,7 +756,15 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
                 }
             }
         } else if (requestType == 2) {
-            doBackPressed();
+//            totalOmsHeaderList.forEach(omsHeader -> omsHeader.setPickupReserved(false));
+            for (int i = 0; i < totalOmsHeaderList.size(); i++) {
+                if (!totalOmsHeaderList.get(i).isSelected()) {
+                    totalOmsHeaderList.get(i).setPickupReserved(false);
+                }
+            }
+            if (isBackPressed) {
+                doBackPressed();
+            }
         }
     }
 
@@ -771,8 +812,10 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
 
     @Override
     public void onBackPressed() {
+        isBackPressed = true;
+        mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
 //        doBackPressed();
-        Dialog dialog = new Dialog(this);//R.style.Theme_AppCompat_DayNight_NoActionBar
+        /*Dialog dialog = new Dialog(this);//R.style.Theme_AppCompat_DayNight_NoActionBar
         DialogCancelBinding dialogCancelBinding = DataBindingUtil.inflate(LayoutInflater.from(ReadyForPickUpActivity.this), R.layout.dialog_cancel, null, false);
         dialogCancelBinding.dialogMessage.setText("The Changes made will be discarded and you'll be directed to Open Orders Page.\n Do you still want to Continue?");
         dialog.setContentView(dialogCancelBinding.getRoot());
@@ -785,7 +828,7 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
         dialogCancelBinding.dialogButtonOK.setOnClickListener(v -> {
             mPresenter.mposPickPackOrderReservationApiCall(2, selectedOmsHeaderList);
             dialog.dismiss();
-        });
+        });*/
     }
 
     private void doBackPressed() {
@@ -826,5 +869,18 @@ public class ReadyForPickUpActivity extends BaseActivity implements ReadyForPick
             e.printStackTrace();
         }*/
 
+    }
+    @Override
+    protected  void onResume()
+    {
+        super.onResume();
+
+        if(camera_zebrascanner)
+        {
+            camera_zebrascanner=false;
+            new IntentIntegrator(this).setCaptureActivity(ScannerActivity.class).initiateScan();
+            overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
+
+        }
     }
 }

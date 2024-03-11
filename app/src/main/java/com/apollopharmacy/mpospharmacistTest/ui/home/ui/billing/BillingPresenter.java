@@ -262,7 +262,7 @@ public class BillingPresenter<V extends BillingMvpView> extends BasePresenter<V>
             PharmacyStaffAPIReq staffAPIReq = new PharmacyStaffAPIReq();
             staffAPIReq.setAction(action);
             staffAPIReq.setAmount(0.0);
-            staffAPIReq.setDocNum("");
+            staffAPIReq.setDocNum(getMvpView().getTransactionId());
 
             if (TextUtils.isEmpty(getMvpView().getPrgTracing())) {
 //                getMvpView().corpPrgTrackingError();

@@ -557,16 +557,17 @@
     <string name="label_mrp">MRP</string>
     <string name="label_exp_date">Exp.Date</string>
     <string name="label_batch_no">Batch No.</string>
-    <string name="label_forward_to_packer">forward to packer</string>
+    <string name="label_forward_to_packer">forward to checker</string>
     <string name="label_dashboards">Dashboard</string>
     <string name="label_picker">Picker</string>
     <string name="label_packer">Packer</string>
+    <string name="label_checker">Checker</string>
     <string name="label_uhid">UHID</string>
     <string name="proceed_action">Proceed Action</string>
     <string name="label_biller">Biller</string>
     <string name="label_continue_billing">continue billing</string>
-    <string name="label_fully_packed">Fully Packed</string>
-    <string name="label_partially_packed">Partially Packed</string>
+    <string name="label_fully_packed">Fully Picked</string>
+    <string name="label_partially_packed">Partially Picked</string>
     <string name="label_do_you_want_to_connect_the_printer">Do you want to Connect the Printer</string>
     <string name="label_scanned">Scanned</string>
     <string name="label_sfulfilment_id">Fulfilment ID : </string>
@@ -585,7 +586,7 @@
     <string name="label_apollo_pharmacy">APOLLO PHARMACY</string>
     <string name="label_kindly_enter_the_last_3_values_of_the_physical_batch">Kindly enter the last 3 values of the Physical batch</string>
     <string name="label_print_bill">Print Bill</string>
-    <string name="label_packer_status_update">Packer status Update</string>
+    <string name="label_checker_status_update">Checker status Update</string>
     <string name="label_shipping_label">Shipping Label</string>
     <string name="label_transaction_id_colon">Transaction ID :</string>
     <string name="label_print_label">Print Label</string>
@@ -637,5 +638,7 @@
     <string name="label_skip_order">Skip Order</string>
     <string name="label_i_confirm_and_submit">I confirm and submit</string>
     <string name="label_reprint">Reprint</string>
+    <string name="label_recent_bill">Recent bill</string>
+    <string name="label_reprint_recent_bill">Reprint(Recent bill)</string>
 
 </resources>

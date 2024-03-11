@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.pbas.batchlist.selfidscanner.ShelfIdScannerActivity">
+
+        <RelativeLayout
+            android:id="@+id/scanner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".activity.ScannerActivity"
+            tools:showIn="@layout/activity_scanner">
+
+            <!--  set custom layout for scanner-->
+            <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                android:id="@+id/zxing_barcode_scanners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:zxing_scanner_layout="@layout/custom_batchlist_scanner" />
+
+            <!--  FlashLight Button-->
+            <!--<Button
+                android:id="@+id/switch_flashlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Keep the barcode in middle of Torch box"
+                android:visibility="visible" />-->
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/dimen25dp"
+                android:layout_height="@dimen/dimen25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dimen15dp"
+                android:layout_marginEnd="@dimen/dimen15dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_close" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen45dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="FLID: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/flid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="FL2031010111102817172"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Box Number: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/box_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="15896_001"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Qty: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/picked_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="/"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/req_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="Rack ID: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <TextView
+                        android:id="@+id/rack_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="F-SC02-06B"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginBottom="@dimen/dimen50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dimen20dp"
+                    android:text="Keep barcode in middle"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/btn_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Scan the Shelf ID"
+                        android:layout_marginBottom="@dimen/dimen20dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen7dp"
+                            android:layout_weight=".4"
+                            android:background="@color/red"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/dimen10dp"
+                            android:text="Skip"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:background="@color/yellow"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/dimen10dp"
+                            android:text="Barcode Problem?"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/complete_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:background="#05a8f1"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/dimen10dp"
+                            android:text="Complete Box"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.batchlist.selfidscanner.ShelfIdScannerMvpPresenter" />
+    </data>
+</layout>

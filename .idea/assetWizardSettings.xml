@@ -33,8 +33,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_back_hand_24" />
-                            <entry key="sourceFile" value="E:\Icon and APIS\MposApolloNew Docs\Artboard 26.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_barcode" />
+                            <entry key="sourceFile" value="C:\Users\HP\Desktop\barcode.svg" />
                           </map>
                         </option>
                       </PersistentState>

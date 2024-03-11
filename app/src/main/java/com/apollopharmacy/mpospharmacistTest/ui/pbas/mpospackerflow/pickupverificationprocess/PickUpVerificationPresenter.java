@@ -1,12 +1,20 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.mpospackerflow.pickupverificationprocess;
 
 
+import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.data.DataManager;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiClient;
 import com.apollopharmacy.mpospharmacistTest.data.network.ApiInterface;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoReq;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
+import com.apollopharmacy.mpospharmacistTest.ui.corporatedetails.model.CorporateModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.doctordetails.model.DoctorSearchResModel;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataReqBean;
+import com.apollopharmacy.mpospharmacistTest.ui.eprescriptioninfo.model.CustomerDataResBean;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.home.ui.eprescriptionslist.model.OMSTransactionHeaderResModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOmsTransactionRequest;
@@ -15,12 +23,22 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupsummary.model.OMSOrde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDReqModel;
+import com.apollopharmacy.mpospharmacistTest.ui.searchcustomerdoctor.model.TransactionIDResModel;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -48,14 +66,146 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
     }
 
     @Override
+    public void fetchFulfilmentOrderList() {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            OMSTransactionHeaderReqModel reqModel = new OMSTransactionHeaderReqModel();
+            reqModel.setTransactionID("");
+            reqModel.setRefID("");
+            reqModel.setExpiryDays(90);
+            reqModel.setStoreID(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            reqModel.setIsMPOS("3");//3
+            reqModel.setUserName(getDataManager().getUserName());
+
+            Call<OMSTransactionHeaderResModel> call = api.GET_OMS_TRANSACTION_HEADER(reqModel);
+            call.enqueue(new Callback<OMSTransactionHeaderResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Response<OMSTransactionHeaderResModel> response) {
+//                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getOMSHeaderArr() != null && response.body().getOMSHeaderArr().size()>1) {
+                            Collections.sort(response.body().getOMSHeaderArr(), new Comparator<OMSTransactionHeaderResModel.OMSHeaderObj>() {
+                                public int compare(OMSTransactionHeaderResModel.OMSHeaderObj o1, OMSTransactionHeaderResModel.OMSHeaderObj o2) {
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                                    Date date1 = null;
+                                    Date date2 = null;
+                                    try {
+                                        date1 = dateFormat.parse(o1.getDeliveryDate());
+                                        date2 = dateFormat.parse(o2.getDeliveryDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return date1.compareTo(date2);
+                                }
+                            });
+                        }
+                        getMvpView().onSucessfullFulfilmentIdList(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<OMSTransactionHeaderResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+
+    }
+
+    @Override
     public void onClickReVerificatio() {
         getMvpView().onClickReVerificatio();
     }
 
     @Override
+    public void getTransactionID() {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            TransactionIDReqModel transactionIDModel = new TransactionIDReqModel();
+            transactionIDModel.setRequestStatus(0);
+            transactionIDModel.setReturnMessage("");
+            transactionIDModel.setResultValue("");
+            transactionIDModel.setTransactionID("");
+            transactionIDModel.setStoreID(getDataManager().getStoreId());
+            transactionIDModel.setTerminalID(getDataManager().getTerminalId());
+            transactionIDModel.setDataAreaID(getDataManager().getDataAreaId());
+            transactionIDModel.setBillingMode(5);
+            Call<TransactionIDResModel> call = api.GET_TRANSACTION_ID(transactionIDModel);
+            call.enqueue(new Callback<TransactionIDResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<TransactionIDResModel> call, @NotNull Response<TransactionIDResModel> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().showTransactionID(response.body());
+                       getCorporateList();
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        } else {
+                            getMvpView().showMessage(R.string.some_error);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<TransactionIDResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void fetchOMSCustomerInfoBiller(String refNumber) {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            CustomerDataReqBean reqModel = new CustomerDataReqBean();
+            reqModel.setTransactionID(refNumber);
+            reqModel.setRefID("");
+            reqModel.setExpiryDays(90);
+            reqModel.setStoreID(getDataManager().getStoreId());
+            reqModel.setTerminalID(getDataManager().getTerminalId());
+            reqModel.setDataAreaID(getDataManager().getDataAreaId());
+            Call<ArrayList<CustomerDataResBean>> call = api.GET_OMS_TRANSACTION(reqModel);
+            call.enqueue(new Callback<ArrayList<CustomerDataResBean>>() {
+                @Override
+                public void onResponse(@NotNull Call<ArrayList<CustomerDataResBean>> call, @NotNull Response<ArrayList<CustomerDataResBean>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+//                        fetchOMSMedicineInfo(refNumber);
+                        //System.out.println("Customer Name-->0"+response.body().get(0).getCustomerName());
+                        getMvpView().onSuccessGetOMSTransactionBiller(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ArrayList<CustomerDataResBean>> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    System.out.println("Customer Name-->4" + "Syntax Error");
+
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
     public void mposPickPackOrderReservationApiCall(int requestType, TransactionHeaderResponse.OMSHeader omsHeader) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+//            getMvpView().showLoading();
             MPOSPickPackOrderReservationRequest mposPickPackOrderReservationRequest = new MPOSPickPackOrderReservationRequest();
             mposPickPackOrderReservationRequest.setRequestType(requestType);
             mposPickPackOrderReservationRequest.setUserName(getDataManager().getUserName());
@@ -100,7 +250,7 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<MPOSPickPackOrderReservationResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<MPOSPickPackOrderReservationResponse> call, @NotNull Response<MPOSPickPackOrderReservationResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().onSuccessMposPickPackOrderReservationApiCall(requestType, response.body());
@@ -155,6 +305,71 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
 
     }
 
+    @Override
+    public void getDoctorsList() {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            DoctorSearchReqModel doctorSearchModel = new DoctorSearchReqModel();
+            doctorSearchModel.setISAX(false);
+            doctorSearchModel.setDoctorID("0");
+            doctorSearchModel.setDoctorName("");
+            doctorSearchModel.setClusterId(getDataManager().getGlobalJson().getClusterCode());
+            doctorSearchModel.setDoctorBaseUrl(getDataManager().getGlobalJson().getDoctorSearchUrl());
+            Call<DoctorSearchResModel> call = api.getDoctorsList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), doctorSearchModel);
+            call.enqueue(new Callback<DoctorSearchResModel>() {
+                @Override
+                public void onResponse(@NotNull Call<DoctorSearchResModel> call, @NotNull Response<DoctorSearchResModel> response) {
+                    if (response.isSuccessful()) {
+//                        getMvpView().hideLoading();
+                        getMvpView().hideKeyboard();
+                        getMvpView().getDoctorSearchList(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<DoctorSearchResModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+    @Override
+    public void getCorporateList() {
+        if (getMvpView().isNetworkConnected()) {
+            //getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<CorporateModel> call = api.getCorporateList(getDataManager().getStoreId(), getDataManager().getDataAreaId(), new JsonObject());
+            call.enqueue(new Callback<CorporateModel>() {
+                @Override
+                public void onResponse(@NotNull Call<CorporateModel> call, @NotNull Response<CorporateModel> response) {
+//                    getMvpView().hideLoading();
+                    if (response.isSuccessful() && response.body() != null) {
+                        getMvpView().getCorporateList(response.body());
+                    } else {
+                        getMvpView().hideLoading();
+                        if (response.body() != null) {
+                            getMvpView().showMessage(response.body().getReturnMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CorporateModel> call, @NotNull Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+        }
+    }
+
+
 
     @Override
     public void onClickVerification() {
@@ -194,12 +409,13 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             call.enqueue(new Callback<OMSOrderForwardResponse>() {
                 @Override
                 public void onResponse(@NotNull Call<OMSOrderForwardResponse> call, @NotNull Response<OMSOrderForwardResponse> response) {
-                    getMvpView().hideLoading();
+//                    getMvpView().hideLoading();
                     if (response.isSuccessful()) {
                         if (response.body() != null && response.body().getRequestStatus() == 0) {
                             getMvpView().OmsOrderUpdateSuccess(response.body(), omsOrderForwardRequest.getRequestType());
 
                         } else {
+                            getMvpView().hideLoading();
                             getMvpView().OmsOrderUpdateFailure(response.body());
                         }
 
@@ -260,6 +476,81 @@ public class PickUpVerificationPresenter<V extends PickUpVerificationMvpView> ex
             getMvpView().onError("Internet Connection Not Available");
         }
     }
+
+    @Override
+    public void onCheckBatchStock(CustomerDataResBean customerDataResBean) {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<CustomerDataResBean> call = api.omscheckbatchstock(customerDataResBean);
+            call.enqueue(new Callback<CustomerDataResBean>() {
+                @Override
+                public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
+//                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().CheckBatchStockSuccess(response.body());
+                        } else {
+                            getMvpView().hideLoading();
+                            getMvpView().CheckBatchStockFailure(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CustomerDataResBean> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+
+        }
+    }
+
+    @Override
+    public void onLoadOmsOrder(CustomerDataResBean customerDataResBean) {
+        if (getMvpView().isNetworkConnected()) {
+//            getMvpView().showLoading();
+            customerDataResBean.setTerminal(getDataManager().getTerminalId());
+            customerDataResBean.setCreatedonPosTerminal(getDataManager().getTerminalId());
+            customerDataResBean.setIsMPOSBill(1);
+            customerDataResBean.setIsPickPackOrder(true);
+            String json = new Gson().toJson(customerDataResBean);
+            System.out.println("LOAD OMS ORDER  " + json);
+            ApiInterface api = ApiClient.getApiService(getDataManager().getEposURL());
+            Call<CustomerDataResBean> call = api.LOAD_OMS_ORDER(customerDataResBean);
+            call.enqueue(new Callback<CustomerDataResBean>() {
+                @Override
+                public void onResponse(@NotNull Call<CustomerDataResBean> call, @NotNull Response<CustomerDataResBean> response) {
+//                    getMvpView().hideLoading();
+                    if (response.isSuccessful()) {
+                        if (response.body() != null && response.body().getRequestStatus() == 0) {
+                            getMvpView().hideLoading();
+                            getMvpView().LoadOmsOrderSuccess(response.body());
+                        } else {
+                            getMvpView().hideLoading();
+                            getMvpView().LoadOmsOrderFailure(response.body());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CustomerDataResBean> call, @NotNull Throwable t) {
+                    //Dismiss Dialog
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        } else {
+            getMvpView().onError("Internet Connection Not Available");
+
+        }
+    }
+
 
     @Override
     public void onClickPackerStatusUpdate() {

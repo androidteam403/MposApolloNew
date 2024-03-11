@@ -60,9 +60,9 @@ import com.apollopharmacy.mpospharmacistTest.custumpdf.views.basic.PDFVerticalVi
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOrderReturnPrintBillBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.CalculatePosTransactionRes;
 import com.apollopharmacy.mpospharmacistTest.ui.additem.model.SalesLineEntity;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.OrderReturnAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.adapter.PaidListAdapter;
-import com.apollopharmacy.mpospharmacistTest.ui.orderreturnactivity.model.OrderReturnModel;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.adapter.OrderReturnAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.adapter.PaidListAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnactivity.model.OrderReturnModel;
 import com.apollopharmacy.mpospharmacistTest.ui.ordersummary.model.PdfModelResponse;
 import com.apollopharmacy.mpospharmacistTest.utils.EnglishNumberToWords;
 import com.apollopharmacy.mpospharmacistTest.utils.FileUtil;

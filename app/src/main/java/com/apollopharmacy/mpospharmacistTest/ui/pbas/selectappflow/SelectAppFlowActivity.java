@@ -15,6 +15,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigation
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.adapter.SelectAppFlowListAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.selectappflow.model.SelectAppFlowModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.PharmacistLoginActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
     private ActivitySelectAppFlowPBinding selectAppFlowBinding;
     private SelectAppFlowListAdapter selectAppFlowListAdapter;
     private final List<SelectAppFlowModel> selectAppFlowModelList = new ArrayList<>();
+    private String userType;
 
     public static Intent getStartActivity(Context mContext) {
         Intent intent = new Intent(mContext, SelectAppFlowActivity.class);
@@ -46,6 +48,12 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
 
     @Override
     protected void setUp() {
+        List<UserModel._DropdownValueBean> loginUserResult = mPresenter.getLoginUserResult();
+        for (int i = 0; i < loginUserResult.size(); i++) {
+            if (mPresenter.getUserId().equalsIgnoreCase(loginUserResult.get(i).getCode())) {
+                userType = loginUserResult.get(i).getUserType();
+            }
+        }
         getSelectAppFlowModelList();
         selectAppFlowBinding.setCallback(mPresenter);
         selectAppFlowListAdapter = new SelectAppFlowListAdapter(this, selectAppFlowModelList, this);
@@ -61,24 +69,26 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
         selectAppFlowModelList.add(selectAppFlowModel);
 
         selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Packer");
+        selectAppFlowModel.setAppFlowName("Checker");
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
+        /*selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Biller");
         selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+        selectAppFlowModelList.add(selectAppFlowModel);*/
 
         selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Shipping Label");
         selectAppFlowModel.setSelected(false);
         selectAppFlowModelList.add(selectAppFlowModel);
 
-        selectAppFlowModel = new SelectAppFlowModel();
-        selectAppFlowModel.setAppFlowName("Admin");
-        selectAppFlowModel.setSelected(false);
-        selectAppFlowModelList.add(selectAppFlowModel);
+        if (userType.equalsIgnoreCase("1")) {
+            selectAppFlowModel = new SelectAppFlowModel();
+            selectAppFlowModel.setAppFlowName("Admin");
+            selectAppFlowModel.setSelected(false);
+            selectAppFlowModelList.add(selectAppFlowModel);
+        }
 
         selectAppFlowModel = new SelectAppFlowModel();
         selectAppFlowModel.setAppFlowName("Orders");
@@ -110,7 +120,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PICKER"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
-                    case "Packer":
+                    case "Checker":
                         startActivity(PickerNavigationActivity.getStartIntent(SelectAppFlowActivity.this, "PACKER"));
                         overridePendingTransition(R.anim.slide_from_right_p, R.anim.slide_to_left_p);
                         break;
@@ -155,7 +165,7 @@ public class SelectAppFlowActivity extends BaseActivity implements SelectAppFlow
     @Override
     public void onClickLogout() {
         Intent intent = new Intent(SelectAppFlowActivity.this, PharmacistLoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);//Intent.FLAG_ACTIVITY_CLEAR_TASK |
         intent.putExtra("EXIT", true);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);

@@ -8,6 +8,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.base.BasePresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationRequest;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
+import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.GetGlobalConfingRes;
 import com.apollopharmacy.mpospharmacistTest.utils.rx.SchedulerProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -166,5 +167,10 @@ public class ReadyForPickUpPresenter<V extends ReadyForPickUpMvpView> extends Ba
     @Override
     public String dataAreaId() {
         return getDataManager().getDataAreaId();
+    }
+
+    @Override
+    public GetGlobalConfingRes getGlobalConfiguration() {
+        return getDataManager().getGlobalJson();
     }
 }

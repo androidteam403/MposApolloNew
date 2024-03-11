@@ -47,6 +47,11 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
     }
 
     @Override
+    public void onClickBarcodeProblem() {
+        getMvpView().onClickBarcodeProblem();
+    }
+
+    @Override
     public void onAddItemsClicked() {
         getMvpView().onAddItemsClicked(false);
     }
@@ -251,6 +256,77 @@ public class BatchlistScannerPresenter<V extends BatchlistScannerMvpView> extend
 
                 @Override
                 public void onFailure(Call<MPOSPickPackOrderReservationResponse> call, Throwable t) {
+                    getMvpView().hideLoading();
+                    handleApiError(t);
+                }
+            });
+        }
+    }
+
+    @Override
+    public String userName() {
+        return getDataManager().getUserName();
+    }
+
+    @Override
+    public String storeId() {
+        return getDataManager().getStoreId();
+    }
+
+    @Override
+    public String terminalId() {
+        return getDataManager().getTerminalId();
+    }
+
+    @Override
+    public String eposUrl() {
+        return getDataManager().getEposURL();
+    }
+
+    @Override
+    public String dataAreaId() {
+        return getDataManager().getDataAreaId();
+    }
+
+    @Override
+    public String stateCode() {
+        return getDataManager().getGlobalJson().getStateCode();
+    }
+
+    @Override
+    public void  getBatchDetailsByzebraBarCode(String barcode, String itemId, String eposurl, String storeId, String dataAreaId, String terminalId, String stateCode)
+    {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            ApiInterface api = ApiClient.getApiService(eposurl);
+            GetBatchDetailsByBarcodeRequest getBatchDetailsByBarcodeRequest = new GetBatchDetailsByBarcodeRequest();
+            getBatchDetailsByBarcodeRequest.setArticleCode(itemId);
+            getBatchDetailsByBarcodeRequest.setStoreId(storeId);
+            getBatchDetailsByBarcodeRequest.setDataAreaId(dataAreaId);
+            getBatchDetailsByBarcodeRequest.setTerminalId(terminalId);
+            getBatchDetailsByBarcodeRequest.setStoreState(stateCode);
+            getBatchDetailsByBarcodeRequest.setCustomerState(stateCode);
+            getBatchDetailsByBarcodeRequest.setSez(0);
+            getBatchDetailsByBarcodeRequest.setSearchType(1);
+            getBatchDetailsByBarcodeRequest.setExpiryDays(30);
+            getBatchDetailsByBarcodeRequest.setBarcode(barcode);
+            Call<GetBatchInfoRes> call = api.GET_BATCH_DETAILS_BY_BAR_CODE(getBatchDetailsByBarcodeRequest);
+            call.enqueue(new Callback<GetBatchInfoRes>() {
+                @Override
+                public void onResponse(@NotNull Call<GetBatchInfoRes> call, @NotNull Response<GetBatchInfoRes> response) {
+                    if (response.isSuccessful()) {
+                        getMvpView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null) {
+                            for (GetBatchInfoRes.BatchListObj item : response.body().getBatchList()) {
+                                item.setBarcodeScannedBatch(true);
+                            }
+                            getMvpView().onSuccessGetBatchDetailszebraBarcode(response.body());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<GetBatchInfoRes> call, @NotNull Throwable t) {
                     getMvpView().hideLoading();
                     handleApiError(t);
                 }

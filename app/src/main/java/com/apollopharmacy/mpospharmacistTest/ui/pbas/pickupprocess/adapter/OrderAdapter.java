@@ -1,13 +1,17 @@
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +75,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
 
+    @SuppressLint("ResourceAsColor")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TransactionHeaderResponse.OMSHeader omsHeader = selectedOmsHeaderList.get(position);
@@ -78,19 +84,28 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.onHold.setOnClickListener(v -> {
             pickupProcessMvpView.onClickOnHoldBtn(omsHeader, position);
         });
+        holder.orderBinding.revert.setOnClickListener(view -> {
+            pickupProcessMvpView.onClickRevertBtn(omsHeader, position);
+        });
         if (omsHeader.getScannedBarcode() != null) {
-//            if (omsHeader.getScannedBarcode().length() > 5)
-//                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
-//            else
-//            holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
+            /*if (omsHeader.getScannedBarcode().length() > 5)
+                holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
+            else*/
+            holder.orderBinding.boxId.setText(omsHeader.getScannedBarcode());
         } else {
-//            holder.orderBinding.boxNumber.setText("-");
+            holder.orderBinding.boxId.setText("-");
         }
         if (omsHeader.isOnHold()) {
+            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg_red));
+            holder.orderBinding.onHold.setVisibility(View.GONE);
+            holder.orderBinding.revert.setVisibility(View.VISIBLE);
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
             holder.orderBinding.onHold.setEnabled(false);
         } else {
+            holder.orderBinding.orderParentLayout.setBackground(mContext.getResources().getDrawable(R.drawable.square_stroke_bg));
             holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+            holder.orderBinding.onHold.setVisibility(View.VISIBLE);
+            holder.orderBinding.revert.setVisibility(View.GONE);
             holder.orderBinding.onHold.setEnabled(true);
         }
 //        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
@@ -153,7 +168,45 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            holder.orderBinding.statusandicon.setVisibility(View.GONE);
             holder.orderBinding.notAvailable.setVisibility(View.GONE);
         }
-
+        boolean isAnyCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
+        boolean isAllCompleted = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(item -> item.getStatus() != null && !item.getStatus().isEmpty());
+        boolean isAnyOnHold = omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().anyMatch(item -> item.isOnHold());
+        if (isAnyOnHold) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
+        if (isAnyCompleted) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
+        if (isAllCompleted && !isAnyOnHold) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
+        }
+        if (isAllCompleted && isAnyOnHold) {
+            holder.orderBinding.partiallyPicked.setVisibility(View.VISIBLE);
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+            holder.orderBinding.onHold.setEnabled(false);
+        }
+        boolean isAllOnHold =
+                omsHeader.getGetOMSTransactionResponse().getSalesLine().stream().allMatch(GetOMSTransactionResponse.SalesLine::isOnHold);
+        if (isAllOnHold) {
+            holder.orderBinding.notAvailable.setVisibility(View.VISIBLE);
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
+        if (!isAllCompleted) {
+            holder.orderBinding.notAvailable.setVisibility(View.GONE);
+            holder.orderBinding.partiallyPicked.setVisibility(View.GONE);
+            holder.orderBinding.fullyPicked.setVisibility(View.GONE);
+        }
 
         NewSelectedOrderAdapter productListAdapter = new NewSelectedOrderAdapter(mContext, omsHeader.getGetOMSTransactionResponse().getSalesLine(), pickupProcessMvpView, this, position, omsHeader.getRefno(), selectedOmsHeaderList);
         new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);

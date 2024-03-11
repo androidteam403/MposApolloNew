@@ -16,6 +16,7 @@ import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterProductListPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.PickupProcessMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RackWiseSortedData;
 
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private List<GetOMSTransactionResponse.SalesLine> salesLineList;
     private PickupProcessMvpView mvpView;
+    List<RackWiseSortedData.BoxIdModel> boxIdList;
 
-    public ProductListAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView mvpView) {
+    public ProductListAdapter(Context context, List<GetOMSTransactionResponse.SalesLine> salesLineList, PickupProcessMvpView mvpView, List<RackWiseSortedData.BoxIdModel> boxIdList) {
         this.context = context;
         this.salesLineList = salesLineList;
         this.mvpView = mvpView;
+        this.boxIdList = boxIdList;
     }
 
     @NonNull
@@ -41,7 +44,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductListAdapter.ViewHolder holder, int position) {
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
-        holder.productListBinding.orderItemNo.setText(salesLine.getOrderItemNo());
+        if (boxIdList.get(position).getBoxId() != null) {
+            if (boxIdList.get(position).getBoxId().length() > 5)
+                holder.productListBinding.orderItemNo.setText(boxIdList.get(position).getBoxId().substring(boxIdList.get(position).getBoxId().length() - 5));
+            else
+                holder.productListBinding.orderItemNo.setText(boxIdList.get(position).getBoxId());
+        } else {
+            holder.productListBinding.orderItemNo.setText("---");
+        }
         holder.productListBinding.productName.setText(salesLine.getItemName());
         holder.productListBinding.productMrp.setText(String.valueOf(salesLine.getMrp()));
         holder.productListBinding.productQty.setText(String.valueOf(salesLine.getQty()));
@@ -73,6 +83,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.productListBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
             holder.productListBinding.headings.setVisibility(View.VISIBLE);
             holder.productListBinding.selectedbatchesRecycler.setVisibility(View.VISIBLE);
+        }
+
+        if (salesLine.isOrderItemNoSelected()) {
+            holder.productListBinding.itemLayout.setBackgroundColor(context.getResources().getColor(R.color.lite_green));
+        }else {
+            holder.productListBinding.itemLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
         holder.productListBinding.start.setOnClickListener(view -> {
             if (!salesLine.isOnHold()) {

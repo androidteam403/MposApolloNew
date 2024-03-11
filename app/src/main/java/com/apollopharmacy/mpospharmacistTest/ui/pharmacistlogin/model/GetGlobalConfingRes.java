@@ -247,6 +247,29 @@ public class GetGlobalConfingRes {
     @SerializedName("AXInventoryURL")
     private String AXInventoryURL;
 
+    @Expose
+    @SerializedName("MPOSPickupjourney")
+    private int mposPickupJourney;
+
+    @Expose
+    @SerializedName("MPOSRackidscanallowed")
+    private boolean isRackidScanAllowed;
+
+    public int getMposPickupJourney() {
+        return mposPickupJourney;
+    }
+
+    public void setMposPickupJourney(int mposPickupJourney) {
+        this.mposPickupJourney = mposPickupJourney;
+    }
+
+    public boolean isRackidScanAllowed() {
+        return isRackidScanAllowed;
+    }
+
+    public void setRackidScanAllowed(boolean rackidScanAllowed) {
+        isRackidScanAllowed = rackidScanAllowed;
+    }
 
     //thease changes made by Gopal on 09-01-2021
     @Expose

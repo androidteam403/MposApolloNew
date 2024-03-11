@@ -41,4 +41,6 @@ public interface BatchListMvpPresenter<V extends BatchListMvpView> extends MvpPr
     GetGlobalConfingRes getGlobalConfigRes();
 
     void onClickScanBatchId();
+
+    void onClickGetBatchList();
 }

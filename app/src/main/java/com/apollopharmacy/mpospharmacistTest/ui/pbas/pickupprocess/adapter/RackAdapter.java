@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,15 +61,19 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
         } else {
             holder.rackBinding.rackStatus.setVisibility(View.GONE);
         }
-        RackRowAdapter rackRowAdapter = new RackRowAdapter(mContext, rackWiseSortedData.getBoxIdList());
-        LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        holder.rackBinding.rackRowRecycler.setLayoutManager(horizontalLayoutManagaer);
-        holder.rackBinding.rackRowRecycler.setAdapter(rackRowAdapter);
-
-        ProductListAdapter productListAdapter = new ProductListAdapter(mContext, rackWiseSortedData.getGetOMSTransactionResponse().getSalesLine(), mvpView);
+        ProductListAdapter productListAdapter = new ProductListAdapter(mContext, rackWiseSortedData.getGetOMSTransactionResponse().getSalesLine(), mvpView, rackWiseSortedData.getBoxIdList());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         holder.rackBinding.productListRecycler.setLayoutManager(mLayoutManager);
         holder.rackBinding.productListRecycler.setAdapter(productListAdapter);
+
+
+        RackRowAdapter rackRowAdapter = new RackRowAdapter(mContext, rackWiseSortedData.getBoxIdList(), rackWiseSortedData.getGetOMSTransactionResponse().getSalesLine(), productListAdapter);
+        GridLayoutManager horizontalLayoutManagaer = new GridLayoutManager(mContext, 4);
+        holder.rackBinding.rackRowRecycler.setLayoutManager(horizontalLayoutManagaer);
+        holder.rackBinding.rackRowRecycler.setAdapter(rackRowAdapter);
+
+
+
         if (rackWiseSortedDataList.get(position).isExpanded()) {
             holder.rackBinding.dropdown.setImageResource(R.drawable.right_arrow_black);
             holder.rackBinding.dropdown.setRotation(90);
@@ -82,7 +87,7 @@ public class RackAdapter extends RecyclerView.Adapter<RackAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(view -> {
             if (mvpView != null) {
                 mvpView.onClickRackAdapterOne(position);
-               // mvpView.onClickRackAdapter(position);
+                // mvpView.onClickRackAdapter(position);
             }
         });
     }
