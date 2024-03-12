@@ -117,13 +117,15 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Stock Available"
                                 android:textSize="11sp" />
+
                             <ImageView
                                 android:id="@+id/refresh_picker_packer_biller"
                                 android:layout_width="@dimen/dimen30dp"
                                 android:layout_height="@dimen/dimen30dp"
                                 android:layout_marginEnd="@dimen/five_dp"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/refresh" />
+                                android:src="@drawable/refresh"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/page_no"
@@ -144,7 +146,8 @@
                             android:layout_height="@dimen/dimen30dp"
                             android:layout_marginEnd="@dimen/five_dp"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/ic_filter_white" />
+                            android:src="@drawable/ic_filter_white"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ic_paper_size"

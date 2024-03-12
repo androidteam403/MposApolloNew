@@ -160,13 +160,13 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         PickerNavigationActivity.mInstance.setTitle("Open Orders");
         PickerNavigationActivity.mInstance.setStock("Stock Available");
         PickerNavigationActivity.mInstance.setStockAvailableVisibilty(true);
-        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+//        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icPaperSize.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refresh.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.unHold.setVisibility(View.GONE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setChecked(false);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.pageNo.setText("");
-        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.VISIBLE);
+//        PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.VISIBLE);
         PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.stockAvailableCheckbox.setVisibility(View.GONE);
 
 
@@ -1560,6 +1560,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             openOrdersBinding.fullfilmentRecycler.setLayoutManager(mLayoutManager);
             openOrdersBinding.fullfilmentRecycler.setAdapter(fullfilmentAdapter);
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.icFilter.setVisibility(View.VISIBLE);
+            PickerNavigationActivity.mInstance.activityNavigation3Binding.appBarMain.refreshPickerPackerBiller.setVisibility(View.VISIBLE);
 //            openOrdersBinding.fullfilmentRecycler.addItemDecoration(new HeaderItemDecoration(openOrdersBinding.fullfilmentRecycler, fullfilmentAdapter, getContext()));
             if (maxOrdersAllowed > 0) {
 //                maxOrdersList = omsHeaderList.stream().limit(maxOrdersAllowed).collect(Collectors.toList());

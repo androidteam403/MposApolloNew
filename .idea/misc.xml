@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -7,7 +8,6 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_fullfilment_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/adapter_fullfilment_p_header.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/layout/custom_scanner.xml" value="0.25" />
-        <entry key="..\:/AndroidWorkspace/MposApolloNewIssue/app/src/main/res/layout/adapter_order_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable-v24/search_bg.xml" value="0.2125" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable-v24/spinner_border.xml" value="0.219" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/drawable/batch_list_edittext_bg.xml" value="0.1695" />
@@ -82,6 +82,8 @@
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/item_row.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/nav_header_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNewScreen/app/src/main/res/layout/skip_order_layout.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew_mpos_stable_code_01_03_2024/app/src/main/res/layout/adapter_fullfilment_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MposApolloNew_mpos_stable_code_01_03_2024/app/src/main/res/layout/app_bar_main_p.xml" value="0.25" />
       </map>
     </option>
   </component>
