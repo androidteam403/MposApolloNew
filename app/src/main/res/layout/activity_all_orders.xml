@@ -8,8 +8,9 @@
         tools:context=".ui.pbas.pickerhome.ui.admin.allorders.AllOrdersActivity">
 
         <LinearLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
@@ -32,8 +33,8 @@
                         android:id="@+id/header_back"
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
-                        android:onClick="@{()-> callback.onClickBack()}"
                         android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickBack()}"
                         android:padding="@dimen/dimen3dp"
                         android:src="@drawable/ic_back_arrow_white" />
 
@@ -41,17 +42,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen7dp"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="All Orders"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/all_orders_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen7dp"
-                        android:text="(80)"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen16sp"
                         android:textStyle="bold" />
@@ -63,22 +55,24 @@
                     android:layout_alignParentEnd="true"
                     android:gravity="center_vertical">
 
-                    <ImageView
+                    <!-- Refresh Icon -->
+                    <!--<ImageView
                         android:layout_width="@dimen/dimen20dp"
                         android:layout_height="@dimen/dimen20dp"
                         android:layout_marginEnd="@dimen/dimen8dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/refresh" />
+                        android:src="@drawable/refresh" />-->
 
-                    <ImageView
+                    <!-- Filter Icon -->
+                    <!--<ImageView
                         android:layout_width="@dimen/dimen25dp"
                         android:layout_height="@dimen/dimen25dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_filter_white" />
+                        android:src="@drawable/ic_filter_white" />-->
                 </LinearLayout>
             </RelativeLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen50dp"
                 android:layout_marginTop="@dimen/dimen2dp"
@@ -331,8 +325,205 @@
                     android:textColor="@color/red"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/roboto_bold"/>
+            </RelativeLayout>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header_layout"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_marginStart="@dimen/dimen8dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen8dp"
+                android:background="@drawable/rectangle_rounded_corners_green"
+                android:backgroundTint="#dcecf9"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/all_orders_icon"
+                    android:layout_width="@dimen/dimen30dp"
+                    android:layout_height="@dimen/dimen30dp"
+                    android:layout_marginStart="@dimen/dimen15dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/totalorders" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_toRightOf="@+id/all_orders_icon"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="All Orders"
+                    android:textColor="#4c4c4c" />
+
+                <TextView
+                    android:id="@+id/all_orders_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dimen20dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="90"
+                    android:textColor="#4c4c4c"
+                    android:textSize="@dimen/dimen18sp" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8dp"
+                android:layout_marginTop="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen8dp"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/stock_available_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_rounded_corners_green"
+                    android:backgroundTint="#e9f4ee"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen15dp"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_stock_available"
+                            android:tint="#74b99f" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Stock Available"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/stock_available_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_rounded_corners_green"
+                    android:backgroundTint="#fff6d7"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen15dp"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/ic_partially"
+                            android:tint="@color/yellow" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_marginEnd="@dimen/dimen5dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Partially Available"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/partially_available_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_rounded_corners_green"
+                    android:backgroundTint="#ffe6ef"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen15dp"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/not_available"
+                            android:tint="#e7698a" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Not Available"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen10sp" />
+
+                    <TextView
+                        android:id="@+id/not_available_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="@dimen/two_hundred_seventy_dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimen50dp" />
         </LinearLayout>
     </RelativeLayout>
 

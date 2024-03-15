@@ -142,6 +142,9 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminPr
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersMvpPresenter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersMvpView;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpPresenter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardMvpView;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardPresenter;
@@ -641,6 +644,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     ZebraSelfscannerMvpPresenter<ZebraSelfscannerMvpView> provideZebraSelfscannerPresenter(ZebraSelfscannerPresenter<ZebraSelfscannerMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    StockAvailableOrdersMvpPresenter<StockAvailableOrdersMvpView> stockAvailableOrdersPresenter(StockAvailableOrdersPresenter<StockAvailableOrdersMvpView> presenter) {
         return presenter;
     }
 }

@@ -49,6 +49,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderreturnbillprint.OrderR
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorders.AllOrdersActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.dashboard.DashboardFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.ShippingLabelFragment;
@@ -223,4 +224,6 @@ public interface ActivityComponent {
     void inject(ZebraBatchlistScanner zebraBatchlistScanner);
 
     void inject(ZebraSelfscanner zebraSelfscanner);
+
+    void inject(StockAvailableOrdersActivity stockAvailableOrdersActivity);
 }

@@ -31,7 +31,7 @@ public class AdminPresenter<V extends AdminMvpView> extends BasePresenter<V> imp
             getMvpView().showLoading();
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOMSTransactionHeaderRequest getOMSTransactionHeaderRequest = new GetOMSTransactionHeaderRequest();
-            getOMSTransactionHeaderRequest.setIsMPOS("0");
+            getOMSTransactionHeaderRequest.setIsMPOS("2");
             getOMSTransactionHeaderRequest.setUserName("");
             getOMSTransactionHeaderRequest.setTransactionID("");
             getOMSTransactionHeaderRequest.setRefID("");
@@ -57,5 +57,10 @@ public class AdminPresenter<V extends AdminMvpView> extends BasePresenter<V> imp
                 }
             });
         }
+    }
+
+    @Override
+    public void onClickAllOrders() {
+        getMvpView().onClickAllOrders();
     }
 }

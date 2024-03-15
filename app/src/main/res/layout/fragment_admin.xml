@@ -221,6 +221,7 @@
                 android:background="@drawable/rectangle_rounded_corners_green"
                 android:backgroundTint="#dbedfb"
                 android:gravity="center_vertical"
+                android:onClick="@{()->callback.onClickAllOrders()}"
                 android:weightSum="1">
 
                 <LinearLayout
@@ -246,6 +247,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen5dp"
                             android:text="All Orders"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="#4c4c4c"
                             android:textSize="@dimen/dimen14sp"
                             android:textStyle="bold" />
@@ -255,6 +257,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen5dp"
                             android:text="Not Billed"
+                            android:fontFamily="@font/price_bold"
                             android:textColor="@color/red"
                             android:textSize="@dimen/dimen_11sp"
                             android:textStyle="bold" />
@@ -267,7 +270,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen10dp"
                     android:layout_weight="0.2"
-                    android:gravity="center_vertical|end"
+                    android:gravity="end"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="80"
                     android:textColor="#4c4c4c"
                     android:textSize="@dimen/dimen18sp"
@@ -286,25 +290,32 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="9dp"
-                    android:layout_weight=".8"
+                    android:layout_weight="1"
                     android:background="@drawable/rectangle_rounded_corners_green"
                     android:backgroundTint="#ddeded"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/dimen35dp"
-                        android:layout_height="@dimen/dimen35dp"
-                        android:layout_marginTop="@dimen/dimen15dp"
-                        android:layout_marginBottom="@dimen/dimen5dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/inprogress" />
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/stock_available"
+                            android:tint="#72b49e" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/stock_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="25"
+                        android:fontFamily="@font/roboto_bold"
                         android:textColor="#4c4c4c"
                         android:textSize="@dimen/dimen18sp"
                         android:textStyle="bold" />
@@ -313,18 +324,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Stock\n Available"
+                        android:fontFamily="@font/roboto_bold"
                         android:textAlignment="center"
                         android:textColor="#4c4c4c"
-                        android:textSize="@dimen/dimen14sp"
+                        android:textSize="@dimen/dimen12sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dimen5dp"
+                        android:fontFamily="@font/price_regular"
                         android:text="Not Allocated\n to Pickers"
                         android:textAlignment="center"
-                        android:fontFamily="@font/price_regular"
                         android:textColor="@color/red"
                         android:textSize="@dimen/dimen_11sp" />
                 </LinearLayout>
@@ -333,25 +345,32 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="9dp"
-                    android:layout_weight=".8"
+                    android:layout_weight="1"
                     android:background="@drawable/rectangle_rounded_corners_green"
                     android:backgroundTint="#f4eaf5"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/dimen35dp"
-                        android:layout_height="@dimen/dimen35dp"
-                        android:layout_marginTop="@dimen/dimen15dp"
-                        android:layout_marginBottom="@dimen/dimen5dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/notallocated" />
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/partially"
+                            android:tint="#c1a6d3" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/partially_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="30"
+                        android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
                         android:textSize="@dimen/dimen18sp"
                         android:textStyle="bold" />
@@ -362,12 +381,58 @@
                         android:layout_marginBottom="@dimen/dimen5dp"
                         android:text="Stock\nPartially\nAvailable"
                         android:textAlignment="center"
+                        android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen14sp"
+                        android:textSize="@dimen/dimen12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_rounded_corners_green"
+                    android:backgroundTint="#fff6e4"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen10dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen35dp"
+                            android:layout_height="@dimen/dimen35dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/picker_issues"
+                            android:tint="@color/yellow" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/picker_issues"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:text="Picker \nIssues"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!--<LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.4"
@@ -513,7 +578,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <!--<LinearLayout
                     android:layout_width="0dp"
@@ -567,11 +632,17 @@
                     android:layout_weight="0.8"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/dimen30dp"
-                        android:layout_height="@dimen/dimen30dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/totalorders" />
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen40dp"
+                        android:layout_height="@dimen/dimen40dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen40dp"
+                            android:layout_height="@dimen/dimen40dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/checker"
+                            android:tint="#e88c85" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -582,6 +653,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen5dp"
+                            android:fontFamily="@font/roboto_bold"
                             android:text="Checker"
                             android:textColor="#4c4c4c"
                             android:textSize="@dimen/dimen14sp"
@@ -592,6 +664,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen5dp"
                             android:text="Re-verification Orders"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="#4c4c4c"
                             android:textSize="@dimen/dimen_11sp"
                             android:textStyle="bold" />
@@ -599,18 +672,21 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/checker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen10dp"
                     android:layout_weight="0.2"
                     android:gravity="center_vertical|end"
-                    android:text="10"
+                    android:text="11"
                     android:textColor="#4c4c4c"
+                    android:fontFamily="@font/roboto_bold"
                     android:textSize="@dimen/dimen18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <RelativeLayout
+            <!-- PIE CHART -->
+            <!--<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/dimen10dp"
@@ -619,7 +695,8 @@
                 android:layout_marginBottom="@dimen/dimen10dp"
                 android:background="@drawable/rectangle_rounded_corners_green"
                 android:backgroundTint="#f2f2f2"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -636,7 +713,14 @@
                     android:layout_width="@dimen/two_hundred_sixty_dp"
                     android:layout_height="@dimen/two_hundred_thirty_dp"
                     android:layout_centerInParent="true" />
-            </RelativeLayout>
+            </RelativeLayout>-->
         </LinearLayout>
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminMvpPresenter" />
+    </data>
 </layout>

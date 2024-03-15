@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dimen7dp"
+                android:paddingTop="@dimen/dimen7dp"
+                android:paddingEnd="@dimen/dimen7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Active Pickers"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen16sp" />
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="@dimen/dimen25dp"
+                    android:layout_height="@dimen/dimen25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/icon_close"
+                    android:tint="@color/black" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="@dimen/dimen30dp"
+                android:layout_marginBottom="@dimen/dimen3dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Select Picker"
+                android:textSize="@dimen/dimen14sp" />
+
+            <RelativeLayout
+                android:id="@+id/reasonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:background="@drawable/rounded_corners_white"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dimen5dp"
+                android:weightSum="1">
+
+                <Spinner
+                    android:id="@+id/selectPicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen35dp"
+                    android:background="@android:color/transparent"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/roboto_regular" />
+
+                <ImageView
+                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/sixteen_dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/dimen15dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/downarrow"
+                    android:tint="@color/dark_grey" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen50dp"
+                android:background="@drawable/bottom_rounded_btn_bg"
+                android:backgroundTint="@color/green"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dimen5dp"
+                android:text="@string/label_ok"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

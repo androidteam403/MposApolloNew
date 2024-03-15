@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable-v24/square_stroke_bg_completed.xml" value="0.197" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/bg_onhold_disable_btn.xml" value="0.2555" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/bottom_rounded_btn_bg.xml" value="0.2535" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/dialog_background.xml" value="0.2535" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/ic_back_arrow.xml" value="0.1825" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/ic_not_available.xml" value="0.1605" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/rounded_bg_light_brown.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/rounded_bg_light_green.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/drawable/rounded_bg_light_grey.xml" value="0.212" />
@@ -25,6 +28,9 @@
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_batchlist_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_batchlist_scanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_navigation3_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_not_allocated_orders.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_open_orders_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_order_details.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_pharmacist_login.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_pick_up_summary_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_picked_up_orders_p.xml" value="0.25" />
@@ -36,11 +42,13 @@
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_scanner_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_select_app_flow_p.xml" value="0.1" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_shelf_id_scanner.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_stock_available_orders.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_zebra_selfscanner.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/activity_zebrascanner_boxtaging.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_biller_orders_screen_p.xml" value="0.10989583333333333" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_fulfilment_details.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_fullfilment_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_not_allocated_orders.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_order_details_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_order_p.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/adapter_orders_list_layout.xml" value="0.25" />
@@ -55,6 +63,7 @@
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/content_main.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/content_main_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/custom_scanner_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_active_pickers.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_cancel.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_dropping.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_farwardto_packer_alert.xml" value="0.25" />
@@ -65,10 +74,12 @@
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_rack_alert.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_shelf_scan_success.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_skip_order.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_un_assign_order.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_update_status_p.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/dialog_verification_status_p.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/fragment_admin.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/fragment_dashboard_p.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/layout_order.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/MPOS V3 Backup/MposApolloNew/app/src/main/res/layout/progress_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/banners_rounded_corners.xml" value="0.2555" />
         <entry key="..\:/AndroidWorkspace/MposApolloNew/app/src/main/res/drawable/bg_onhold_disable_btn.xml" value="0.2555" />

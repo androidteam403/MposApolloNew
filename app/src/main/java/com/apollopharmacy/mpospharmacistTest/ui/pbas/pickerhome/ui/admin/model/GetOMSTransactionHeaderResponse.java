@@ -174,6 +174,16 @@ public class GetOMSTransactionHeaderResponse implements Serializable {
         @Expose
         private String vendorId;
 
+        private boolean isPickupReserved;
+
+        public boolean isPickupReserved() {
+            return isPickupReserved;
+        }
+
+        public void setPickupReserved(boolean pickupReserved) {
+            isPickupReserved = pickupReserved;
+        }
+
         public String getBillingCity() {
             return billingCity;
         }

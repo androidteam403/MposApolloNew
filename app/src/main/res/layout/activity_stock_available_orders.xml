@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen60dp"
+                android:background="@color/black">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <ImageView
+                        android:id="@+id/back_arrow"
+                        android:layout_width="@dimen/dimen20dp"
+                        android:layout_height="@dimen/dimen20dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickBack()}"
+                        android:padding="@dimen/dimen3dp"
+                        android:src="@drawable/ic_back_arrow_white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen7dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Stock Available Orders"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/stock_available_orders_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen7dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="(80)"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/headingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/assigned"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="ASSIGNED"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@{selectedStatus == 1 ? @color/black : @color/light_gray}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@{selectedStatus == 1 ? @color/black : @color/grey}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/un_assigned"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="UN-ASSIGNED"
+                        android:textAlignment="center"
+                        android:textColor="@{selectedStatus == 2 ? @color/black : @color/light_gray}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@{selectedStatus == 2 ? @color/black : @color/grey}" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen7dp"
+                android:background="@color/light_gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/dimen8dp"
+                    android:paddingEnd="@dimen/dimen8dp"
+                    android:src="@drawable/search_icon" />
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="0.7"
+                    android:background="@color/transperancy"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Search by Fulfillment ID/User ID"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:padding="@dimen/five_dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/assigned_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/assigned_orders_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4dp"
+                    android:layout_marginEnd="@dimen/dimen4dp"
+                    android:visibility="visible"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/layout_order" />
+
+                <TextView
+                    android:id="@+id/no_order_found_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="No Order Found"
+                    android:textColor="@color/red"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/unassigned_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/un_assigned_orders_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4dp"
+                    android:layout_marginEnd="@dimen/dimen4dp" />
+
+                <TextView
+                    android:id="@+id/no_order_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="No Order Found"
+                    android:textColor="@color/red"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.stockavailableorders.StockAvailableOrdersMvpPresenter" />
+
+        <variable
+            name="selectedStatus"
+            type="Integer" />
+    </data>
+</layout>

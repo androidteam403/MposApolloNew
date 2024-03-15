@@ -640,5 +640,6 @@
     <string name="label_reprint">Reprint</string>
     <string name="label_recent_bill">Recent bill</string>
     <string name="label_reprint_recent_bill">Reprint(Recent bill)</string>
+    <string name="label_ok">Ok</string>
 
 </resources>

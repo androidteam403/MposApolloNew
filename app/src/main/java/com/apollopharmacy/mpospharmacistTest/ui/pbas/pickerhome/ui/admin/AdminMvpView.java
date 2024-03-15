@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AdminMvpView extends MvpView {
     void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> body);
+
+    void onClickAllOrders();
 }
