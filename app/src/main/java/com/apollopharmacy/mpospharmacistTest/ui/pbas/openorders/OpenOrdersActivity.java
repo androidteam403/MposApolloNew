@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavOptions;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,8 +42,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPick
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.model.MPOSPickPackOrderReservationResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pharmacistlogin.model.UserModel;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -2612,6 +2611,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                     omsHeaderList.get(i).setPickupReserved(false);
                 }
             }
+            PickerNavigationActivity.mInstance.navController.navigate(id, null, navOptions, null);
         }
     }
 
@@ -3095,6 +3095,17 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         mPresenter.fetchFulfilmentOrderList(true);
     }
 
+    int id;
+    NavOptions navOptions;
+    @Override
+    public void onChangeModule(int id, NavOptions navOptions) {
+        this.id = id;
+        this.navOptions = navOptions;
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            mPresenter.mposPickPackOrderReservationApiCall(2, omsHeaderList);
+        }
+    }
+
 
     private void onContinueBtnEnable() {
         if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0 && selectedOmsHeaderList.size() >= minOrdersAllowed) {
@@ -3217,14 +3228,6 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 }
             }
         });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (omsHeaderList != null && omsHeaderList.size() > 0 && !continueBtnClicked) {
-            mPresenter.mposPickPackOrderReservationApiCall(2, omsHeaderList);
-        }
     }
 
     @Override

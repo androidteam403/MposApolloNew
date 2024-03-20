@@ -513,12 +513,30 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
                         omsOrderForwardRequest.setRequestType("1");
                         omsOrderForwardRequest.setFulfillmentID(selectedOmsHeaderList.get(j).getRefno());
                         List<OMSOrderForwardRequest.ReservedSalesLine> reservedSalesLineArrayList = new ArrayList<>();
-
                         if (omsOrderForwardRequest.getFulfillmentID().equalsIgnoreCase(selectedOmsHeaderList.get(j).getRefno())) {
                             for (int k = 0; k < selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().size(); k++) {
+                                reservedSalesLine = new OMSOrderForwardRequest.ReservedSalesLine();
+                                Integer requiredQty = selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getQty();
+                                Integer pickedQty = Integer.parseInt(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPickedQty());
+                                reservedSalesLine.setQCFailedQty(requiredQty - pickedQty);
+                                reservedSalesLine.setQCRemarks(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getReason());
+                                if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getStatus().equalsIgnoreCase("PARTIAL")) {
+                                    reservedSalesLine.setQCStatus(1);
+                                } else {
+                                    reservedSalesLine.setQCStatus(0);
+                                }
                                 if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes() != null && selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList() != null) {
                                     for (int l = 0; l < selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getGetBatchInfoRes().getBatchList().size(); l++) {
-                                        reservedSalesLine = new OMSOrderForwardRequest.ReservedSalesLine();
+//                                        reservedSalesLine = new OMSOrderForwardRequest.ReservedSalesLine();
+//                                        Integer requiredQty = selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getQty();
+//                                        Integer pickedQty = Integer.parseInt(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getPickedQty());
+//                                        reservedSalesLine.setQCFailedQty(requiredQty - pickedQty);
+//                                        reservedSalesLine.setQCRemarks(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getReason());
+//                                        if (selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getStatus().equalsIgnoreCase("PARTIAL")) {
+//                                            reservedSalesLine.setQCStatus(1);
+//                                        } else {
+//                                            reservedSalesLine.setQCStatus(0);
+//                                        }
                                         reservedSalesLine.setAdditionaltax(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getAdditionaltax());
                                         reservedSalesLine.setApplyDiscount(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getApplyDiscount());
                                         reservedSalesLine.setBarcode(selectedOmsHeaderList.get(j).getGetOMSTransactionResponse().getSalesLine().get(k).getBarcode());

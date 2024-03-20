@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavOptions;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,8 +30,6 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.adapte
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.shippinglabel.model.GetJounalOnlineOrderTransactionsResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.scanner.ScannerActivity;
 import com.apollopharmacy.mpospharmacistTest.utils.CommonUtils;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -144,6 +143,11 @@ public class OrdersFragment extends BaseFragment implements OrdersMvpView, Picke
 
     @Override
     public void onClickRefreshPickerPackerBiller() {
+
+    }
+
+    @Override
+    public void onChangeModule(int id, NavOptions navOptions) {
 
     }
 

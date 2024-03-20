@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavOptions;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -1122,5 +1123,10 @@ public class BillerOrdersActivity extends BaseFragment implements BillerOrdersMv
     @Override
     public void onClickRefreshPickerPackerBiller() {
         mPresenter.fetchFulfilmentOrderList();
+    }
+
+    @Override
+    public void onChangeModule(int id, NavOptions navOptions) {
+
     }
 }

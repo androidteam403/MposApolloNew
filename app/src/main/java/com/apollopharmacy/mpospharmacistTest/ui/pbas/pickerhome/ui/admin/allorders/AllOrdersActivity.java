@@ -39,7 +39,7 @@ import javax.inject.Inject;
 public class AllOrdersActivity extends BaseActivity implements AllOrdersMvpView {
     private ActivityAllOrdersBinding allOrdersBinding;
     private OrdersAdapter ordersAdapter;
-    List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList;
+    List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList = new ArrayList<>();
     @Inject
     AllOrdersMvpPresenter<AllOrdersMvpView> mPresenter;
 
@@ -169,7 +169,21 @@ public class AllOrdersActivity extends BaseActivity implements AllOrdersMvpView 
     }
 
     @Override
+    public void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList) {
+        if (omsHeaderList != null && omsHeaderList.size() > 0) {
+            this.omsHeaderList.clear();
+            this.omsHeaderList = omsHeaderList;
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getOmsTransactionHeader();
     }
 }

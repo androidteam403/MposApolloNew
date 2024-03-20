@@ -7,7 +7,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.model.G
 import java.util.List;
 
 public interface AdminMvpView extends MvpView {
-    void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> body);
+    void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> body, String isMpos);
 
     void onClickAllOrders();
 }

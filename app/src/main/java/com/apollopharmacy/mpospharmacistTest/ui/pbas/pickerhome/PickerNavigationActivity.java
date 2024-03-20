@@ -45,7 +45,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     TextView userName;
     TextView userStore;
     public PickerNavigationActivityCallback pickerNavigationActivityCallback;
-    NavController navController;
+    public NavController navController;
     int itemPos;
     private List<TransactionHeaderResponse.OMSHeader> selectedOmsHeaderList = new ArrayList<>();
 
@@ -56,6 +56,7 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
     FullfilmentAdapter fullfilmentAdapter;
     private String fragmentName = null;
     private String userType;
+    private String currentFragment = "PICKER";
 
     public static Intent getStartIntent(Context mContext, String fragmentName) {
         Intent intent = new Intent(mContext, PickerNavigationActivity.class);
@@ -121,21 +122,52 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
 //                } else
             if (menuItem.getItemId() == R.id.nav_picker_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
+                currentFragment = "PICKER";
                 navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
             } else if (menuItem.getItemId() == R.id.nav_packer_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
-                navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_packer_vtwo, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
+                }
+                currentFragment = "";
             } else if (menuItem.getItemId() == R.id.nav_biller_vtwo) {
 //                    getSupportFragmentManager().popBackStack();
-                navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_biller_vtwo, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
+                }
+                currentFragment = "";
             } else if (menuItem.getItemId() == R.id.nav_shipping_label) {
-                navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_shipping_label, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
+                }
+                currentFragment = "";
             } else if (menuItem.getItemId() == R.id.nav_on_hold) {
-                navController.navigate(R.id.nav_on_hold, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_on_hold, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_on_hold, null, navOptions, null);
+                }
+                currentFragment = "";
             } else if (menuItem.getItemId() == R.id.nav_orders) {
-                navController.navigate(R.id.nav_orders, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_orders, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_orders, null, navOptions, null);
+                }
+                currentFragment = "";
             } else if (menuItem.getItemId() == R.id.nav_stock_inward_process) {
-                navController.navigate(R.id.nav_stock_inward_process, null, navOptions, null);
+                if (currentFragment.equalsIgnoreCase("PICKER")) {
+                    unReserveOrder(R.id.nav_stock_inward_process, navOptions);
+                } else {
+                    navController.navigate(R.id.nav_stock_inward_process, null, navOptions, null);
+                }
+                currentFragment = "";
             }
             return true;
         });
@@ -165,24 +197,37 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         onClickRefresh();
     }
 
+    private void unReserveOrder(int id, NavOptions navOptions) {
+        if (pickerNavigationActivityCallback != null) {
+            pickerNavigationActivityCallback.onChangeModule(id, navOptions);
+        }
+    }
+
     private void decideFragment(String fragmentName) {
         if (mAppBarConfiguration.getDrawerLayout() != null) {
             mAppBarConfiguration.getDrawerLayout().closeDrawers();
         }
 
         if (fragmentName.equals("PICKER")) {
+            currentFragment = "PICKER";
             navController.navigate(R.id.nav_picker_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("PACKER")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_packer_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("BILLER")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_biller_vtwo, null, navOptions, null);
         } else if (fragmentName.equals("SHIPPING_LABEL")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_shipping_label, null, navOptions, null);
         } else if (fragmentName.equals("ADMIN")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_on_hold, null, navOptions, null);
         } else if (fragmentName.equals("ORDERS")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_orders, null, navOptions, null);
         } else if (fragmentName.equals("STOCK_INWARD_PROCESS")) {
+            currentFragment = "";
             navController.navigate(R.id.nav_stock_inward_process, null, navOptions, null);
         }
     }
@@ -421,6 +466,8 @@ public class PickerNavigationActivity extends BaseActivity implements PickerNavi
         void onClickUnHold();
 
         void onClickRefreshPickerPackerBiller();
+
+        void onChangeModule(int id, NavOptions navOptions);
     }
 
     @Override

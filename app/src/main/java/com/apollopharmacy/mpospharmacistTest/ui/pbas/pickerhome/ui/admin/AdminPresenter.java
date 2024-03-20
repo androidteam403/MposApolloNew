@@ -25,13 +25,16 @@ public class AdminPresenter<V extends AdminMvpView> extends BasePresenter<V> imp
         super(manager, schedulerProvider, compositeDisposable);
     }
 
+    public static boolean isFirstTime = true;
     @Override
-    public void getOmsTransactionHeader() {
+    public void getOmsTransactionHeader(String isMpos) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if (isFirstTime) {
+                getMvpView().showLoading();
+            }
             ApiInterface apiInterface = ApiClient.getApiService(getDataManager().getEposURL());
             GetOMSTransactionHeaderRequest getOMSTransactionHeaderRequest = new GetOMSTransactionHeaderRequest();
-            getOMSTransactionHeaderRequest.setIsMPOS("2");
+            getOMSTransactionHeaderRequest.setIsMPOS(isMpos);
             getOMSTransactionHeaderRequest.setUserName("");
             getOMSTransactionHeaderRequest.setTransactionID("");
             getOMSTransactionHeaderRequest.setRefID("");
@@ -45,11 +48,13 @@ public class AdminPresenter<V extends AdminMvpView> extends BasePresenter<V> imp
                 public void onResponse(Call<GetOMSTransactionHeaderResponse> call, Response<GetOMSTransactionHeaderResponse> response) {
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
-                            getMvpView().hideLoading();
-                            getMvpView().onSuccessGetOmsTransactionHeader(response.body().getOMSHeader());
+                            if (!isFirstTime) {
+                                getMvpView().hideLoading();
+                            }
+                            getMvpView().onSuccessGetOmsTransactionHeader(response.body().getOMSHeader(), isMpos);
                         }
                     }
-                 }
+                }
 
                 @Override
                 public void onFailure(Call<GetOMSTransactionHeaderResponse> call, Throwable t) {

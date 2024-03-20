@@ -49,6 +49,18 @@ public class OMSOrderForwardRequest implements Serializable {
 
     public static class ReservedSalesLine implements Serializable {
 
+        @SerializedName("QCFailedQty")
+        @Expose
+        private Integer QCFailedQty;
+
+        @SerializedName("QCRemarks")
+        @Expose
+        private String QCRemarks;
+
+        @SerializedName("QCStatus")
+        @Expose
+        private Integer QCStatus;
+
         @SerializedName("Additionaltax")
         @Expose
         private double additionaltax;
@@ -1052,6 +1064,29 @@ public class OMSOrderForwardRequest implements Serializable {
             this.isSelectedReturnItem = isSelectedReturnItem;
         }
 
+        public Integer getQCFailedQty() {
+            return QCFailedQty;
+        }
+
+        public void setQCFailedQty(Integer QCFailedQty) {
+            this.QCFailedQty = QCFailedQty;
+        }
+
+        public String getQCRemarks() {
+            return QCRemarks;
+        }
+
+        public void setQCRemarks(String QCRemarks) {
+            this.QCRemarks = QCRemarks;
+        }
+
+        public Integer getQCStatus() {
+            return QCStatus;
+        }
+
+        public void setQCStatus(Integer QCStatus) {
+            this.QCStatus = QCStatus;
+        }
     }
 
     public String getTerminalID() {

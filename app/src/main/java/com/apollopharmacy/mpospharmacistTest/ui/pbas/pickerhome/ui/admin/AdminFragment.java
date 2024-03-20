@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavOptions;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.FragmentAdminBinding;
@@ -20,6 +21,7 @@ import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.allorde
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.model.GetOMSTransactionHeaderResponse;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -28,6 +30,7 @@ public class AdminFragment extends BaseFragment implements AdminMvpView, PickerN
     AdminMvpPresenter<AdminMvpView> mPresenter;
 
     private FragmentAdminBinding adminBinding;
+    List<GetOMSTransactionHeaderResponse.OMSHeader> allOrders;
     List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList;
 
     @Nullable
@@ -42,7 +45,7 @@ public class AdminFragment extends BaseFragment implements AdminMvpView, PickerN
     @Override
     protected void setUp(View view) {
         adminBinding.setCallback(mPresenter);
-        mPresenter.getOmsTransactionHeader();
+        mPresenter.getOmsTransactionHeader("2");
         actionbarSetUp();
     }
 
@@ -131,32 +134,48 @@ public class AdminFragment extends BaseFragment implements AdminMvpView, PickerN
 
     }
 
+    @Override
+    public void onChangeModule(int id, NavOptions navOptions) {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList) {
+    public void onSuccessGetOmsTransactionHeader(List<GetOMSTransactionHeaderResponse.OMSHeader> omsHeaderList, String isMpos) {
         if (omsHeaderList != null && omsHeaderList.size() > 0) {
-            this.omsHeaderList = omsHeaderList;
-            long stockAvailable = omsHeaderList.stream().filter(omsHeader -> omsHeader.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE") && omsHeader.getPickPackUser().isEmpty()).count();
-            long partialAvailable = omsHeaderList.stream().filter(omsHeader -> omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE") && omsHeader.getPickPackUser().isEmpty()).count();
-            long pickerCount = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 0).count();
-            long checkerCount = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 5).count();
-            adminBinding.allOrders.setText(String.valueOf(omsHeaderList.size()));
-            adminBinding.stockAvailable.setText(String.valueOf(stockAvailable));
-            adminBinding.partiallyAvailable.setText(String.valueOf(partialAvailable));
-            adminBinding.pickerIssues.setText(String.valueOf(pickerCount));
-            adminBinding.checker.setText(String.valueOf(checkerCount));
+            if (isMpos.equalsIgnoreCase("2")) {
+                AdminPresenter.isFirstTime = false;
+                this.allOrders = omsHeaderList;
+                long stockAvailable = omsHeaderList.stream().filter(omsHeader -> omsHeader.getStockStatus().equalsIgnoreCase("STOCK AVAILABLE") && omsHeader.getPickPackUser().isEmpty()).count();
+                long partialAvailable = omsHeaderList.stream().filter(omsHeader -> omsHeader.getStockStatus().equalsIgnoreCase("PARTIAL AVAILABLE") && omsHeader.getPickPackUser().isEmpty()).count();
+//            long pickerCount = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 0).count();
+//            long checkerCount = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 5).count();
+                adminBinding.allOrders.setText(String.valueOf(omsHeaderList.size()));
+                adminBinding.stockAvailable.setText(String.valueOf(stockAvailable));
+                adminBinding.partiallyAvailable.setText(String.valueOf(partialAvailable));
+                mPresenter.getOmsTransactionHeader("11");
+//            adminBinding.pickerIssues.setText(String.valueOf(pickerCount));
+//            adminBinding.checker.setText(String.valueOf(checkerCount));
             /*Map<String, Integer> pieData = new LinkedHashMap<>();
             pieData.put("Stock Available", (int) stockAvailable);
             pieData.put("Stock Partially Available", (int) partialAvailable);
             pieData.put("Picker Issues", 15);
             pieData.put("Checker", 10);
             pieChartSetUp(pieData);*/
+            } else {
+                AdminPresenter.isFirstTime = true;
+                this.omsHeaderList = omsHeaderList;
+                List<GetOMSTransactionHeaderResponse.OMSHeader> pickerIssuesList = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 1).collect(Collectors.toList());
+                List<GetOMSTransactionHeaderResponse.OMSHeader> checkerList = omsHeaderList.stream().filter(omsHeader -> omsHeader.getPickPackStatus() == 3).collect(Collectors.toList());
+                adminBinding.pickerIssues.setText(String.valueOf(pickerIssuesList.size()));
+                adminBinding.checker.setText(String.valueOf(checkerList.size()));
+            }
         }
     }
 
     @Override
     public void onClickAllOrders() {
-        Intent intent = AllOrdersActivity.getStartIntent(requireContext(), omsHeaderList);
+        Intent intent = AllOrdersActivity.getStartIntent(requireContext(), allOrders);
         startActivity(intent);
     }
 }

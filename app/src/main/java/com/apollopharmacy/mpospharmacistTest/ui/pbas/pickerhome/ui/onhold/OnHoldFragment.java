@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavOptions;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -184,6 +185,11 @@ public class OnHoldFragment extends BaseFragment implements OnHoldMvpView, Picke
 
     @Override
     public void onClickRefreshPickerPackerBiller() {
+
+    }
+
+    @Override
+    public void onChangeModule(int id, NavOptions navOptions) {
 
     }
 

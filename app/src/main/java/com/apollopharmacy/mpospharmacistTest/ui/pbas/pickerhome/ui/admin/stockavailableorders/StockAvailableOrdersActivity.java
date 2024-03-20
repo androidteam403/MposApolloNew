@@ -49,8 +49,8 @@ public class StockAvailableOrdersActivity extends BaseActivity implements StockA
     private List<String> activePickers;
     int selectedPickerPosition;
     boolean isAssignedTab = true;
-    List<GetOMSTransactionHeaderResponse.OMSHeader> assignedOrders;
-    List<GetOMSTransactionHeaderResponse.OMSHeader> unAssignedOrders;
+    List<GetOMSTransactionHeaderResponse.OMSHeader> assignedOrders = new ArrayList<>();
+    List<GetOMSTransactionHeaderResponse.OMSHeader> unAssignedOrders = new ArrayList<>();
     private GetOMSTransactionHeaderResponse.OMSHeader unAssignedOrder;
 
     public static Intent getStartIntent(Context context, List<GetOMSTransactionHeaderResponse.OMSHeader> stockAvailableOrders) {
@@ -93,14 +93,17 @@ public class StockAvailableOrdersActivity extends BaseActivity implements StockA
                 .filter(omsHeader -> omsHeader.getPickPackUser() != null && !omsHeader.getPickPackUser().isEmpty())
                 .collect(Collectors.toList());
 
-        stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.VISIBLE);
-        stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
-        assignedOrderAdapter = new AssignedOrderAdapter(StockAvailableOrdersActivity.this, assignedOrders, this);
-        stockAvailableOrdersBinding.assignedOrdersRcv.setAdapter(assignedOrderAdapter);
-        stockAvailableOrdersBinding.assignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+        if (assignedOrders.size() > 0) {
+            stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.VISIBLE);
+            stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+            assignedOrderAdapter = new AssignedOrderAdapter(StockAvailableOrdersActivity.this, assignedOrders, this);
+            stockAvailableOrdersBinding.assignedOrdersRcv.setAdapter(assignedOrderAdapter);
+            stockAvailableOrdersBinding.assignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+        } else {
+            stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.GONE);
+            stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+        }
 
-        stockAvailableOrdersBinding.unAssignedOrdersRcv.setVisibility(View.VISIBLE);
-        stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
         unAssignedOrderAdapter = new UnAssignedOrderAdapter(StockAvailableOrdersActivity.this, unAssignedOrders, this);
         stockAvailableOrdersBinding.unAssignedOrdersRcv.setAdapter(unAssignedOrderAdapter);
         stockAvailableOrdersBinding.unAssignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
@@ -133,7 +136,9 @@ public class StockAvailableOrdersActivity extends BaseActivity implements StockA
                             }
                         }
                     }
-                    assignedOrderAdapter.setFilteredList(filteredList);
+                    if (assignedOrderAdapter != null) {
+                        assignedOrderAdapter.setFilteredList(filteredList);
+                    }
                     if (filteredList.size() > 0) {
                         stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.VISIBLE);
                         stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
@@ -152,7 +157,9 @@ public class StockAvailableOrdersActivity extends BaseActivity implements StockA
                             }
                         }
                     }
-                    unAssignedOrderAdapter.setFilteredList(filteredList);
+                    if (unAssignedOrderAdapter != null) {
+                        unAssignedOrderAdapter.setFilteredList(filteredList);
+                    }
                     if (filteredList.size() > 0) {
                         stockAvailableOrdersBinding.unAssignedOrdersRcv.setVisibility(View.VISIBLE);
                         stockAvailableOrdersBinding.noOrderFound.setVisibility(View.GONE);
@@ -298,13 +305,27 @@ public class StockAvailableOrdersActivity extends BaseActivity implements StockA
                     .filter(omsHeader -> omsHeader.getPickPackUser() != null && omsHeader.getPickPackUser().isEmpty())
                     .collect(Collectors.toList());
 
-            assignedOrderAdapter = new AssignedOrderAdapter(StockAvailableOrdersActivity.this, assignedOrders, this);
-            stockAvailableOrdersBinding.assignedOrdersRcv.setAdapter(assignedOrderAdapter);
-            stockAvailableOrdersBinding.assignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+            if (assignedOrders.size() > 0) {
+                stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.VISIBLE);
+                stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.GONE);
+                assignedOrderAdapter = new AssignedOrderAdapter(StockAvailableOrdersActivity.this, assignedOrders, this);
+                stockAvailableOrdersBinding.assignedOrdersRcv.setAdapter(assignedOrderAdapter);
+                stockAvailableOrdersBinding.assignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+            } else {
+                stockAvailableOrdersBinding.assignedOrdersRcv.setVisibility(View.GONE);
+                stockAvailableOrdersBinding.noOrderFoundText.setVisibility(View.VISIBLE);
+            }
 
-            unAssignedOrderAdapter = new UnAssignedOrderAdapter(StockAvailableOrdersActivity.this, unAssignedOrders, this);
-            stockAvailableOrdersBinding.unAssignedOrdersRcv.setAdapter(unAssignedOrderAdapter);
-            stockAvailableOrdersBinding.unAssignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+            if (unAssignedOrders.size() > 0) {
+                stockAvailableOrdersBinding.unAssignedOrdersRcv.setVisibility(View.VISIBLE);
+                stockAvailableOrdersBinding.noOrderFound.setVisibility(View.GONE);
+                unAssignedOrderAdapter = new UnAssignedOrderAdapter(StockAvailableOrdersActivity.this, unAssignedOrders, this);
+                stockAvailableOrdersBinding.unAssignedOrdersRcv.setAdapter(unAssignedOrderAdapter);
+                stockAvailableOrdersBinding.unAssignedOrdersRcv.setLayoutManager(new LinearLayoutManager(StockAvailableOrdersActivity.this));
+            } else {
+                stockAvailableOrdersBinding.unAssignedOrdersRcv.setVisibility(View.GONE);
+                stockAvailableOrdersBinding.noOrderFound.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

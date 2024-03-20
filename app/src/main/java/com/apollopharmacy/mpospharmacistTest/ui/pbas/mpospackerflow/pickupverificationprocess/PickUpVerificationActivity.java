@@ -1140,7 +1140,7 @@ fId=getOMSTransactionResponses.get(0).getRefno();
         if (mposOrderUpdateRequestType.equals("3")) {
             mpresenter.mposPickPackOrderReservationApiCall(6, omsHeader);
         } else if (mposOrderUpdateRequestType.equals("2")) {
-            mpresenter.mposPickPackOrderReservationApiCall(4, omsHeader);
+            mpresenter.mposPickPackOrderReservationApiCall(12, omsHeader);
         }
     }
 
