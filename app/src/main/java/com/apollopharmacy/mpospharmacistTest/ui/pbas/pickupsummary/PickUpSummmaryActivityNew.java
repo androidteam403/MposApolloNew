@@ -156,7 +156,14 @@ public class PickUpSummmaryActivityNew extends BaseActivity implements PickUpSum
             time = (String) getIntent().getStringExtra("time");
             stopWatch = (String) getIntent().getStringExtra("stopWatch");
 
-
+            if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
+                long partialCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("PARTIAL")).count();
+                long fullCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("FULL")).count();
+                long notAvailableCount = selectedOmsHeaderList.stream().filter(item -> item.getItemStatus() != null && item.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")).count();
+                activityPickUpSummaryBinding.products.setText(String.valueOf(selectedOmsHeaderList.size()));
+                activityPickUpSummaryBinding.notAvailable.setText(String.valueOf(notAvailableCount));
+                activityPickUpSummaryBinding.completed.setText(String.valueOf(fullCount + partialCount));
+            }
             activityPickUpSummaryBinding.time.setText(time);
             activityPickUpSummaryBinding.timer.setText(stopWatch);
             stopWatchs = (Chronometer) findViewById(R.id.chrono);

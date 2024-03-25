@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -99,10 +100,281 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_marginTop="@dimen/dimen3dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:id="@+id/totalLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#3fa9f5"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_book_24"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="100"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/assignedLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#8cc63f"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_person_24"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Assigned"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/assigned"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="24"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen2dp"
+                    android:layout_weight="1"
+                    android:background="#f7931e"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_book_24"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/pending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="50"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#009245"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="@dimen/dimen5dp"
+                    android:paddingEnd="@dimen/dimen5dp"
+                    android:paddingBottom="@dimen/dimen5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen25dp"
+                        android:layout_height="@dimen/dimen25dp"
+                        android:layout_marginEnd="@dimen/dimen2dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_book_24"
+                        android:tint="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Completed"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/completed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="26"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/seven_dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:paddingStart="@dimen/dimen8dp"
+                    android:src="@drawable/search_icon" />
+
+                <EditText
+                    android:id="@+id/search_byfulfimentid"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Search for Fulfillment ID/Box ID"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:padding="@dimen/five_dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/twelve_sp" />
+
+                <!--<ImageView
+                    android:id="@+id/searchIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/search_icon" />-->
+
+                <ImageView
+                    android:id="@+id/deleteCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/cross_black"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/ic_rectangular_shape"
+                    android:backgroundTint="#333333"
+                    android:onClick="@{()->callback.onClickScanCode()}"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/five_dp"
+                        android:src="@drawable/tag_box"
+                        android:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_rectangular_shape"
+                        android:backgroundTint="#333333"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Scan\n QR Code"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/ten_sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen25dp"
-                android:background="@color/yellow"
+                android:layout_marginStart="@dimen/dimen7dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:background="#fff1d0"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -112,7 +384,7 @@
                     android:layout_marginStart="@dimen/dimen10dp"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center_vertical"
-                    android:text="Select fulfilment to start pickup process"
+                    android:text="Select fulfilment to start pickup process."
                     android:textColor="@color/black"
                     android:textSize="@dimen/dimen10sp"
                     tools:ignore="RtlSymmetry" />
@@ -134,80 +406,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/seven_dp"
-                android:weightSum="1">
+                android:layout_marginStart="@dimen/dimen7dp"
+                android:layout_marginTop="@dimen/dimen7dp"
+                android:layout_marginEnd="@dimen/dimen7dp"
+                android:layout_marginBottom="@dimen/dimen5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/search_byfulfimentid"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_weight="0.7"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:fontFamily="@font/roboto_regular"
-                    android:hint="Search by Fulfilment ID, Box ID"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:padding="@dimen/five_dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="@dimen/twelve_sp" />
-
-                <ImageView
-                    android:id="@+id/searchIcon"
+                <!--<CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:contentDescription="@string/app_name"
-                    android:padding="@dimen/five_dp"
-                    android:src="@drawable/search_icon" />
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#b3b3b3" />-->
 
-                <ImageView
-                    android:id="@+id/deleteCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:contentDescription="@string/app_name"
-                    android:padding="@dimen/five_dp"
-                    android:src="@drawable/cross_black"
-                    android:visibility="gone" />
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_marginStart="@dimen/five_dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/ic_rectangular_shape"
-                    android:backgroundTint="@color/green"
-                    android:onClick="@{()->callback.onClickScanCode()}"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/twenty_five_dp"
-                        android:layout_height="@dimen/twenty_five_dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/three_dp"
-                        android:contentDescription="@string/app_name"
-                        android:padding="@dimen/five_dp"
-                        android:src="@drawable/tag_box"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/ic_rectangular_shape"
-                        android:backgroundTint="@color/green"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Scan code"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/ten_sp" />
-
-                </LinearLayout>
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/filterTypeRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/adapter_filter_type"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </LinearLayout>
 
             <RelativeLayout

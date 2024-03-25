@@ -90,10 +90,10 @@
     <string name="label_expiry_change">EXPIRY CHANGE</string>
     <string name="labl_s_no">S.No.</string>
     <string name="label_tax">Tax</string>
-    <string name="label_q_o_h">Q O H</string>
+    <string name="label_q_o_h">QOH</string>
     <string name="label_req">Req. Qty</string>
     <string name="label_phy_batch">Phy.Batch</string>
-    <string name="batch_pickup_check">PickUp</string>
+    <string name="batch_pickup_check">Pickup</string>
     <string name="label_add_to_cart">ADD TO CART</string>
     <string name="label_batchno">BATCHNO.</string>
     <string name="label_searchproduct">SearchProduct</string>
@@ -472,6 +472,7 @@
     <string name="label_total_items">Total Items: </string>
     <string name="label_space">\u00A0</string>
     <string name="label_ready_for_pickup">Ready for pickup</string>
+    <string name="label_batch_details">Batch Details</string>
     <string name="label_pickup_process">pickup process</string>
     <string name="label_enter_batch_id">Enter Batch ID</string>
 
@@ -553,7 +554,7 @@
     <string name="label_or">or</string>
     <string name="label_pickup_summary">pickup summary</string>
     <string name="label_req_qty">req.Qty</string>
-    <string name="label_mrp">Mrp</string>
+    <string name="label_mrp">MRP</string>
     <string name="label_exp_date">Exp.Date</string>
     <string name="label_batch_no">Batch No.</string>
     <string name="label_forward_to_packer">forward to packer</string>

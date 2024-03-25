@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,14 +27,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.ActivityOpenOrdersPBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogFilterPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.base.BaseFragment;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterItemAdapter;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FilterTypeAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.adapter.FullfilmentAdapter;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.FilterModel;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.modelclass.GetOMSTransactionResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.PickerNavigationActivity;
+import com.apollopharmacy.mpospharmacistTest.ui.pbas.orderspicking.StartPickingActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.model.RacksDataResponse;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.prescriptionslider.PrescriptionSliderActivity;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.readyforpickup.ReadyForPickUpActivity;
@@ -111,6 +116,8 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
     private boolean isShiipimentDateFiltered = false;
     private boolean isBillDateFiltered = false;
 
+    private ArrayList<String> filterTypeList = new ArrayList<>();
+
     public static Intent getStartActivity(Context context) {
         return new Intent(context, OpenOrdersActivity.class);
     }
@@ -173,6 +180,11 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             }
         });
 
+        // start picking activity for demo
+        openOrdersBinding.assignedLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StartPickingActivity.class);
+            startActivity(intent);
+        });
 
     }
 
@@ -429,6 +441,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             dialogFilterBinding.applyFilters.setOnClickListener(view -> {
                 showLoading();
                 applyOrderFilters();
+                initFilterTypeAdapter();
                 filterDialog.dismiss();
                 hideLoading();
             });
@@ -436,6 +449,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
                 clearFilter();
                 filterDialog.dismiss();
                 applyOrderFilters();
+                initFilterTypeAdapter();
             });
             filterDialog.show();
         } else {
@@ -443,14 +457,23 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         }
     }
 
+    private void initFilterTypeAdapter() {
+        FilterTypeAdapter filterTypeAdapter = new FilterTypeAdapter(getContext(), filterTypeList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        openOrdersBinding.filterTypeRcv.setAdapter(filterTypeAdapter);
+        openOrdersBinding.filterTypeRcv.setLayoutManager(layoutManager);
+    }
+
     private void applyOrderFilters() {
         omsHeaderListTotal.clear();
+        filterTypeList.clear();
 
         // Customer type filter list.
         boolean isCustomerTypeFilter = false;
         for (FilterModel orderTypeFilter : customerTypeFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isCustomerTypeFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isCustomerTypeFilter) {
@@ -479,6 +502,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : orderTypeFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isorderTypeFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isorderTypeFilter) {
@@ -515,6 +539,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : orderCategoryFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isOrderCategoryFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isOrderCategoryFilter) {
@@ -551,6 +576,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : paymentTypeFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isPaymentTypeFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isPaymentTypeFilter) {
@@ -586,6 +612,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : orderSourceFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isOrderSourceFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isOrderSourceFilter) {
@@ -627,6 +654,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : stockAvailabilityFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isStockAvailabilityFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isStockAvailabilityFilter) {
@@ -661,6 +689,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : shippmentTatFilterList) {
             if (orderTypeFilter.isSelected()) {
                 isShippingTatFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isShippingTatFilter) {
@@ -695,6 +724,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel billDateTatFilter : billDateTatFilterList) {
             if (billDateTatFilter.isSelected()) {
                 isBillDateTatFilter = true;
+                filterTypeList.add(billDateTatFilter.getName());
             }
         }
         if (isBillDateTatFilter) {
@@ -722,6 +752,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
         for (FilterModel orderTypeFilter : reverificationList) {
             if (orderTypeFilter.isSelected()) {
                 isReverificationFilter = true;
+                filterTypeList.add(orderTypeFilter.getName());
             }
         }
         if (isReverificationFilter) {
@@ -2526,7 +2557,7 @@ public class OpenOrdersActivity extends BaseFragment implements OpenOrdersMvpVie
             openOrdersBinding.setIsContinueSelect(true);
             openOrdersBinding.selectedItemCount.setText(selectedOmsHeaderList.size() + "/" + mPresenter.getGlobalConfiguration().getMPOSMaxOrderAllowed());
         } else {
-            openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pichup process.");
+            openOrdersBinding.selectedFullfillment.setText("Select fulfilment to start pickup process.");
             openOrdersBinding.continueBtn.setBackgroundColor(getContext().getResources().getColor(R.color.continue_unselect_color));
             openOrdersBinding.setIsContinueSelect(false);
         }

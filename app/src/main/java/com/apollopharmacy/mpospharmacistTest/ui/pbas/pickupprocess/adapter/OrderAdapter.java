@@ -79,18 +79,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 //            if (omsHeader.getScannedBarcode().length() > 5)
 //                holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode().substring(omsHeader.getScannedBarcode().length() - 5));
 //            else
-            holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
+//            holder.orderBinding.boxNumber.setText(omsHeader.getScannedBarcode());
         } else {
-            holder.orderBinding.boxNumber.setText("-");
+//            holder.orderBinding.boxNumber.setText("-");
         }
         if (omsHeader.isOnHold()) {
-            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
-            holder.orderBinding.onHold.setEnabled(false);
+//            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_disable_btn);
+//            holder.orderBinding.onHold.setEnabled(false);
         } else {
-            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
-            holder.orderBinding.onHold.setEnabled(true);
+//            holder.orderBinding.onHold.setBackgroundResource(R.drawable.bg_onhold_enable_btn);
+//            holder.orderBinding.onHold.setEnabled(true);
         }
-        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
+//        holder.orderBinding.totalItems.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getSalesLine().size()));
 //        holder.orderBinding.rightArrow.setOnClickListener(v -> {
 //            if (pickupProcessMvpView != null)
 //                pickupProcessMvpView.onClickOrderAdapterArrow(position);
@@ -100,49 +100,51 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         } else {
             holder.orderBinding.orderStatus.setText("Pending");
         }
+        holder.orderBinding.sourceId.setText(omsHeader.getOrderSource());
+        holder.orderBinding.items.setText(String.valueOf(omsHeader.getNumberofItemLines()));
 
-        holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
-        holder.orderBinding.orderSource.setText(omsHeader.getVendorId());
-        holder.orderBinding.orderDate.setText(omsHeader.getCreatedDateTime());
-        holder.orderBinding.deliveryDate.setText(omsHeader.getDeliveryDate());
-        holder.orderBinding.shippingMethodType.setText(omsHeader.getShippingMethod());
-        holder.orderBinding.sourceOrderName.setText(omsHeader.getOrderSource());
-        holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
-        holder.orderBinding.orderType.setText(omsHeader.getOrderType());
-        holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
-        holder.orderBinding.vendorId.setText(omsHeader.getVendorId());
-        holder.orderBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
-        holder.orderBinding.orderbillvalue.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getNetAmount()));
-        holder.orderBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
-        holder.orderBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
-        holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
-        holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
-        holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
+//        holder.orderBinding.customerType.setText(omsHeader.getCustomerType());
+//        holder.orderBinding.orderSource.setText(omsHeader.getVendorId());
+//        holder.orderBinding.orderDate.setText(omsHeader.getCreatedDateTime());
+//        holder.orderBinding.deliveryDate.setText(omsHeader.getDeliveryDate());
+//        holder.orderBinding.shippingMethodType.setText(omsHeader.getShippingMethod());
+//        holder.orderBinding.sourceOrderName.setText(omsHeader.getOrderSource());
+//        holder.orderBinding.paymentSource.setText(omsHeader.getPaymentSource());
+//        holder.orderBinding.orderType.setText(omsHeader.getOrderType());
+//        holder.orderBinding.customerName.setText(omsHeader.getGetOMSTransactionResponse().getCustomerName());
+//        holder.orderBinding.vendorId.setText(omsHeader.getVendorId());
+//        holder.orderBinding.mobileNumber.setText(omsHeader.getGetOMSTransactionResponse().getMobileNO());
+//        holder.orderBinding.orderbillvalue.setText(String.valueOf(omsHeader.getGetOMSTransactionResponse().getNetAmount()));
+//        holder.orderBinding.doctorName.setText(omsHeader.getGetOMSTransactionResponse().getDoctorName());
+//        holder.orderBinding.statecode.setText(omsHeader.getGetOMSTransactionResponse().getState());
+//        holder.orderBinding.city.setText(omsHeader.getGetOMSTransactionResponse().getBillingCity());
+//        holder.orderBinding.address.setText(omsHeader.getGetOMSTransactionResponse().getCustAddress());
+//        holder.orderBinding.pincode.setText(omsHeader.getGetOMSTransactionResponse().getPincode());
         if (omsHeader.getGetOMSTransactionResponse() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine() != null && omsHeader.getGetOMSTransactionResponse().getSalesLine().size() > 0) {
-            holder.orderBinding.fulfillmentType.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(0).getFullfillmentType());
+//            holder.orderBinding.fulfillmentType.setText(omsHeader.getGetOMSTransactionResponse().getSalesLine().get(0).getFullfillmentType());
         }
 
-        holder.orderBinding.shipmentTat.setText(omsHeader.getShipmentTat());
-        holder.orderBinding.billdateTat.setText(omsHeader.getBillingTat());
+//        holder.orderBinding.shipmentTat.setText(omsHeader.getShipmentTat());
+//        holder.orderBinding.billdateTat.setText(omsHeader.getBillingTat());
 
         if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("PARTIAL")) {
-            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
-            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
-            holder.orderBinding.statusText.setText("PARTIAL");
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//            holder.orderBinding.statusText.setText("PARTIAL");
             omsHeader.setOverallOrderStatus("2");
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("NOT AVAILABLE")) {
-            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
-            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
-            holder.orderBinding.statusText.setText("NOT AVAILABLE");
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+//            holder.orderBinding.statusText.setText("NOT AVAILABLE");
             omsHeader.setOverallOrderStatus("3");
         } else if (omsHeader.getItemStatus() != null && omsHeader.getItemStatus().equalsIgnoreCase("FULL")) {
-            holder.orderBinding.statusImage.setRotation(0);
-            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
-            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
-            holder.orderBinding.statusText.setText("FULL");
+//            holder.orderBinding.statusImage.setRotation(0);
+//            holder.orderBinding.statusandicon.setVisibility(View.VISIBLE);
+//            holder.orderBinding.statusImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+//            holder.orderBinding.statusText.setText("FULL");
             omsHeader.setOverallOrderStatus("1");
         } else {
-            holder.orderBinding.statusandicon.setVisibility(View.GONE);
+//            holder.orderBinding.statusandicon.setVisibility(View.GONE);
         }
 
 
@@ -152,13 +154,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.orderBinding.productListRecycler.setAdapter(productListAdapter);
 //      mPresenter.getBatchDetailsApi(selectedOmsHeaderList.get(orderAdapterPos).getGetOMSTransactionResponse().getSalesLine().get(newSelectedOrderAdapterPos));
         if (selectedOmsHeaderList.get(position).isExpanded()) {
-            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
-            holder.orderBinding.rightArrow.setRotation(90);
-            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
+//            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+//            holder.orderBinding.rightArrow.setRotation(90);
+//            holder.orderBinding.rackChild2Layout.setVisibility(View.VISIBLE);
 
         } else if (!selectedOmsHeaderList.get(position).isExpanded()) {
-            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
-            holder.orderBinding.rightArrow.setRotation(0);
+//            holder.orderBinding.rightArrow.setImageResource(R.drawable.right_arrow_black);
+//            holder.orderBinding.rightArrow.setRotation(0);
             holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
 
 
@@ -166,7 +168,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         switch (selectedOmsHeaderList.get(position).getExpandStatus()) {
             case 0:
 
-                holder.orderBinding.rightArrow.setRotation(0);
+//                holder.orderBinding.rightArrow.setRotation(0);
                 selectedOmsHeaderList.get(position).setExpandStatus(90);
                 holder.orderBinding.rackChild2Layout.setVisibility(View.GONE);
                 holder.orderBinding.rackChild2Layout.setBackground(null);
@@ -175,7 +177,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 break;
             case 1:
                 if (selectedOmsHeaderList != null && selectedOmsHeaderList.size() > 0) {
-                    holder.orderBinding.rightArrow.setRotation(90);
+//                    holder.orderBinding.rightArrow.setRotation(90);
 
 //                    if(getOMSTransactionResponseList.get(position).getStockStatus().equalsIgnoreCase("NOT AVAILABLE")){
 //                        holder.fullfilmentBinding.selectbutton.setVisibility(View.GONE);
@@ -209,30 +211,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             }
         });
 
-        holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
-            BottomSheetDialog itemStatusDropdownDialog = new BottomSheetDialog(mContext);
-            DialogItemStatusDropdownPBinding itemStatusDropdownBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_item_status_dropdown_p, null, false);
-            itemStatusDropdownDialog.setContentView(itemStatusDropdownBinding.getRoot());
+//        holder.orderBinding.itemStatusDropdown.setOnClickListener(view -> {
+//            BottomSheetDialog itemStatusDropdownDialog = new BottomSheetDialog(mContext);
+//            DialogItemStatusDropdownPBinding itemStatusDropdownBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_item_status_dropdown_p, null, false);
+//            itemStatusDropdownDialog.setContentView(itemStatusDropdownBinding.getRoot());
+//
+//            List<String> statusList = new ArrayList<>();
+//            statusList.add("Partially Filled");
+//            statusList.add("Fully Filled");
+//            statusList.add("Not Available");
+//            statusList.add("Skipped");
+//
+//            StatusListAdapter statusListAdapter = new StatusListAdapter(mContext, statusList, this, holder.orderBinding, itemStatusDropdownDialog);
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+//            itemStatusDropdownBinding.statusListRecycler.setLayoutManager(mLayoutManager);
+//            itemStatusDropdownBinding.statusListRecycler.setAdapter(statusListAdapter);
+//
+//            itemStatusDropdownDialog.show();
+//        });
 
-            List<String> statusList = new ArrayList<>();
-            statusList.add("Partially Filled");
-            statusList.add("Fully Filled");
-            statusList.add("Not Available");
-            statusList.add("Skipped");
-
-            StatusListAdapter statusListAdapter = new StatusListAdapter(mContext, statusList, this, holder.orderBinding, itemStatusDropdownDialog);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-            itemStatusDropdownBinding.statusListRecycler.setLayoutManager(mLayoutManager);
-            itemStatusDropdownBinding.statusListRecycler.setAdapter(statusListAdapter);
-
-            itemStatusDropdownDialog.show();
-        });
-
-        holder.orderBinding.onHold.setOnClickListener(view -> {
-            if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.onClickOnHold(omsHeader);
-            }
-        });
+//        holder.orderBinding.onHold.setOnClickListener(view -> {
+//            if (pickupProcessMvpView != null) {
+//                pickupProcessMvpView.onClickOnHold(omsHeader);
+//            }
+//        });
     }
 
 
@@ -524,21 +526,21 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onClickStatusListItem(String status, AdapterOrderPBinding adapterOrderBinding, BottomSheetDialog itemStatusDropdownDialog) {
         switch (status) {
             case "Partially Filled":
-                adapterOrderBinding.itemStatusText.setText(status);
-                adapterOrderBinding.icItemStatus.setRotation(270);
-                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
+//                adapterOrderBinding.itemStatusText.setText(status);
+//                adapterOrderBinding.icItemStatus.setRotation(270);
+//                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.partialcirculargreeenorange));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Fully Filled":
-                adapterOrderBinding.itemStatusText.setText(status);
-                adapterOrderBinding.icItemStatus.setRotation(0);
-                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
+//                adapterOrderBinding.itemStatusText.setText(status);
+//                adapterOrderBinding.icItemStatus.setRotation(0);
+//                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_circle_tick));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Not Available":
-                adapterOrderBinding.itemStatusText.setText(status);
-                adapterOrderBinding.icItemStatus.setRotation(270);
-                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
+//                adapterOrderBinding.itemStatusText.setText(status);
+//                adapterOrderBinding.icItemStatus.setRotation(270);
+//                adapterOrderBinding.icItemStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_not_available));
                 itemStatusDropdownDialog.dismiss();
                 break;
             case "Skipped":

@@ -13,11 +13,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -35,14 +33,44 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:roundIcon,android:theme,android:allowBackup">
-        <!--<activity android:name=".ui.circlemebership.circlemembership"></activity>-->
+        <activity
+            android:name=".ui.pbas.pickerhome.ui.admin.notallocatedorders.NotAllocatedOrdersActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.pbas.pickerhome.ui.admin.orderdetails.OrderDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.pbas.pickerhome.ui.admin.allorders.AllOrdersActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.pbas.pickingonracks.PickingOnRacksActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.pbas.forwardtopacker.ForwardToPackerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.pbas.orderspicking.StartPickingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" /> <!-- <activity android:name=".ui.circlemebership.circlemembership"></activity> -->
         <activity
             android:name=".ui.home.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <!-- <activity
+        <!--
+ <activity
              android:name=".ui.eprescriptioninfo.EPrescriptionInfoInfoActivity"
              android:label="@string/app_name"
              android:screenOrientation="portrait"
@@ -52,9 +80,8 @@
 
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
-         </activity>-->
-
-
+         </activity>
+        -->
         <activity
             android:name=".ui.eprescriptioninfo.EPrescriptionInfoInfoActivity"
             android:screenOrientation="portrait"
@@ -62,17 +89,13 @@
         <activity
             android:name=".ui.home.SearchBTActivity"
             android:label="@string/select_bt_lbl" />
-
-
         <activity
             android:name=".utils.BluetoothActivity"
             android:label="@string/select_bt_lbl" />
-
         <activity
             android:name=".ui.eprescriptionorderlist.EprescriptionOrderListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <activity
             android:name=".ui.pbas.ePrescriptionflow.ePrescriptionLineTransaction.EPrescriptionMedicineDetailsActivity"
             android:screenOrientation="portrait"
@@ -81,13 +104,12 @@
             android:name=".ui.storesetup.StoreSetupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
-        <!-- <fr
+        <!--
+ <fr
              android:name=".ui.home.ui.eprescriptionslist.EprescriptionslistFragment"
              android:screenOrientation="portrait"
-             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />-->
-
-
+             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        -->
         <activity
             android:name=".ui.newadminloginsetup.NewAdminLoginSetUp"
             android:configChanges="orientation|screenSize"
@@ -164,7 +186,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation|screenSize"
@@ -176,7 +197,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -222,13 +242,11 @@
             </intent-filter>
         </receiver>
 
-
         <activity
             android:name=".ui.pbas.billerflow.orderdetailsscreen.OrderDetailsScreenActivity"
-            android:screenOrientation="portrait" />
-        <!--        <activity-->
-        <!--            android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity"-->
-        <!--            android:screenOrientation="portrait" />-->
+            android:screenOrientation="portrait" /> <!-- <activity -->
+        <!-- android:name=".ui.pbas.billerflow.billerOrdersScreen.BillerOrdersActivity" -->
+        <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".ui.pbas.pickerhome.PickerNavigationActivity"
             android:screenOrientation="portrait"
@@ -251,20 +269,18 @@
             android:name=".ui.pbas.login.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!--        <activity-->
-        <!--            android:name=".ui.pbas.openorders.OpenOrdersActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />`-->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity -->
+        <!-- android:name=".ui.pbas.openorders.OpenOrdersActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />` -->
         <activity
             android:name=".ui.pbas.readyforpickup.ReadyForPickUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.pbas.readyforpickup.scanner.ScannerActivity"
-            android:screenOrientation="portrait" />
-        <!--        <activity-->
-        <!--            android:name=".ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity"-->
-        <!--            android:screenOrientation="portrait" />-->
+            android:screenOrientation="portrait" /> <!-- <activity -->
+        <!-- android:name=".ui.pbas.mpospackerflow.pickeduporders.PickedUpOrdersActivity" -->
+        <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".ui.pbas.mpospackerflow.pickupverificationprocess.PickUpVerificationActivity"
             android:screenOrientation="portrait" />
@@ -283,17 +299,14 @@
             android:name=".ui.pbas.batchlist.BatchListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-
         <activity
             android:name=".ui.pbas.orderreturnbillprint.OrderReturnBillPrintActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-
         <activity
             android:name=".ui.pbas.prescriptionslider.PrescriptionSliderActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-
         <activity
             android:name=".ui.pbas.batchlist.batchlistscanner.BatchlistScannerActivity"
             android:screenOrientation="portrait"
@@ -303,6 +316,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/StockInwardProcessDetailsActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-
     </application>
+
 </manifest>

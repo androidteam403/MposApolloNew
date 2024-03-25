@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:padding="@dimen/dimen5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Actions"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen10sp" />
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="@dimen/dimen22dp"
+                android:layout_height="@dimen/dimen22dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/delete_white_icon" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_layout"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f2f2f2"
+                android:orientation="vertical"
+                android:padding="@dimen/ten_dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FL20230117301108524"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Assigned to: "
+                            android:textSize="@dimen/dimen_9_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="APL83947"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status: "
+                            android:textSize="@dimen/dimen_9_sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Inprogress"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen8dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen7dp"
+                            android:background="@drawable/rounded_rectangle_bg"
+                            android:backgroundTint="#01bebf"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/dimen10dp"
+                            android:paddingTop="@dimen/_4dp"
+                            android:paddingEnd="@dimen/dimen10dp"
+                            android:paddingBottom="@dimen/_4dp">
+
+                            <!--<CheckBox
+                                android:id="@+id/raiseComplaintCheckbox"
+                                android:layout_width="@dimen/dimen25dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen10dp"
+                                android:buttonTint="@color/black"
+                                android:checked="true" />-->
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="@dimen/dimen7dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/checked" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Raise a Complaint"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dimen12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/raiseComplaintChildLayout"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen40dp"
+                        android:layout_marginTop="@dimen/dimen7dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen30dp"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/rectangular_shape"
+                            android:weightSum="1">
+
+                            <EditText
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Select Picker"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:paddingStart="@dimen/dimen7dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/twelve_sp" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="@dimen/dimen5dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/searchh_icon" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen20dp"
+                    android:layout_marginBottom="@dimen/dimen7dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen7dp"
+                            android:background="@drawable/rounded_rectangle_bg"
+                            android:backgroundTint="#b3b3b3"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/dimen10dp"
+                            android:paddingTop="@dimen/_4dp"
+                            android:paddingEnd="@dimen/dimen10dp"
+                            android:paddingBottom="@dimen/_4dp">
+
+                            <!--<CheckBox
+                                android:layout_width="@dimen/dimen25dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen10dp"
+                                android:buttonTint="@color/black" />-->
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="@dimen/dimen7dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/unchecked" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Hold"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dimen12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/updateButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen50dp"
+                android:layout_marginTop="@dimen/dimen15dp"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/_4dp"
+                android:paddingBottom="@dimen/_4dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="update"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

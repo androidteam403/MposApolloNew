@@ -1,8 +1,10 @@
 
 package com.apollopharmacy.mpospharmacistTest.ui.pbas.pickupprocess.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.mpospharmacistTest.R;
 import com.apollopharmacy.mpospharmacistTest.databinding.AdapterSelectedPickupProcessProductsPBinding;
+import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateBinding;
 import com.apollopharmacy.mpospharmacistTest.databinding.DialogUpdateStatusPBinding;
 import com.apollopharmacy.mpospharmacistTest.ui.batchonfo.model.GetBatchInfoRes;
 import com.apollopharmacy.mpospharmacistTest.ui.pbas.openorders.model.TransactionHeaderResponse;
@@ -69,13 +72,15 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         GetOMSTransactionResponse.SalesLine salesLine = salesLineList.get(position);
         this.position = salesLineList.get(position);
 
-
+        if (position == salesLineList.size() - 1) {
+            holder.pickupSummaryDetailsProductsBinding.bottomStripLine.setVisibility(View.GONE);
+        }
         holder.pickupSummaryDetailsProductsBinding.productName.setText(salesLine.getItemName());
-        holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
+//        holder.pickupSummaryDetailsProductsBinding.rackId.setText(salesLine.getRackId());
 
 //        holder.pickupSummaryDetailsProductsBinding.batchNo.setText(salesLine.getInventBatchId());
         holder.pickupSummaryDetailsProductsBinding.stripMrp.setText(String.valueOf(salesLine.getPrice()));
-        holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
+//        holder.pickupSummaryDetailsProductsBinding.quantity.setText(String.valueOf(salesLine.getQty()));
         holder.pickupSummaryDetailsProductsBinding.apolloMrp.setText("-");
         this.reqqty = salesLine.getQty();
 
@@ -112,7 +117,20 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
 
         holder.pickupSummaryDetailsProductsBinding.start.setOnClickListener(view -> {
             if (pickupProcessMvpView != null) {
-                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+                Dialog dialog = new Dialog(context);
+                DialogUpdateBinding dialogUpdateBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update, null, false);
+                dialog.setContentView(dialogUpdateBinding.getRoot());
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogUpdateBinding.closeButton.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                });
+                dialogUpdateBinding.postButton.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
+                });
+                dialog.setCancelable(false);
+                dialog.show();
+//                pickupProcessMvpView.getBatchDetailsApiCall(salesLine, refNo, orderAdapterPos, position, omsHeader);
             }
 //            Dialog statusUpdateDialog = new Dialog(context, R.style.fadeinandoutcustomDialog);
 //            dialogUpdateStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_update_status_p, null, false);
@@ -157,13 +175,13 @@ public class NewSelectedOrderAdapter extends RecyclerView.Adapter<NewSelectedOrd
         });
 
 
-        if (salesLine.getGetBatchInfoRes() != null) {
+        /*if (salesLine.getGetBatchInfoRes() != null) {
             holder.pickupSummaryDetailsProductsBinding.headings.setVisibility(View.VISIBLE);
             SelectedBatchListAdapter selectedBatchListAdapter = new SelectedBatchListAdapter(context, salesLine.getGetBatchInfoRes().getBatchList(), salesLine);
             new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setLayoutManager(new LinearLayoutManager(context));
             holder.pickupSummaryDetailsProductsBinding.selectedbatchesRecycler.setAdapter(selectedBatchListAdapter);
-        }
+        }*/
     }
 
     @Override

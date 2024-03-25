@@ -33,7 +33,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/square_stroke_bg"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/dimen2dp"
                     android:weightSum="1">
@@ -41,6 +40,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight=".7"
                         android:orientation="horizontal">
 
@@ -64,18 +64,19 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="@string/label_sfulfilment_id"
                                     android:textColor="#b6b4af"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp" />-->
 
                                 <TextView
                                     android:id="@+id/fullfilment_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:text="FL2920199228888399292"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/dimen10sp" />
@@ -86,7 +87,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
@@ -100,7 +101,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen10sp" />
+                                    android:textSize="@dimen/dimen10sp" />-->
                             </LinearLayout>
 
                             <LinearLayout
@@ -112,7 +113,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Stock Status : "
+                                    android:text="Stock Availability : "
                                     android:textColor="#b6b4af"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -134,7 +135,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Source Order ID : "
+                                    android:text="Source ID : "
                                     android:textColor="#b6b4af"
                                     android:textSize="@dimen/dimen10sp" />
 
@@ -154,6 +155,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight=".3"
                         android:gravity="end"
                         android:orientation="vertical">
@@ -161,6 +163,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="end"
                             android:layout_marginEnd="@dimen/three_dp"
                             android:orientation="vertical">
 
@@ -168,7 +171,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Delivery Date: "
+                                android:text="Delivery Date"
                                 android:textColor="#b6b4af"
                                 android:textSize="@dimen/nine_sp" />
 
@@ -184,14 +187,47 @@
                                 android:textSize="@dimen/nine_sp" />
                         </LinearLayout>
 
-                        <ImageView
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|end"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="items"
+                                android:textSize="@dimen/dimen_9_sp"
+                                android:textColor="#b6b4af"/>
+
+                            <TextView
+                                android:id="@+id/items"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen2dp"
+                                android:text="45"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textSize="@dimen/dimen14sp"/>
+
+                            <ImageView
+                                android:id="@+id/right_arrow"
+                                android:layout_width="@dimen/dimen25dp"
+                                android:layout_height="@dimen/dimen25dp"
+                                android:layout_gravity="end"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/right_arrow_black"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <!--<ImageView
                             android:id="@+id/right_arrow"
                             android:layout_width="@dimen/dimen30dp"
                             android:layout_height="@dimen/dimen30dp"
                             android:layout_gravity="end"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/right_arrow_black"
-                            android:visibility="visible" />
+                            android:visibility="visible" />-->
 
                         <ImageView
                             android:id="@+id/down_arrow"
@@ -205,6 +241,15 @@
                             android:visibility="gone" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rightStrip"
+                        android:layout_width="@dimen/dimen4dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:background="#009245"
+                        android:orientation="horizontal" />
+
                 </LinearLayout>
             </LinearLayout>
 

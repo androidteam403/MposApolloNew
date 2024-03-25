@@ -13,9 +13,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dimen6dp"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen40dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:background="@color/red"
+                    android:backgroundTint="@color/red"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onClickNotAvailableBtn()}"
+                    android:text="Not Available"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dimen7dp"
+                    android:layout_weight=".5"
+                    android:background="@color/yellow"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.onAddItemsClicked()}"
+                    android:text="Add Batch Items"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="150dp"
@@ -28,7 +59,8 @@
                 android:onClick="@{()-> callback.onClickNotAvailableBtn()}"
                 android:paddingBottom="@dimen/dimen6dp"
                 android:text="Not Available"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="150dp"
@@ -42,7 +74,8 @@
                 android:onClick="@{()-> callback.onAddItemsClicked()}"
                 android:paddingBottom="@dimen/dimen6dp"
                 android:text="@string/label_add_items"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +133,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen60dp"
-                android:background="#01bfbf"
+                android:background="@color/black"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -114,13 +147,22 @@
                     android:src="@drawable/ic_back_arrow_white" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/twenty_five_dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/label_batch_details"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimen14sp" />
+
+                    <!--<LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -143,9 +185,9 @@
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -168,45 +210,135 @@
                             android:textSize="@dimen/dimen12sp"
                             android:textStyle="bold" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen15dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_rectangle_bg"
+                        android:backgroundTint="#8dc73f"
+                        android:paddingStart="@dimen/dimen7dp"
+                        android:paddingTop="@dimen/_4dp"
+                        android:paddingEnd="@dimen/dimen7dp"
+                        android:paddingBottom="@dimen/_4dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="@dimen/dimen3dp"
+                            android:src="@drawable/cart"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/box_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="001"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen12sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginTop="@dimen/dimen3dp"
-                android:layout_marginEnd="@dimen/five_dp"
+                android:background="#f2f2f2"
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/dimen15dp"
+                android:paddingTop="@dimen/dimen10dp"
+                android:paddingBottom="@dimen/dimen10dp"
                 android:weightSum="1">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tablet_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="DOLO-650MG"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/dimen14sp" />
+                        android:textSize="@dimen/dimen_11sp" />
 
                     <TextView
+                        android:id="@+id/fullfillment_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="FL201102829199192"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Apollo 24/7 MRP:  "
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/apollo_mrp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="349.00"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Required Qty:  "
+                            android:textSize="@dimen/dimen_11sp" />
+
+                        <TextView
+                            android:id="@+id/available_qty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="5"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!--<TextView
                         android:id="@+id/available_qty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" />-->
 
                 </LinearLayout>
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".4">
@@ -220,7 +352,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
-                </RelativeLayout>
+                </RelativeLayout>-->
 
 
                 <!--                <RelativeLayout-->
@@ -543,7 +675,7 @@
                 android:weightSum="1">
 
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:id="@+id/batchlayout"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dimen40dp"
@@ -576,27 +708,78 @@
                         android:layout_marginEnd="@dimen/five_dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/next_order" />
-                </RelativeLayout>
+                </RelativeLayout>-->
+
+                <LinearLayout
+                    android:id="@+id/batchlayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen40dp"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="@dimen/five_dp"
+                    android:layout_weight=".7"
+                    android:background="@drawable/ic_rectangular_bordered_shape"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen20dp"
+                        android:layout_height="@dimen/dimen20dp"
+                        android:layout_marginStart="@dimen/_4dp"
+                        android:src="@drawable/search_icon" />
+
+                    <EditText
+                        android:id="@+id/searchbybatchId"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Enter Batch ID"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:padding="@dimen/five_dp"
+                        android:textColor="@color/text_color_grey"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/dimen12sp" />
+
+
+                    <!--<ImageView
+                        android:id="@+id/search_batchlistitem"
+                        android:layout_width="@dimen/dimen20dp"
+                        android:layout_height="@dimen/dimen20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/five_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/cross_black" />-->
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/scan_batch_id"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_margin="@dimen/dimen3dp"
                     android:layout_marginTop="@dimen/dimen10dp"
                     android:layout_weight=".3"
-                    android:background="@drawable/bg_cancel_btn"
-                    android:backgroundTint="@color/yellow"
+                    android:background="@color/black"
                     android:gravity="center"
                     android:onClick="@{()-> callback.onClickScanBatchId()}">
 
+                    <ImageView
+                        android:id="@+id/scanner"
+                        android:layout_width="@dimen/dimen20dp"
+                        android:layout_height="@dimen/dimen20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_qr_code" />
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="center"
-                        android:text="Scan batch id"
-                        android:textColor="@color/black"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dimen5dp"
+                        android:layout_toRightOf="@+id/scanner"
+                        android:text="Scan\nBatch id"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/dimen12sp" />
                 </RelativeLayout>
 
@@ -642,7 +825,6 @@
                     android:layout_below="@+id/batch_list"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/ten_dp"
-                    android:background="@color/batch_header_bg"
                     android:orientation="horizontal"
                     android:padding="@dimen/ten_dp"
                     tools:ignore="UselessParent">
@@ -655,7 +837,7 @@
                         android:gravity="start"
                         android:maxLines="2"
                         android:text="@string/label_batch_no"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
                     <TextView
@@ -667,7 +849,7 @@
                         android:gravity="center"
                         android:maxLines="2"
                         android:text="@string/label_exp_date"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
                     <TextView
@@ -679,7 +861,7 @@
                         android:gravity="center"
                         android:maxLines="2"
                         android:text="@string/label_mrp"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
                     <!-- <TextView
@@ -714,7 +896,7 @@
                         android:gravity="start"
                         android:maxLines="2"
                         android:text="@string/label_q_o_h"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
                     <TextView
@@ -726,7 +908,7 @@
                         android:gravity="start"
                         android:maxLines="2"
                         android:text="@string/label_req"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
                     <TextView
@@ -738,7 +920,7 @@
                         android:gravity="center_horizontal"
                         android:maxLines="2"
                         android:text="@string/label_phy_batch"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
 
 
@@ -751,7 +933,7 @@
                         android:gravity="center_horizontal"
                         android:maxLines="2"
                         android:text="@string/batch_pickup_check"
-                        android:textColor="@color/white"
+                        android:textColor="#868686"
                         android:textSize="@dimen/ten_dp" />
                 </LinearLayout>
 

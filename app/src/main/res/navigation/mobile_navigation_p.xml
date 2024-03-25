@@ -31,8 +31,10 @@
 
     <fragment
         android:id="@+id/nav_on_hold"
-        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment"
-        tools:layout="@layout/fragment_on_hold" />
+        android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.admin.AdminFragment"
+        tools:layout="@layout/fragment_admin" />
+<!--    android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.onhold.OnHoldFragment"-->
+<!--    tools:layout="@layout/fragment_on_hold"-->
     <fragment
         android:id="@+id/nav_orders"
         android:name="com.apollopharmacy.mpospharmacistTest.ui.pbas.pickerhome.ui.orders.OrdersFragment"
